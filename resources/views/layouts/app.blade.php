@@ -25,7 +25,7 @@
         left: 0;
         top: 0;
         width: 100vw;
-        height: 100vh;
+        height: 200vw;
         z-index: -10;
         background: url(css/image/back.jpg) no-repeat center center;
         -webkit-background-size: cover;
@@ -52,18 +52,20 @@
         margin: 0 1.7rem;
     }
     .card::before {
-        content: '◀';
+        content: '⛊';
         color:coral;
         position: absolute;
         left: -25px;
         z-index: -1;
+        transform: rotate(90deg);
     }
     .card::after {
-        content: '▶';
+        content: '⛊';
         color: coral;
         position: absolute;
         right: -25px;
         z-index: -1;
+        transform: rotate(-90deg);
     }
     .card.disabled {
         background-color:grey;

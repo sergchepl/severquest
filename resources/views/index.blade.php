@@ -67,7 +67,14 @@
         <div class="row">
             <header class="col-12">
                 <img src="/css/image/logo.jpg" alt="">
-                <div data-teamId='{{Auth::user()->id}}' class="team">{{Auth::user()->name}}</div>
+                <div onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();"
+                data-teamId='{{Auth::user()->id}}' class="team">{{Auth::user()->name}}</div>
+                {{-- ДЛЯ ТЕСТОВ!!!!!! --}}
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+                {{-- ДЛЯ ТЕСТОВ!!!!!! --}}
             </header>
             <h1>Общие</h1>
             
