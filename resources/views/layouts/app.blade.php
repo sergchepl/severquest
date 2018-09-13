@@ -52,20 +52,18 @@
         margin: 0 1.7rem;
     }
     .card::before {
-        content: '⛊';
+        content: '◖';
         color:coral;
         position: absolute;
-        left: -25px;
+        left: -14px;
         z-index: -1;
-        transform: rotate(90deg);
     }
     .card::after {
-        content: '⛊';
+        content: '◗';
         color: coral;
         position: absolute;
-        right: -25px;
+        right: -14px;
         z-index: -1;
-        transform: rotate(-90deg);
     }
     .card.disabled {
         background-color:grey;
