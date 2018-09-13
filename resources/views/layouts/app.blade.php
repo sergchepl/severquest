@@ -24,8 +24,8 @@
         position: fixed;
         left: 0;
         top: 0;
-        width: 100%;
-        height: 100%;
+        width: 100vw;
+        height: 100vh;
         z-index: -10;
         background: url(css/image/back.jpg) no-repeat center center;
         -webkit-background-size: cover;
