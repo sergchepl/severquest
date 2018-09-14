@@ -44,7 +44,7 @@ class MainController extends Controller
         return $request; 
     }
     public function checkTakenTasks() {
-        $tasks = Task::where('user_id', '!=', 0)->get();
+        $tasks = Task::all();
         $dataToSend = [];
         foreach($tasks as $k => $task)
         {

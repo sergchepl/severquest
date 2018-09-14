@@ -132,6 +132,17 @@
                 url: '/take-task',
                 success: function (data) {
                     console.log(data);
+                    if(takeTaskBool === "true") {
+                        $('.card[data-task='+taskId+'] button.btn-coral').addClass('hide');
+                        $('.card[data-task='+taskId+'] button.btn-danger').removeClass('hide');
+                        $('.card[data-task='+taskId+'] button.btn-success').attr('disabled', false);
+                        $('.card[data-task='+taskId+']').addClass('inwork');
+                    } else {
+                        $('.card[data-task='+taskId+'] button.btn-coral').removeClass('hide');
+                        $('.card[data-task='+taskId+'] button.btn-danger').addClass('hide');
+                        $('.card[data-task='+taskId+'] button.btn-success').attr('disabled', true);
+                        $('.card[data-task='+taskId+']').removeClass('inwork');
+                    }
                 },
                 error: function(error) {
                     console.log(error);
@@ -159,14 +170,22 @@
                     type: "GET",
                     url: '/check-tasks',
                     success: function (data) {
+                        console.log(data);
                         data.forEach(element => {
                             let k = +Object.getOwnPropertyNames(element);
-                            if(element[k] != $('.team').data('teamid')) $('.card[data-task='+k+'] button.btn-coral').attr('disabled', true).parents('.card').addClass('disabled');
-                            else {
+                            if(element[k] == 0) {
+                                $('.card[data-task='+k+'] button.btn-coral').removeClass('hide');
+                                $('.card[data-task='+k+'] button.btn-danger').addClass('hide');
+                                $('.card[data-task='+k+'] button.btn-success').attr('disabled', true);
+                                $('.card[data-task='+k+']').removeClass('inwork');
+                            }
+                            else if(element[k] == $('.team').data('teamid')) {
                                 $('.card[data-task='+k+'] button.btn-coral').addClass('hide');
                                 $('.card[data-task='+k+'] button.btn-danger').removeClass('hide');
                                 $('.card[data-task='+k+'] button.btn-success').attr('disabled', false);
                                 $('.card[data-task='+k+']').addClass('inwork');
+                            } else {
+                                $('.card[data-task='+k+'] button.btn-coral').attr('disabled', true).parents('.card').addClass('disabled');
                             }
                             k++;
                         });
