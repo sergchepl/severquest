@@ -11,11 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Route::get('/', 'MainController@index');
+Route::get('/', 'MainController@rules');
+Route::get('/home', 'MainController@index');
 
 Route::post('/send-message', 'TelegramBotController@storeMessage');
 Route::get('/send-photo', 'TelegramBotController@sendPhoto');

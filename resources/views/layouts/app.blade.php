@@ -106,7 +106,44 @@
         vertical-align: 15%;
         color:darkcyan;
     }
-
+    .rules {
+        margin: 0 2rem;
+        text-align: center;
+    }
+    .rules:before {
+    content: ' ';
+    display: block;
+    position: absolute;
+    left: 1.5rem;
+    width: 90%;
+    height: 400vw;
+    z-index: -1;
+    opacity: 0.9;
+    background-color: darkcyan;
+}
+    h3{
+        font-size: 1.2rem;
+    }
+    h3::before, h3::after {
+        content: '▬';
+        margin: 0 1rem;
+        font-size: 1rem;
+        vertical-align: 10%;
+        color:coral;
+    }
+    .rules-title {
+        text-align:center;
+        color: coral;
+    }
+    h1.rules-title::after, h1.rules-title::before {
+        content: '⬥';
+        font-size: 2.5rem;
+        vertical-align: 0%;
+    }
+    p {
+        font-size: 1rem;
+        text-align:justify;
+    }
     </style>
 </head>
 <body>

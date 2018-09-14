@@ -9,11 +9,17 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 
 class MainController extends Controller
 {
+    public function rules()
+    {
+        return view('rules');
+    }
+    
     public function index()
     {
         $tasks = Task::all();
         return view('index')->with('tasks', $tasks);
     }
+
     public function takeTask(Request $request)
     {
                
