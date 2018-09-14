@@ -177,7 +177,7 @@
                                 $('.card[data-task='+k+'] button.btn-coral').removeClass('hide');
                                 $('.card[data-task='+k+'] button.btn-danger').addClass('hide');
                                 $('.card[data-task='+k+'] button.btn-success').attr('disabled', true);
-                                $('.card[data-task='+k+']').removeClass('inwork');
+                                $('.card[data-task='+k+']').removeClass('inwork disabled');
                             }
                             else if(element[k] == $('.team').data('teamid')) {
                                 $('.card[data-task='+k+'] button.btn-coral').addClass('hide');
