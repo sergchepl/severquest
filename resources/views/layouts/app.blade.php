@@ -33,11 +33,14 @@
         -o-background-size: cover;
         background-size: cover;
     }
+    header {
+        padding: 1rem 2rem;
+    }
     .team {
-        position: fixed;
-        right: 30px;
-        top: 20px;
-        z-index: 10;
+        float: right;
+    }
+    .btn-danger.hide, .btn-coral.hide {
+        display: none;
     }
     form {
         margin: 2rem;
@@ -117,17 +120,14 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        $('button.btn-coral').click(function() {
-            console.log($(this).parents('.card').data('task'));
-            let taskId = $(this).parents('.card').data('task');
-            let teamName = $('.team').html();
-            let titleName =  $(this).parents('.card').find('.card-header a').html();
+        var sendTask = function(taskId, teamName, titleName, takeTaskBool) {
             $.ajax({
                 type: "PUT",
                 data: ({
                     task: taskId,
                     team: teamName,
-                    title: titleName 
+                    title: titleName,
+                    team_bool: takeTaskBool
                 }),
                 url: '/take-task',
                 success: function (data) {
@@ -137,7 +137,21 @@
                     console.log(error);
                 }
             });
+        }
+        $('button.btn-coral').click(function() {
+            let task = $(this).parents('.card').data('task');
+            let team = $('.team').html();
+            let title =  $(this).parents('.card').find('.card-header a').html();
+            sendTask(task, team, title, "true");
         });
+        
+        $('button.btn-danger').click(function() {
+            let task = $(this).parents('.card').data('task');
+            let team = $('.team').html();
+            let title =  $(this).parents('.card').find('.card-header a').html();
+            sendTask(task, team, title, "false");
+        });
+
 
         var timer = function () {
             var readingtimer = setInterval(function () {
@@ -149,7 +163,8 @@
                             let k = +Object.getOwnPropertyNames(element);
                             if(element[k] != $('.team').data('teamid')) $('.card[data-task='+k+'] button.btn-coral').attr('disabled', true).parents('.card').addClass('disabled');
                             else {
-                                $('.card[data-task='+k+'] button.btn-coral').attr('disabled', true);
+                                $('.card[data-task='+k+'] button.btn-coral').addClass('hide');
+                                $('.card[data-task='+k+'] button.btn-danger').removeClass('hide');
                                 $('.card[data-task='+k+'] button.btn-success').attr('disabled', false);
                                 $('.card[data-task='+k+']').addClass('inwork');
                             }

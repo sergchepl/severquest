@@ -16,22 +16,32 @@ class MainController extends Controller
     }
     public function takeTask(Request $request)
     {
+               
         $task = Task::find($request->task);
-        $task->user_id = Auth::user()->id;
+        $task->user_id = ($request->team_bool == "true") ? Auth::user()->id : 0;
         $task->save();
-        $text = "Команда <b>"
+        if($request->team_bool == "true")
+        {
+            $text = "Команда <b>"
             . $request->team
             . "</b> начала выполнять задание: <b>"
             . $request->title
             . "</b>!";
- 
+        } else 
+        {
+            $text = "Команда <b>"
+            . $request->team
+            . "</b> отменила задание: <b>"
+            . $request->title
+            . "</b>!";
+        }
         Telegram::sendMessage([
             'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
             'parse_mode' => 'HTML',
             'text' => $text
         ]);
 
-        return Auth::user()->id; 
+        return $request; 
     }
     public function checkTakenTasks() {
         $tasks = Task::where('user_id', '!=', 0)->get();

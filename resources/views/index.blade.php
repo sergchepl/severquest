@@ -92,6 +92,7 @@
                             <div class="card-body">
                                 {!!$task->description!!}
                                 <button class="btn btn-coral btn-lg" role="button" {{ (Auth::user()->id != $task->user_id) && $task->user_id ? ' disabled ' : '' }}>За дело!</button>
+                                <button class="btn btn-danger hide btn-lg" role="button" >Отменись!</button>
                                 <button style="float:right" class="btn btn-success btn-lg" role="button" {{ Auth::user()->id != $task->user_id ? ' disabled ' : '' }}>Хочу Сдать!</button>
                             </div>
                         </div>
