@@ -44,6 +44,8 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             // Authentication passed...
             return redirect('/home');
+        } else {
+            return redirect('/login');
         }
     }
 }

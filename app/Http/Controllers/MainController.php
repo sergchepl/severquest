@@ -10,6 +10,11 @@ use Telegram\Bot\FileUpload\InputFile;
 
 class MainController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['except', 'rules']);
+    }
+
     public function rules()
     {
         return view('rules');

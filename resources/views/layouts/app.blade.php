@@ -258,6 +258,7 @@
                     url: '/check-tasks',
                     success: function (data) {
                         console.log(data);
+                        console.log(isTaskTaken);
                         data.forEach(element => {
                             let k = +Object.getOwnPropertyNames(element);
                             if(element[k] == 0) {
