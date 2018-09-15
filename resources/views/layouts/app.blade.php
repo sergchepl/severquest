@@ -160,6 +160,29 @@
         font-size: initial;
         text-align: left;
     }
+    .answer {
+        position: fixed;
+        bottom: 0px;
+        background-color: 
+    }
+    .answer:before {
+    content: ' ';
+    display: block;
+    position: fixed;
+    left: -20px;
+    width: 120%;
+    height: 100%;
+    opacity: 0.9;
+    z-index: -1;
+    background-color: coral;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    }
+    .close {
+        margin: 1rem 1rem 0 0;
+    }
     </style>
 </head>
 <body>
@@ -202,6 +225,14 @@
                 }
             });
         }
+        $('button.btn-success').click(function(){
+            $('.answer').show( "slow" );
+            $('input[name="task"]').val($(this).parents('.card').find('a').html());
+            $('input[name="task_text"]').val($(this).parents('.card').find('p').html());
+        });
+        $('.close').click(function(){
+            $('.answer').hide( "slow" );
+        });
         $('button.btn-coral').click(function() {
             let task = $(this).parents('.card').data('task');
             let team = $('.team').html();

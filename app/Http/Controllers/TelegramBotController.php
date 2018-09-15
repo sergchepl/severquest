@@ -48,19 +48,14 @@ class TelegramBotController extends Controller
  
     public function storePhoto(Request $request)
     {
-        // $request->validate([
-        //     'files' => 'file|mimes:jpeg,png,gif'
-        // ]);
-        foreach($request->file() as $photo){
-            foreach($photo as $ph){
-                Telegram::sendPhoto([
-                    'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
-                    'photo' => InputFile::createFromContents(file_get_contents($ph->getRealPath()), str_random(10) . '.' . $ph->getClientOriginalExtension())
-                ]);
-            }
+        $photo = $request->file('files');
+        foreach($photo as $ph){
+            Telegram::sendPhoto([
+                'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
+                'photo' => InputFile::createFromContents(file_get_contents($ph->getRealPath()), str_random(10) . '.' . $ph->getClientOriginalExtension())
+            ]);
         }    
-        
- 
+
         return redirect()->back();
     }
 }

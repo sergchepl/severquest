@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Task;
 use Illuminate\Support\Facades\Auth;
 use Telegram\Bot\Laravel\Facades\Telegram;
+use Telegram\Bot\FileUpload\InputFile;
 
 class MainController extends Controller
 {
@@ -49,6 +50,7 @@ class MainController extends Controller
 
         return $request; 
     }
+
     public function checkTakenTasks() {
         $tasks = Task::all();
         $dataToSend = [];
@@ -58,5 +60,29 @@ class MainController extends Controller
         }
         return $dataToSend;
 
+    }
+
+    public function sendAnswer(Request $request)
+    {
+        $photo = $request->file('files');
+        
+        $text = "<b>Пришло задание на проверку!</b> \n"
+            . "Название : ".$request->task."\n "
+            . "Описание задания: ".$request->task_text."\n"
+            . "Команда : ".$request->team."\n"
+            . "Сообщение от команды : ".$request->text;
+        
+        Telegram::sendMessage([
+            'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
+            'parse_mode' => 'HTML',
+            'text' => $text
+        ]);
+        foreach($photo as $ph){
+            Telegram::sendPhoto([
+                'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
+                'photo' => InputFile::createFromContents(file_get_contents($ph->getRealPath()), str_random(10) . '.' . $ph->getClientOriginalExtension())
+            ]);
+        }
+        return redirect()->back();
     }
 }

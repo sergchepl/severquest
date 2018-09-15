@@ -28,7 +28,9 @@
                     
                         <div id="collapse-{{$k}}" class="collapse" aria-labelledby="heading-{{$k}}">
                             <div class="card-body">
-                                {!!$task->description!!}
+                                <p>
+                                    {!!$task->description!!}
+                                </p>
                                 <button class="btn btn-coral btn-lg" role="button" {{ (Auth::user()->id != $task->user_id) && $task->user_id ? ' disabled ' : '' }}>За дело!</button>
                                 <button class="btn btn-danger hide btn-lg" role="button" >Отменись!</button>
                                 <button style="float:right" class="btn btn-success btn-lg" role="button" {{ Auth::user()->id != $task->user_id ? ' disabled ' : '' }}>Хочу Сдать!</button>
@@ -37,6 +39,24 @@
                     </div>
                 @endforeach
            
+        </div>
+        <div class="answer" style="display:none">
+            <button type="button" class="close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <form class="form-inline" action="{{ url('/send-answer') }}" method="post" enctype="multipart/form-data">
+                {{ csrf_field() }}
+                <input type="hidden" name="team" value="{{Auth::user()->name}}">
+                <input type="hidden" name="task" value="">
+                <input type="hidden" name="task_text" value="">
+                <div class="form-group ">
+                    <input type="file" name="files[]" style="font-size: 1rem" multiple>
+                </div>
+                <div class="form-group mr-3 mb-2">
+                    <input type="text" class="form-control" name="text" id="inputPassword2" placeholder="Доп.текст">
+                </div>
+                <button type="submit" style="font-size: 1rem" class="btn btn-primary  mb-2">Submit</button>
+            </form>
         </div>
     </div>
 @endsection

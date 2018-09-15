@@ -22,6 +22,7 @@ Route::get('/updated-activity', 'TelegramBotController@updatedActivity');
 
 Route::put('/take-task', 'MainController@takeTask');
 Route::get('/check-tasks', 'MainController@checkTakenTasks');
+Route::post('/send-answer', 'MainController@sendAnswer');
 
 Auth::routes();
 Route::post('/login','Auth\LoginController@authenticate');
