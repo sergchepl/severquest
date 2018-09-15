@@ -191,6 +191,7 @@
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.js"></script>
     <script>
+        var isTaskTaken;
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -234,6 +235,7 @@
             $('.answer').hide( "slow" );
         });
         $('button.btn-coral').click(function() {
+            if(isTaskTaken) alert('Вы можете выполнять только 1 задание одновременно!'); return 0;
             let task = $(this).parents('.card').data('task');
             let team = $('.team').html();
             let title =  $(this).parents('.card').find('.card-header a').html();
@@ -262,6 +264,7 @@
                                 $('.card[data-task='+k+'] button.btn-danger').addClass('hide');
                                 $('.card[data-task='+k+'] button.btn-success').attr('disabled', true);
                                 $('.card[data-task='+k+']').removeClass('inwork disabled');
+                                isTaskTaken = true;
                             }
                             else if(element[k] == $('.team').data('teamid')) {
                                 $('.card[data-task='+k+'] button.btn-coral').addClass('hide');
