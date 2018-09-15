@@ -109,20 +109,28 @@
     .rules {
         margin: 0 2rem;
         text-align: center;
+        
     }
     .rules:before {
     content: ' ';
     display: block;
-    position: absolute;
+    position: fixed;
     left: 1.5rem;
+    top: 0;
     width: 90%;
-    height: 400vw;
-    z-index: -1;
+    height: 100vh;
     opacity: 0.9;
+    z-index: -1;
     background-color: darkcyan;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
     h3{
         font-size: 1.2rem;
+        display: inline-flex;
+        
     }
     h3::before, h3::after {
         content: '▬';
@@ -133,16 +141,24 @@
     }
     .rules-title {
         text-align:center;
-        color: coral;
+        /* color: coral; */
     }
     h1.rules-title::after, h1.rules-title::before {
         content: '⬥';
         font-size: 2.5rem;
         vertical-align: 0%;
+        color:coral;
     }
     p {
         font-size: 1rem;
         text-align:justify;
+        z-index: 2;
+        display: block;
+        text-indent: 1rem;
+    }
+    ul, li {
+        font-size: initial;
+        text-align: left;
     }
     </style>
 </head>
