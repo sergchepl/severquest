@@ -191,7 +191,7 @@
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.js"></script>
     <script>
-        var isTaskTaken;
+        var isTaskTaken = false;
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -247,6 +247,7 @@
             let team = $('.team').html();
             let title =  $(this).parents('.card').find('.card-header a').html();
             sendTask(task, team, title, "false");
+            isTaskTaken = false;
         });
 
 
