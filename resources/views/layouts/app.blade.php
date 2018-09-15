@@ -276,6 +276,7 @@
                                 isTaskTaken = true;
                             } else {
                                 $('.card[data-task='+k+'] button.btn-coral').attr('disabled', true).parents('.card').addClass('disabled');
+                                isTaskTaken = false;
                             }
                             k++;
                         });
