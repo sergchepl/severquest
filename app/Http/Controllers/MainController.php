@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Telegram\Bot\Laravel\Facades\Telegram;
 use Telegram\Bot\FileUpload\InputFile;
 use Illuminate\Support\Facades\Log;
+use GuzzleHttp\Client;
 
 class MainController extends Controller
 {
@@ -96,6 +97,12 @@ class MainController extends Controller
     {
         $updates = Telegram::getWebhookUpdates();
         Log::info($updates);
+        $tastId = $updates->message->text;
+        Log::info($tastId);
+        $task = Task::find($tastId);
+        $task->done = 1;
+        $task->save();
+        
         return response('ok', 200);
     }
 }
