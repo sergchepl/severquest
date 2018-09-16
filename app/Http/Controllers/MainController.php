@@ -13,7 +13,7 @@ class MainController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth', ['except', 'rules']);
+        $this->middleware('auth', ['except' => ['rules', 'webhook']]);
     }
 
     public function rules()
@@ -92,7 +92,7 @@ class MainController extends Controller
         }
         return redirect()->back();
     }
-    public function webhook(Request $request) 
+    public function webhook() 
     {
         $updates = Telegram::getWebhookUpdates();
         Log::info($updates);
