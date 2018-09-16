@@ -96,6 +96,9 @@ class MainController extends Controller
     public function webhook() 
     {
         $updates = Telegram::getWebhookUpdates();
+        if($updates->channel_post == NULL) {
+            return response('ok', 200);
+        }
         Log::info($updates);
         $task = $updates->channel_post->text;
         $command = substr($task, 0, 5);
@@ -105,11 +108,11 @@ class MainController extends Controller
         $task = Task::find($taskId);
         if($task != null)
         {
-            if($command == '/done') {
+            if($command === '/done') {
                 $task->done = 1;
                 $task->save();
                 $text = "<b>Задание №".$taskId."</b> успешно отмечено как: Выполненно!\n";
-            } else if($command == '/work') {
+            } else if($command === '/work') {
                 $task->done = 0;
                 $task->save();
                 $text = "<b>Задание №".$taskId."</b> успешно отмечено как: В работе!\n";
