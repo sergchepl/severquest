@@ -280,9 +280,11 @@
                                 $('.card[data-task='+k+'] button.btn-danger').addClass('hide');
                                 $('.card[data-task='+k+'] button.btn-success').addClass('hide');
                             }
-                            else if(element[k][0] != 0) {
-                                $('.card[data-task='+k+'] button.btn-coral').attr('disabled', true).parents('.card').addClass('disabled');
-                                isTaskTaken = false;
+                            else if(element[k][0] == 0) {
+                                $('.card[data-task='+k+'] button.btn-coral').removeClass('hide');
+                                $('.card[data-task='+k+'] button.btn-danger').addClass('hide');
+                                $('.card[data-task='+k+'] button.btn-success').attr('disabled', true);
+                                $('.card[data-task='+k+']').removeClass('inwork disabled');
                             }
                             else if(element[k][0] == $('.team').data('teamid') && element[k][1] === "2") {
                                 $('.card[data-task='+k+'] button.btn-coral').addClass('hide');
@@ -297,11 +299,10 @@
                                 $('.card[data-task='+k+']').addClass('inwork');
                                 isTaskTaken = true;
                             } else {
-                                $('.card[data-task='+k+'] button.btn-coral').removeClass('hide');
-                                $('.card[data-task='+k+'] button.btn-danger').addClass('hide');
-                                $('.card[data-task='+k+'] button.btn-success').attr('disabled', true);
-                                $('.card[data-task='+k+']').removeClass('inwork disabled');
+                                $('.card[data-task='+k+'] button.btn-coral').attr('disabled', true).parents('.card').addClass('disabled');
+                                isTaskTaken = false;
                             }
+
                         });
                     }
                 });
