@@ -95,23 +95,24 @@ class MainController extends Controller
     }
     public function webhook() 
     {
-        $updates = Telegram::getWebhookUpdates();
+        // $updates = Telegram::getWebhookUpdates();
+        $update = Telegram::commandsHandler(true);
         Log::info($updates);
-        $taskId = $updates->channel_post->text;
-        Log::info($taskId);
-        $task = Task::find($taskId);
-        if($task != null)
-        {
-            $task->done = 1;
-            $task->save();
-        }
-        $text = "<b>Задание №".$taskId."</b> успешно отмечено как выполненное!\n";
+        // $taskId = $updates->channel_post->text;
+        // Log::info($taskId);
+        // $task = Task::find($taskId);
+        // if($task != null)
+        // {
+        //     $task->done = 1;
+        //     $task->save();
+        // }
+        // $text = "<b>Задание №".$taskId."</b> успешно отмечено как выполненное!\n";
         
-        Telegram::sendMessage([
-            'chat_id' => '-1001308540909',
-            'parse_mode' => 'HTML',
-            'text' => $text
-        ]);
+        // Telegram::sendMessage([
+        //     'chat_id' => '-1001308540909',
+        //     'parse_mode' => 'HTML',
+        //     'text' => $text
+        // ]);
         return response('ok', 200);
     }
 }
