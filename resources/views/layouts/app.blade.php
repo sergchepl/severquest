@@ -238,6 +238,12 @@
             $('input[name="task_text"]').val($(this).parents('.card').find('p').html());
             $('input[name="task_id"]').val($(this).parents('.card').data('task'));
         });
+        $('.form-inline').submit(function() {
+            $('.card[data-task='+k+'] button.btn-coral').addClass('hide');
+            $('.card[data-task='+k+'] button.btn-danger').removeClass('hide');
+            $('.card[data-task='+k+'] button.btn-success').attr('disabled', true);
+            $('.card[data-task='+k+']').addClass('check');
+        });
         $('.close').click(function(){
             $('.answer').hide( "slow" );
         });
@@ -274,11 +280,9 @@
                                 $('.card[data-task='+k+'] button.btn-danger').addClass('hide');
                                 $('.card[data-task='+k+'] button.btn-success').addClass('hide');
                             }
-                            else if(element[k][0] == 0) {
-                                $('.card[data-task='+k+'] button.btn-coral').removeClass('hide');
-                                $('.card[data-task='+k+'] button.btn-danger').addClass('hide');
-                                $('.card[data-task='+k+'] button.btn-success').attr('disabled', true);
-                                $('.card[data-task='+k+']').removeClass('inwork disabled');
+                            else if(element[k][0] != 0) {
+                                $('.card[data-task='+k+'] button.btn-coral').attr('disabled', true).parents('.card').addClass('disabled');
+                                isTaskTaken = false;
                             }
                             else if(element[k][0] == $('.team').data('teamid') && element[k][1] === "2") {
                                 $('.card[data-task='+k+'] button.btn-coral').addClass('hide');
@@ -293,10 +297,11 @@
                                 $('.card[data-task='+k+']').addClass('inwork');
                                 isTaskTaken = true;
                             } else {
-                                $('.card[data-task='+k+'] button.btn-coral').attr('disabled', true).parents('.card').addClass('disabled');
-                                isTaskTaken = false;
+                                $('.card[data-task='+k+'] button.btn-coral').removeClass('hide');
+                                $('.card[data-task='+k+'] button.btn-danger').addClass('hide');
+                                $('.card[data-task='+k+'] button.btn-success').attr('disabled', true);
+                                $('.card[data-task='+k+']').removeClass('inwork disabled');
                             }
-
                         });
                     }
                 });
