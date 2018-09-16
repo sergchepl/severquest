@@ -97,9 +97,9 @@ class MainController extends Controller
     {
         $updates = Telegram::getWebhookUpdates();
         Log::info($updates);
-        $tastId = $updates->channel_post->text;
-        Log::info($tastId);
-        $task = Task::find($tastId);
+        $taskId = $updates->channel_post->text;
+        Log::info($taskId);
+        $task = Task::find($taskId);
         if($task != null)
         {
             $task->done = 1;
