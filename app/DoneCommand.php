@@ -4,6 +4,7 @@ namespace Vendor\App\Commands;
 
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
+use Illuminate\Support\Facades\Log;
 
 class DoneCommand extends Command
 {

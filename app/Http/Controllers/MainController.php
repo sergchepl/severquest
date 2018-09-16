@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use Telegram\Bot\Laravel\Facades\Telegram;
 use Telegram\Bot\FileUpload\InputFile;
 use Illuminate\Support\Facades\Log;
-use GuzzleHttp\Client;
 
 class MainController extends Controller
 {
