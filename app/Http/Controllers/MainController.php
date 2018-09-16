@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Telegram\Bot\Laravel\Facades\Telegram;
 use Telegram\Bot\FileUpload\InputFile;
 use Illuminate\Support\Facades\Log;
+use GuzzleHttp\Client;
 
 class MainController extends Controller
 {
@@ -94,24 +95,35 @@ class MainController extends Controller
     }
     public function webhook() 
     {
-        // $updates = Telegram::getWebhookUpdates();
-        $update = Telegram::commandsHandler(true);
+        $updates = Telegram::getWebhookUpdates();
         Log::info($updates);
-        // $taskId = $updates->channel_post->text;
-        // Log::info($taskId);
-        // $task = Task::find($taskId);
-        // if($task != null)
-        // {
-        //     $task->done = 1;
-        //     $task->save();
-        // }
-        // $text = "<b>Задание №".$taskId."</b> успешно отмечено как выполненное!\n";
+        $task = $updates->channel_post->text;
+        $command = substr($task, 0, 5);
+        $taskId = substr($task, 7);
         
-        // Telegram::sendMessage([
-        //     'chat_id' => '-1001308540909',
-        //     'parse_mode' => 'HTML',
-        //     'text' => $text
-        // ]);
+        Log::info($taskId);
+        $task = Task::find($taskId);
+        if($task != null)
+        {
+            if($command == '/done') {
+                $task->done = 1;
+                $task->save();
+                $text = "<b>Задание №".$taskId."</b> успешно отмечено как: Выполненно!\n";
+            } else if($command == '/work') {
+                $task->done = 0;
+                $task->save();
+                $text = "<b>Задание №".$taskId."</b> успешно отмечено как: В работе!\n";
+            } else {
+                $text = "<b>Неправильная команда!</b>\n";
+            }
+            
+        }
+
+        Telegram::sendMessage([
+            'chat_id' => '-1001308540909',
+            'parse_mode' => 'HTML',
+            'text' => $text
+        ]);
         return response('ok', 200);
     }
 }
