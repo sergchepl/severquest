@@ -230,6 +230,7 @@
             $('.answer').show( "slow" );
             $('input[name="task"]').val($(this).parents('.card').find('a').html());
             $('input[name="task_text"]').val($(this).parents('.card').find('p').html());
+            $('input[name="task_id"]').val($(this).parents('.card').data('task'));
         });
         $('.close').click(function(){
             $('.answer').hide( "slow" );
@@ -285,33 +286,6 @@
             }, 500);
         }
         timer();
-
-        var refresh = function () {
-            $.ajax({
-                type: "POST",
-                dataType: "json",
-                data: ({
-                    action: 'read'
-                }),
-                url: 'read-write.php',
-                success: function (data) {
-                    JSON_data = JSON.parse(data);
-                    let html = '';
-                    for (var key in JSON_data) {
-                        html += '<div class="col-xs-12"><input type="radio" name="questions" id="' +
-                            key +
-                            '" value="' + key + '">';
-                        html += '<label for="' + key + '" class="btn btn-secondary"><i class="number">' +
-                            key + '</i>' +
-                            JSON_data[key].description + '';
-                        html += '<div class="company">Задание у команды : <i>' + JSON_data[key].team +
-                            '</i></div></label></div>';
-
-                    }
-                    $('#ajax').html(html);
-                }
-            });
-        }
     </script>                   
 </body>
 </html>

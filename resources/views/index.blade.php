@@ -49,6 +49,7 @@
                 <input type="hidden" name="team" value="{{Auth::user()->name}}">
                 <input type="hidden" name="task" value="">
                 <input type="hidden" name="task_text" value="">
+                <input type="hidden" name="task_id" value="">
                 <div class="form-group ">
                     <input type="file" name="files[]" style="font-size: 1rem" multiple>
                 </div>

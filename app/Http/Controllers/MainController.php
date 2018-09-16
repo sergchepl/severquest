@@ -74,20 +74,20 @@ class MainController extends Controller
     {
         $photo = $request->file('files');
         
-        $text = "<b>Пришло задание на проверку!</b> \n"
+        $text = "<b>Задание №".$request->task_id." пришло на проверку!</b> \n"
             . "Название : ".$request->task."\n "
             . "Описание задания: ".$request->task_text."\n"
             . "Команда : ".$request->team."\n"
             . "Сообщение от команды : ".$request->text;
         
         Telegram::sendMessage([
-            'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
+            'chat_id' => '-1001308540909',
             'parse_mode' => 'HTML',
             'text' => $text
         ]);
         foreach($photo as $ph){
             Telegram::sendPhoto([
-                'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
+                'chat_id' => '-1001308540909',
                 'photo' => InputFile::createFromContents(file_get_contents($ph->getRealPath()), str_random(10) . '.' . $ph->getClientOriginalExtension())
             ]);
         }
@@ -97,7 +97,7 @@ class MainController extends Controller
     {
         $updates = Telegram::getWebhookUpdates();
         Log::info($updates);
-        $tastId = $updates->message->text;
+        $tastId = $updates->channel_post->text;
         Log::info($tastId);
         $task = Task::find($tastId);
         if($task != null)
