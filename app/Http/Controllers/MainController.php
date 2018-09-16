@@ -98,9 +98,4 @@ class MainController extends Controller
         Log::info($updates);
         return response('ok', 200);
     }
-    public function getwebhook() 
-    {
-        Log::info('Works!');
-        return response('ok', 200);
-    }
 }
