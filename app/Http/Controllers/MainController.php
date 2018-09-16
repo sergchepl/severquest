@@ -64,7 +64,7 @@ class MainController extends Controller
         $dataToSend = [];
         foreach($tasks as $k => $task)
         {
-            $dataToSend[$k] = [$task->id => $task->user_id];
+            $dataToSend[$k] = [$task->id => [$task->user_id, $task->done]];
         }
         return $dataToSend;
 
@@ -72,6 +72,10 @@ class MainController extends Controller
 
     public function sendAnswer(Request $request)
     {
+        $task = Task::find($request->task_id);
+        $task->done = 2;
+        $task->save();
+        
         $photo = $request->file('files');
         
         $text = "<b>Задание №".$request->task_id." пришло на проверку!</b>\n"

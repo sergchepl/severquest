@@ -39,7 +39,7 @@
     .team {
         float: right;
     }
-    .btn-danger.hide, .btn-coral.hide {
+    .btn-danger.hide, .btn-coral.hide, .btn-success.hide {
         display: none;
     }
     form {
@@ -74,6 +74,12 @@
     }
     .card.inwork {
         background-color:steelblue;
+    }
+    .card.done {
+        background-color:darkgreen;
+    }
+    .card.check {
+        background-color: chocolate;
     }
     .card-header h5 {
         width: 60vw;
@@ -262,14 +268,25 @@
                         console.log(isTaskTaken);
                         data.forEach(element => {
                             let k = +Object.getOwnPropertyNames(element);
-                            if(element[k] == 0) {
+                            if(element[k][1] === 1) {
+                                $('.card[data-task='+k+'] button.btn-coral').attr('disabled', true).parents('.card').addClass('disabled done').removeClass('inwork check');
+                                $('.card[data-task='+k+'] button.btn-coral').addClass('hide');
+                                $('.card[data-task='+k+'] button.btn-danger').addClass('hide');
+                                $('.card[data-task='+k+'] button.btn-success').addClass('hide');
+                            }
+                            else if(element[k][0] == 0) {
                                 $('.card[data-task='+k+'] button.btn-coral').removeClass('hide');
                                 $('.card[data-task='+k+'] button.btn-danger').addClass('hide');
                                 $('.card[data-task='+k+'] button.btn-success').attr('disabled', true);
                                 $('.card[data-task='+k+']').removeClass('inwork disabled');
-                                
                             }
-                            else if(element[k] == $('.team').data('teamid')) {
+                            else if(element[k][0] == $('.team').data('teamid') && element[k][1] === 2) {
+                                $('.card[data-task='+k+'] button.btn-coral').addClass('hide');
+                                $('.card[data-task='+k+'] button.btn-danger').removeClass('hide');
+                                $('.card[data-task='+k+'] button.btn-success').attr('disabled', true);
+                                $('.card[data-task='+k+']').addClass('check');
+                                isTaskTaken = true;
+                            } else if(element[k][0] == $('.team').data('teamid')) {
                                 $('.card[data-task='+k+'] button.btn-coral').addClass('hide');
                                 $('.card[data-task='+k+'] button.btn-danger').removeClass('hide');
                                 $('.card[data-task='+k+'] button.btn-success').attr('disabled', false);
@@ -279,7 +296,7 @@
                                 $('.card[data-task='+k+'] button.btn-coral').attr('disabled', true).parents('.card').addClass('disabled');
                                 isTaskTaken = false;
                             }
-                            k++;
+
                         });
                     }
                 });
