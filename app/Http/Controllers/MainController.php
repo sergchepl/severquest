@@ -74,7 +74,7 @@ class MainController extends Controller
     {
         $photo = $request->file('files');
         
-        $text = "<b>Задание №".$request->task_id." пришло на проверку!</b> \n"
+        $text = "<b>Задание №".$request->task_id." пришло на проверку!</b>\n"
             . "Название : ".$request->task."\n "
             . "Описание задания: ".$request->task_text."\n"
             . "Команда : ".$request->team."\n"
@@ -105,6 +105,13 @@ class MainController extends Controller
             $task->done = 1;
             $task->save();
         }
+        $text = "<b>Задание №".$taskId."</b> успешно отмечено как выполненное!\n";
+        
+        Telegram::sendMessage([
+            'chat_id' => '-1001308540909',
+            'parse_mode' => 'HTML',
+            'text' => $text
+        ]);
         return response('ok', 200);
     }
 }
