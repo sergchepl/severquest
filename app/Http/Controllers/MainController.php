@@ -100,7 +100,7 @@ class MainController extends Controller
         $tastId = $updates->message->text;
         Log::info($tastId);
         $task = Task::find($tastId);
-        if($task-exists())
+        if($task->exists())
         {
             $task->done = 1;
             $task->save();
