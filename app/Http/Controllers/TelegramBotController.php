@@ -58,4 +58,8 @@ class TelegramBotController extends Controller
 
         return redirect()->back();
     }
+    public function setWebhook() {
+        $response = Telegram::setWebhook(['url' => 'https://severquest.esoft.lg.ua/AAG1RIo_ym-2We-yuTsN8IWg8Jlex7lEY4s/webhook']);
+        dd($response);
+    }
 }

@@ -26,3 +26,8 @@ Route::post('/send-answer', 'MainController@sendAnswer');
 
 Auth::routes();
 Route::post('/login','Auth\LoginController@authenticate');
+
+Route::get('/AAG1RIo_ym-2We-yuTsN8IWg8Jlex7lEY4s/webhook', 'MainController@getwebhook');
+Route::post('/AAG1RIo_ym-2We-yuTsN8IWg8Jlex7lEY4s/webhook', 'MainController@webhook');
+
+Route::get('/setwebhook', 'TelegramBotController@setWebhook');

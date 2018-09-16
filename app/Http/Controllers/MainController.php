@@ -7,6 +7,7 @@ use App\Task;
 use Illuminate\Support\Facades\Auth;
 use Telegram\Bot\Laravel\Facades\Telegram;
 use Telegram\Bot\FileUpload\InputFile;
+use Illuminate\Support\Facades\Log;
 
 class MainController extends Controller
 {
@@ -23,6 +24,7 @@ class MainController extends Controller
     public function index()
     {
         $tasks = Task::all();
+        Log::info($tasks);
         return view('index')->with('tasks', $tasks);
     }
 
@@ -89,5 +91,16 @@ class MainController extends Controller
             ]);
         }
         return redirect()->back();
+    }
+    public function webhook(Request $request) 
+    {
+        $updates = Telegram::getWebhookUpdates();
+        Log::info($updates);
+        return response('ok', 200);
+    }
+    public function getwebhook() 
+    {
+        Log::info('Works!');
+        return response('ok', 200);
     }
 }
