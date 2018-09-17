@@ -125,16 +125,18 @@ class MainController extends Controller
         {
             if($command === '/done') {
                 $task->status = 3;
-                $task->save();
                 $text = "<b>Задание №".$taskId."</b> успешно отмечено как: Выполненно!\n";
             } else if($command === '/work') {
                 $task->status = 1;
-                $task->save();
+                $text = "<b>Задание №".$taskId."</b> успешно отмечено как: В работе!\n";
+            } else if($command === '/clear') {
+                $task->status = 0;
+                $task->user_id = 0;
                 $text = "<b>Задание №".$taskId."</b> успешно отмечено как: В работе!\n";
             } else {
                 $text = "<b>Неправильная команда!</b>\n";
             }
-            
+            $task->save();
         }
 
         Telegram::sendMessage([
