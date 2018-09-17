@@ -116,8 +116,9 @@ class MainController extends Controller
         }
         Log::info($updates);
         $task = $updates->channel_post->text;
-        $command = substr($task, 0, 5);
-        $taskId = substr($task, 6);
+        $entities = $updates->channel_post->entities[0]->length;
+        $command = substr($task, 0, $entities);
+        $taskId = substr($task, $entities+1);
         
         Log::info($taskId);
         $task = Task::find($taskId);
