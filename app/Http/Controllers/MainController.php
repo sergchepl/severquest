@@ -59,21 +59,27 @@ class MainController extends Controller
         return $request; 
     }
 
-    public function checkTakenTasks() {
+    public function checkTakenTasks(Request $request) {
         $tasks = Task::all();
-        $dataToSend = [];
-        foreach($tasks as $k => $task)
+        $taskToSend = [];
+        foreach($tasks as $task)
         {
-            $dataToSend[$k] = [$task->id => [$task->user_id, $task->done]];
+            if(strtotime($task->updated_at) > $request->timestamp) {    
+                array_push($taskToSend, $task);
+                $temp_time = strtotime($task->updated_at);
+            }
         }
-        return $dataToSend;
+        $timestamp = ($temp_time) ? $temp_time : $timestamp;
+        if(count($taskToSend) == 0) return NULL;
+        array_push($taskToSend, $timestamp);
+        return $taskToSend;
 
     }
 
     public function sendAnswer(Request $request)
     {
         $task = Task::find($request->task_id);
-        $task->done = 2;
+        $task->status = 2;
         $task->save();
         
         $photo = $request->file('files');
@@ -113,11 +119,11 @@ class MainController extends Controller
         if($task != null)
         {
             if($command === '/done') {
-                $task->done = 1;
+                $task->status = 3;
                 $task->save();
                 $text = "<b>Задание №".$taskId."</b> успешно отмечено как: Выполненно!\n";
             } else if($command === '/work') {
-                $task->done = 0;
+                $task->status = 1;
                 $task->save();
                 $text = "<b>Задание №".$taskId."</b> успешно отмечено как: В работе!\n";
             } else {

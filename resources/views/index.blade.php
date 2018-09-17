@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="row">
             <header class="col-12">
-                <img src="/css/image/logo.jpg" alt="">
+                <a href="/"><img src="/css/image/logo.jpg" alt=""></a>
                 <div onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();"
                 data-teamId='{{Auth::user()->id}}' class="team">{{Auth::user()->name}}</div>
