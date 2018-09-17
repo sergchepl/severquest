@@ -238,11 +238,38 @@
             $('input[name="task_text"]').val($(this).parents('.card').find('p').html());
             $('input[name="task_id"]').val($(this).parents('.card').data('task'));
         });
-        $('.form-inline').submit(function() {
-            $('.card[data-task='+$('input[name="task"]').val()+'] button.btn-coral').addClass('hide');
-            $('.card[data-task='+$('input[name="task"]').val()+'] button.btn-danger').removeClass('hide');
-            $('.card[data-task='+$('input[name="task"]').val()+'] button.btn-success').attr('disabled', true);
-            $('.card[data-task='+$('input[name="task"]').val()+']').addClass('check');
+        $('.form-inline').submit(function(e) {
+            var progressBar = $('#progressbar');
+            var $that = $(this),
+                formData = new FormData($that.get(0)),
+                thatTaskId = $(this).parents('.card').data('task');
+            
+            $('.card[data-task='+thatTaskId+'] button.btn-coral').addClass('hide');
+            $('.card[data-task='+thatTaskId+'] button.btn-danger').removeClass('hide');
+            $('.card[data-task='+thatTaskId+'] button.btn-success').attr('disabled', true);
+            $('.card[data-task='+thatTaskId+']').addClass('check');
+            e.preventDefault();
+            
+            $.ajax({
+            url: $that.attr('action'),
+            type: $that.attr('method'),
+            contentType: false,
+            processData: false,
+            data: formData,
+            xhr: function(){
+                var xhr = $.ajaxSettings.xhr(); // получаем объект XMLHttpRequest
+                xhr.upload.addEventListener('progress', function(evt){ // добавляем обработчик события progress (onprogress)
+                    if(evt.lengthComputable) { // если известно количество байт
+                        // высчитываем процент загруженного
+                        var percentComplete = Math.ceil(evt.loaded / evt.total * 100);
+                        // устанавливаем значение в атрибут value тега <progress>
+                        // и это же значение альтернативным текстом для браузеров, не поддерживающих <progress>
+                        progressBar.val(percentComplete).text('Загружено ' + percentComplete + '%');
+                    }
+                }, false);
+                return xhr;
+            },
+            });
         });
         $('.close').click(function(){
             $('.answer').hide( "slow" );
@@ -292,9 +319,9 @@
                                 }
                                 if(element.user_id == $('.team').data('teamid') && element.status == "1") {
                                     $('.card[data-task='+element.id+'] button.btn-coral').addClass('hide');
-                                    $('.card[data-task='+element.id+'] button.btn-danger').removeClass('hide');
+                                    $('.card[data-task='+element.id+'] button.btn-danger').removeClass('hide').attr('disabled', false);
                                     $('.card[data-task='+element.id+'] button.btn-success').attr('disabled', false);
-                                    $('.card[data-task='+element.id+']').addClass('inwork');
+                                    $('.card[data-task='+element.id+']').removeClass('check disabled').addClass('inwork');
                                     userCount++;
                                 }
                                 if(element.user_id != $('.team').data('teamid') && element.status == "1") {

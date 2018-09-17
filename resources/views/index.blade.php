@@ -46,6 +46,7 @@
             </button>
             <form class="form-inline" action="{{ url('/send-answer') }}" method="post" enctype="multipart/form-data">
                 {{ csrf_field() }}
+                <progress id="progressbar" value="0" max="100"></progress>
                 <input type="hidden" name="team" value="{{Auth::user()->name}}">
                 <input type="hidden" name="task" value="">
                 <input type="hidden" name="task_text" value="">
