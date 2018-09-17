@@ -331,10 +331,10 @@
                                     $('.card[data-task='+element.id+'] button.btn-coral').attr('disabled', true).parents('.card').addClass('disabled');
                                 }
                                 if(element.status == 0) {
-                                    $('.card[data-task='+element.id+'] button.btn-coral').removeClass('hide');
+                                    $('.card[data-task='+element.id+'] button.btn-coral').removeClass('hide').attr('disabled', false);
                                     $('.card[data-task='+element.id+'] button.btn-danger').addClass('hide');
-                                    $('.card[data-task='+element.id+'] button.btn-success').attr('disabled', true);
-                                    $('.card[data-task='+element.id+']').removeClass('inwork disabled');
+                                    $('.card[data-task='+element.id+'] button.btn-success').removeClass('hide').attr('disabled', true);
+                                    $('.card[data-task='+element.id+']').removeClass('inwork disabled done');
                                 }                            
                             });
                             if(userCount > 0) {
