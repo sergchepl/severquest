@@ -132,7 +132,7 @@ class MainController extends Controller
             } else if($command === '/clear') {
                 $task->status = 0;
                 $task->user_id = 0;
-                $text = "<b>Задание №".$taskId."</b> успешно отмечено как: В работе!\n";
+                $text = "<b>Задание №".$taskId."</b> успешно очищено!\n";
             } else {
                 $text = "<b>Неправильная команда!</b>\n";
             }
