@@ -270,11 +270,14 @@
                     type: "GET",
                     url: '/check-tasks',
                     success: function (data) {
+                        let userCount = 0;
+
                         console.log(data);
                         console.log(isTaskTaken);
-                        data.forEach(element => {
+                        
+                        data.forEach(element => {                            
                             let k = +Object.getOwnPropertyNames(element);
-                            if(element[k][1] === "1") {
+                            if(element[k][1] == "1") {
                                 $('.card[data-task='+k+'] button.btn-coral').attr('disabled', true).parents('.card').addClass('disabled done').removeClass('inwork check');
                                 $('.card[data-task='+k+'] button.btn-coral').addClass('hide');
                                 $('.card[data-task='+k+'] button.btn-danger').addClass('hide');
@@ -286,24 +289,27 @@
                                 $('.card[data-task='+k+'] button.btn-success').attr('disabled', true);
                                 $('.card[data-task='+k+']').removeClass('inwork disabled');
                             }
-                            else if(element[k][0] == $('.team').data('teamid') && element[k][1] === "2") {
+                            else if(element[k][0] == $('.team').data('teamid') && element[k][1] == "2") {
                                 $('.card[data-task='+k+'] button.btn-coral').addClass('hide');
-                                $('.card[data-task='+k+'] button.btn-danger').removeClass('hide');
+                                $('.card[data-task='+k+'] button.btn-danger').removeClass('hide').attr('disabled', true);
                                 $('.card[data-task='+k+'] button.btn-success').attr('disabled', true);
                                 $('.card[data-task='+k+']').addClass('check');
-                                isTaskTaken = true;
+                                userCount++;
                             } else if(element[k][0] == $('.team').data('teamid')) {
                                 $('.card[data-task='+k+'] button.btn-coral').addClass('hide');
                                 $('.card[data-task='+k+'] button.btn-danger').removeClass('hide');
                                 $('.card[data-task='+k+'] button.btn-success').attr('disabled', false);
                                 $('.card[data-task='+k+']').addClass('inwork');
-                                isTaskTaken = true;
+                                userCount++;
                             } else {
                                 $('.card[data-task='+k+'] button.btn-coral').attr('disabled', true).parents('.card').addClass('disabled');
-                                isTaskTaken = false;
                             }
-
                         });
+                        if(userCount > 0) {
+                            isTaskTaken = true;
+                        } else {
+                            isTaskTaken = false;
+                        }
                     }
                 });
             }, 500);
