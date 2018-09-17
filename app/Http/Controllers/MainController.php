@@ -137,6 +137,8 @@ class MainController extends Controller
                 $text = "<b>Неправильная команда!</b>\n";
             }
             $task->save();
+        } else {
+            $text = "<b>Задача №".$taskId." не существует!</b>\n";
         }
 
         Telegram::sendMessage([
