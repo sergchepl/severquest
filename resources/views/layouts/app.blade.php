@@ -269,6 +269,9 @@
                 }, false);
                 return xhr;
             },
+            success: function() {
+                $('.answer').hide( "slow" );
+            }
             });
         });
         $('.close').click(function(){
