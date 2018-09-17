@@ -126,9 +126,9 @@ class MainController extends Controller
         {
             if($command === '/done') {
                 $task->status = 3;
-                $text_to_admin = "<b>Задание №@$taskId</b> отмечено как: Выполнено!\n";
+                $text_to_admin = "<b>Задание №$taskId</b> отмечено как: Выполнено!\n";
                 
-                $text_to_users = "Команда <b>@".$task->user()->name."</b> успешно выполнила <b>Задание №@$taskId</b> и заработала <b>".$task->score."</b> баллов";
+                $text_to_users = "Команда <b>".$task->user()->name."</b> успешно выполнила <b>Задание №$taskId</b> и заработала <b>".$task->score."</b> баллов";
                 Telegram::sendMessage([
                     'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
                     'parse_mode' => 'HTML',
@@ -136,17 +136,17 @@ class MainController extends Controller
                 ]);
             } else if($command === '/work') {
                 $task->status = 1;
-                $text_to_admin = "<b>Задание №@$taskId</b> отмечено как: В работе!\n";
+                $text_to_admin = "<b>Задание №$taskId</b> отмечено как: В работе!\n";
             } else if($command === '/clear') {
                 $task->status = 0;
                 $task->user_id = 0;
-                $text_to_admin = "<b>Задание №@$taskId</b> очищено!\n";
+                $text_to_admin = "<b>Задание №$taskId</b> очищено!\n";
             } else {
                 $text_to_admin = "<b>Несуществующая команда!</b>\n";
             }
             $task->save();
         } else {
-            $text_to_admin = "<b>Задача №@$taskId не существует!</b>\n";
+            $text_to_admin = "<b>Задача №$taskId не существует!</b>\n";
         }
 
         Telegram::sendMessage([
