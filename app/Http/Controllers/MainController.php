@@ -90,7 +90,7 @@ class MainController extends Controller
         $photo = $request->file('files');
         
         $text = "<b>Задание №".$request->task_id." пришло на проверку!</b>\n"
-            . "Название : ".$request->task."\n "
+            . "Название : ".$request->task."\n"
             . "Описание задания: ".$request->task_text."\n"
             . "Команда : ".$request->team."\n"
             . "Сообщение от команды : ".$request->text;
@@ -128,6 +128,10 @@ class MainController extends Controller
                 $task->status = 3;
                 $text_to_admin = "<b>Задание №$taskId</b> отмечено как: Выполнено!\n";
                 
+                $score_to_save = $task->user->score;
+                $user = $task->user;
+                $user->score = $score_to_save + $task->score;
+                $user->save();
                 $text_to_users = "Команда <b>".$task->user->name."</b> успешно выполнила <b>Задание №$taskId</b> и заработала <b>".$task->score."</b> баллов";
                 Telegram::sendMessage([
                     'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),

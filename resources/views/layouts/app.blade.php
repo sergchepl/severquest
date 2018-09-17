@@ -42,6 +42,9 @@
     .btn-danger.hide, .btn-coral.hide, .btn-success.hide {
         display: none;
     }
+    .badge {
+        float: right;
+    }
     form {
         margin: 2rem;
         font-size: 1.5rem;
