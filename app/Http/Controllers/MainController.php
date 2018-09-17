@@ -33,10 +33,11 @@ class MainController extends Controller
     {
                
         $task = Task::find($request->task);
-        $task->user_id = ($request->team_bool == "true") ? Auth::user()->id : 0;
-        $task->save();
+        
         if($request->team_bool == "true")
         {
+            $task->user_id = Auth::user()->id;
+            $task->status = 1;
             $text = "Команда <b>"
             . $request->team
             . "</b> начала выполнять задание: <b>"
@@ -44,12 +45,15 @@ class MainController extends Controller
             . "</b>!";
         } else 
         {
+            $task->user_id = 0;
+            $task->status = 0;
             $text = "Команда <b>"
             . $request->team
             . "</b> отменила задание: <b>"
             . $request->title
             . "</b>!";
         }
+        $task->save();
         Telegram::sendMessage([
             'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
             'parse_mode' => 'HTML',
@@ -62,14 +66,15 @@ class MainController extends Controller
     public function checkTakenTasks(Request $request) {
         $tasks = Task::all();
         $taskToSend = [];
+        $temp_time = 0;
         foreach($tasks as $task)
         {
             if(strtotime($task->updated_at) > $request->timestamp) {    
                 array_push($taskToSend, $task);
-                $temp_time = strtotime($task->updated_at);
+                if(strtotime($task->updated_at) > $temp_time) $temp_time = strtotime($task->updated_at);
             }
         }
-        $timestamp = ($temp_time) ? $temp_time : $timestamp;
+        $timestamp = ($temp_time != 0) ? $temp_time : $request->timestamp;
         if(count($taskToSend) == 0) return NULL;
         array_push($taskToSend, $timestamp);
         return $taskToSend;
