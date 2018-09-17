@@ -128,7 +128,7 @@ class MainController extends Controller
                 $task->status = 3;
                 $text_to_admin = "<b>Задание №$taskId</b> отмечено как: Выполнено!\n";
                 
-                $text_to_users = "Команда <b>".$task->user()->name."</b> успешно выполнила <b>Задание №$taskId</b> и заработала <b>".$task->score."</b> баллов";
+                $text_to_users = "Команда <b>".$task->user->name."</b> успешно выполнила <b>Задание №$taskId</b> и заработала <b>".$task->score."</b> баллов";
                 Telegram::sendMessage([
                     'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
                     'parse_mode' => 'HTML',
