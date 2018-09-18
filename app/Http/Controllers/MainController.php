@@ -105,7 +105,7 @@ class MainController extends Controller
             'parse_mode' => 'HTML',
             'text' => $text_to_users
         ]);
-        return status(200);
+        return 200;
     }
     public function webhook() 
     {
@@ -127,7 +127,7 @@ class MainController extends Controller
             if($command === '/list') {
                 $users = User::all();
                 foreach ($users as $user) {
-                    $text_to_admin .= "<b>Команда:</b> '.$user->name.'\n<b>Количество баллов:</b> ".$user->score."\n----------------------------\n"; 
+                    $text_to_admin .= "----------------------------\n<b>Команда:</b> ".$user->name."\n<b>Количество баллов:</b> ".$user->score."\n"; 
                 }
             } else {
                 $user = User::find($number); 
@@ -155,8 +155,8 @@ class MainController extends Controller
                 case '/work': 
                     $task->status = 1;
                     $text_to_admin = "Теперь статус задания <b>№$number</b> : В работе!\n";
-                    $text_to_users = "Задание <b>".$task->name."</b> выполняемое командой ".$task->user->name 
-                                    ."требования к заданию и повторите загрузку соответствующих материалов.";
+                    $text_to_users = "Задание <b>".$task->name."</b> выполняемое командой ".$task->user->name." требует доработки. Внимательно " 
+                                    ."проверьте требования к заданию и повторите загрузку соответствующих материалов.";
                     Telegram::sendMessage([
                         'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
                         'parse_mode' => 'HTML',
