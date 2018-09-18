@@ -45,7 +45,7 @@ class LoginController extends Controller
             // Authentication passed...
             return redirect('/home');
         } else {
-            $request->session()->flash('errors', 'Error!');
+            $request->session()->flash('errors');
             return redirect('/login');
         }
     }

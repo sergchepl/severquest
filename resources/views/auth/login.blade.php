@@ -15,9 +15,9 @@
                             <label for="name" class="col-sm-4 col-form-label text-md-right">Имя команды</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="name" class="form-control{{ $errors ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
+                                <input id="name" type="name" class="form-control{{ Session::has('errors') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
 
-                                @if ($errors)
+                                @if (Session::has('errors'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>Неправильное Имя или Пароль</strong>
                                     </span>
@@ -29,7 +29,7 @@
                             <label for="password" class="col-md-4 col-form-label text-md-right">Пароль</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control{{ $errors ? ' is-invalid' : '' }}" name="password" required>
+                                <input id="password" type="password" class="form-control{{ Session::has('errors') ? ' is-invalid' : '' }}" name="password" required>
                             </div>
                         </div>
 

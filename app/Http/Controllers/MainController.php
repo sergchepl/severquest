@@ -101,9 +101,9 @@ class MainController extends Controller
             if($command === '/list') {
                 $users = User::all();
                 foreach ($users as $user) {
-                    $text_to_admin .= "---------------------------------------------------\n<b>ID команды:</b> ".$user->id."\n<b>Название команды:</b> ".$user->name."\n<b>Количество баллов:</b> ".$user->score."\n"; 
+                    $text_to_admin .= "------------------------------------\n<b>ID команды:</b> ".$user->id."\n<b>Название команды:</b> ".$user->name."\n<b>Количество баллов:</b> ".$user->score."\n"; 
                 }
-                $text_to_admin .= "---------------------------------------------------\n";
+                $text_to_admin .= "------------------------------------\n";
             } else {
                 $user = User::find($number); 
                 $user->score = 0;
