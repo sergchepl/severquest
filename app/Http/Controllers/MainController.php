@@ -99,9 +99,22 @@ class MainController extends Controller
         $task = Task::find($number);
         if($command === '/list' || $command === '/clear_team') {
             if($command === '/list') {
-                $users = User::all();
-                foreach ($users as $user) {
-                    $text_to_admin .= "------------------------------------\n<b>ID команды:</b> ".$user->id."\n<b>Название команды:</b> ".$user->name."\n<b>Количество баллов:</b> ".$user->score."\n"; 
+                $users = User::orderBy('score','desc')->get();
+                foreach ($users as $k => $user) {
+                    switch($k) {
+                        case 0: $text_to_admin .= "--------------------🥇----------------\n<b>ID команды:</b> ".$user->id
+                                    ."\n<b>Название команды:</b> ".$user->name."\n<b>Количество баллов:</b> ".$user->score."\n";
+                                    break;
+                        case 1: $text_to_admin .= "--------------------🥈----------------\n<b>ID команды:</b> ".$user->id
+                                    ."\n<b>Название команды:</b> ".$user->name."\n<b>Количество баллов:</b> ".$user->score."\n";
+                                    break;
+                        case 2: $text_to_admin .= "--------------------🥉----------------\n<b>ID команды:</b> ".$user->id
+                                    ."\n<b>Название команды:</b> ".$user->name."\n<b>Количество баллов:</b> ".$user->score."\n";
+                                    break;
+                        default: $text_to_admin .= "------------------------------------\n<b>ID команды:</b> ".$user->id
+                                    ."\n<b>Название команды:</b> ".$user->name."\n<b>Количество баллов:</b> ".$user->score."\n"; 
+                                    break;
+                    }
                 }
                 $text_to_admin .= "------------------------------------\n";
             } else {
