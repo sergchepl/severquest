@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Task;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Telegram\Bot\Laravel\Facades\Telegram;
 use Telegram\Bot\FileUpload\InputFile;
@@ -40,18 +41,18 @@ class MainController extends Controller
             $task->status = 1;
             $text = "Команда <b>"
             . $request->team
-            . "</b> начала выполнять задание: <b>"
+            . "</b> начала выполнять задание <b>"
             . $request->title
-            . "</b>!";
+            . "</b>";
         } else 
         {
             $task->user_id = 0;
             $task->status = 0;
             $text = "Команда <b>"
             . $request->team
-            . "</b> отменила задание: <b>"
+            . "</b> отменила задание <b>"
             . $request->title
-            . "</b>!";
+            . "</b>";
         }
         $task->save();
         Telegram::sendMessage([
@@ -120,33 +121,50 @@ class MainController extends Controller
         $command = substr($task, 0, $entities);
         $taskId = substr($task, $entities+1);
         
-        Log::info($taskId);
+        $text_to_admin = "";
+
         $task = Task::find($taskId);
         if($task != null)
         {
-            if($command === '/done') {
-                $task->status = 3;
-                $text_to_admin = "<b>Задание №$taskId</b> отмечено как: Выполнено!\n";
-                
-                $score_to_save = $task->user->score;
-                $user = $task->user;
-                $user->score = $score_to_save + $task->score;
-                $user->save();
-                $text_to_users = "Команда <b>".$task->user->name."</b> успешно выполнила <b>Задание №$taskId</b> и заработала <b>".$task->score."</b> баллов";
-                Telegram::sendMessage([
-                    'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
-                    'parse_mode' => 'HTML',
-                    'text' => $text_to_users
-                ]);
-            } else if($command === '/work') {
-                $task->status = 1;
-                $text_to_admin = "<b>Задание №$taskId</b> отмечено как: В работе!\n";
-            } else if($command === '/clear') {
-                $task->status = 0;
-                $task->user_id = 0;
-                $text_to_admin = "<b>Задание №$taskId</b> очищено!\n";
-            } else {
-                $text_to_admin = "<b>Несуществующая команда!</b>\n";
+            switch($command) {
+                case '/done': 
+                    $task->status = 3;
+                    $text_to_admin = "<b>Задание №$taskId</b> отмечено как: Выполнено!\n";
+                    
+                    $score_to_save = $task->user->score;
+                    $user = $task->user;
+                    $user->score = $score_to_save + $task->score;
+                    $user->save();
+                    
+                    $text_to_users = "Команда <b>".$task->user->name."</b> успешно выполнила <b>Задание №$taskId</b> и заработала <b>".$task->score."</b> баллов";
+                    Telegram::sendMessage([
+                        'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
+                        'parse_mode' => 'HTML',
+                        'text' => $text_to_users
+                    ]);
+                    break;
+                case '/work': 
+                    $task->status = 1;
+                    $text_to_admin = "<b>Задание №$taskId</b> отмечено как: В работе!\n";
+                    break;
+                case '/clear': 
+                    $task->status = 0;
+                    $task->user_id = 0;
+                    $text_to_admin = "<b>Задание №$taskId</b> очищено!\n";
+                    break;
+                case '/list':
+                    $users = User::all();
+                    foreach ($users as $user) {
+                        $text_to_admin .= "<b>Команда:</b> '.$user->name.'\n<b>Количество баллов:</b> ".$user->score."\n----------------------------\n"; 
+                    }
+                    break;
+                case '/clear_team':
+                    $user = User::find($taskId); 
+                    $user->score = 0;
+                    $text_to_admin = "Прогресс команды <b>".$user->name."</b> обнулен!\n";
+                    break;
+                default: $text_to_admin = "<b>Несуществующая команда!</b>\n";
+                    break;
             }
             $task->save();
         } else {
