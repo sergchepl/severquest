@@ -41,12 +41,12 @@ class TelegramSendPhoto
                 'photo' => InputFile::createFromContents(file_get_contents($ph->getRealPath()), str_random(10) . '.' . $ph->getClientOriginalExtension())
             ]);
         }
-        $text_to_users = "Задание <b>".$request->task."</b> проверяется администратором, ожидайте результат проверки.";
-        Telegram::sendMessage([
-            'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
-            'parse_mode' => 'HTML',
-            'text' => $text_to_users
-        ]);
     }
+    $text_to_users = "💡 Задание <b>".$request->task."</b> проверяется администратором, ожидайте результат проверки. 💡";
+    Telegram::sendMessage([
+        'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
+        'parse_mode' => 'HTML',
+        'text' => $text_to_users
+    ]);
   }
 }
