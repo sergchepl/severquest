@@ -15,14 +15,9 @@
 Route::get('/', 'MainController@rules');
 Route::get('/home', 'MainController@index');
 
-Route::post('/send-message', 'TelegramBotController@storeMessage');
-Route::get('/send-photo', 'TelegramBotController@sendPhoto');
-Route::post('/store-photo', 'TelegramBotController@storePhoto');
-Route::get('/updated-activity', 'TelegramBotController@updatedActivity');
-
 Route::put('/take-task', 'MainController@takeTask');
 Route::get('/check-tasks', 'MainController@checkTakenTasks');
-Route::post('/send-answer', 'MainController@sendAnswer');
+Route::post('/send-answer', 'MainController@sendAnswer')->middleware('telegramphoto');
 
 Auth::routes();
 Route::post('/login','Auth\LoginController@authenticate');

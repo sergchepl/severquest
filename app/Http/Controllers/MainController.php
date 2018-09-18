@@ -79,33 +79,7 @@ class MainController extends Controller
         $task = Task::find($request->task_id);
         $task->status = 2;
         $task->save();
-        
-        $photo = $request->file('files');
-        
-        $text = "<b>Задание №".$request->task_id." пришло на проверку!</b>\n"
-            . "Название : ".$request->task."\n"
-            . "Описание задания: ".$request->task_text."\n"
-            . "Команда : ".$request->team."\n"
-            . "Сообщение от команды : ".$request->text;
-        
-        Telegram::sendMessage([
-            'chat_id' => '-1001308540909',
-            'parse_mode' => 'HTML',
-            'text' => $text
-        ]);
-        foreach($photo as $ph){
-            Telegram::sendPhoto([
-                'chat_id' => '-1001308540909',
-                'photo' => InputFile::createFromContents(file_get_contents($ph->getRealPath()), str_random(10) . '.' . $ph->getClientOriginalExtension())
-            ]);
-        }
-        $text_to_users = "Задание <b>".$task->name."</b> проверяется администратором, ожидайте результат проверки.";
-        Telegram::sendMessage([
-            'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
-            'parse_mode' => 'HTML',
-            'text' => $text_to_users
-        ]);
-        return 200;
+        return response('ok', 200);
     }
     public function webhook() 
     {
@@ -116,7 +90,7 @@ class MainController extends Controller
         Log::info($updates);
 
         $task = $updates->channel_post->text;
-        $entities = $updates->channel_post->entities[0]['length'];
+        $entities = $updates->channel_post->entities[0]['length'] ? $updates->channel_post->entities[0]['length'] : 0;
         $command = substr($task, 0, $entities);
         $number = substr($task, $entities+1);
         
@@ -127,8 +101,9 @@ class MainController extends Controller
             if($command === '/list') {
                 $users = User::all();
                 foreach ($users as $user) {
-                    $text_to_admin .= "----------------------------\n<b>Номер команды:</b> ".$user->id."\n<b>Название команды:</b> ".$user->name."\n<b>Количество баллов:</b> ".$user->score."\n"; 
+                    $text_to_admin .= "----------------------------\n<b>ID команды:</b> ".$user->id."\n<b>Название команды:</b> ".$user->name."\n<b>Количество баллов:</b> ".$user->score."\n"; 
                 }
+                $text_to_admin .= "----------------------------\n";
             } else {
                 $user = User::find($number); 
                 $user->score = 0;
