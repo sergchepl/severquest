@@ -39,20 +39,12 @@ class MainController extends Controller
         {
             $task->user_id = Auth::user()->id;
             $task->status = 1;
-            $text = "Команда <b>"
-            . $request->team
-            . "</b> начала выполнять задание <b>"
-            . $request->title
-            . "</b>";
+            $text = "Команда <b>".$request->team."</b> приступила к выполнению задания <b>".$request->title."</b>.";
         } else 
         {
             $task->user_id = 0;
             $task->status = 0;
-            $text = "Команда <b>"
-            . $request->team
-            . "</b> отменила задание <b>"
-            . $request->title
-            . "</b>";
+            $text = "Задание <b>".$request->title."</b> снова доступно для выполнения всеми командами.";
         }
         $task->save();
         Telegram::sendMessage([
@@ -107,7 +99,13 @@ class MainController extends Controller
                 'photo' => InputFile::createFromContents(file_get_contents($ph->getRealPath()), str_random(10) . '.' . $ph->getClientOriginalExtension())
             ]);
         }
-        return redirect()->back();
+        $text_to_users = "Задание <b>".$task->name."</b> проверяется администратором, ожидайте результат проверки.";
+        Telegram::sendMessage([
+            'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
+            'parse_mode' => 'HTML',
+            'text' => $text_to_users
+        ]);
+        return status(200);
     }
     public function webhook() 
     {
@@ -116,27 +114,38 @@ class MainController extends Controller
             return response('ok', 200);
         }
         Log::info($updates);
+
         $task = $updates->channel_post->text;
         $entities = $updates->channel_post->entities[0]['length'];
         $command = substr($task, 0, $entities);
-        $taskId = substr($task, $entities+1);
+        $number = substr($task, $entities+1);
         
         $text_to_admin = "";
 
-        $task = Task::find($taskId);
-        if($task != null)
-        {
+        $task = Task::find($number);
+        if($command === '/list' || $command === '/clear_team') {
+            if($command === '/list') {
+                $users = User::all();
+                foreach ($users as $user) {
+                    $text_to_admin .= "<b>Команда:</b> '.$user->name.'\n<b>Количество баллов:</b> ".$user->score."\n----------------------------\n"; 
+                }
+            } else {
+                $user = User::find($number); 
+                $user->score = 0;
+                $text_to_admin = "Прогресс команды <b>".$user->name."</b> обнулен!\n";
+            }
+        } else if($task != null) {
             switch($command) {
                 case '/done': 
                     $task->status = 3;
-                    $text_to_admin = "<b>Задание №$taskId</b> отмечено как: Выполнено!\n";
+                    $text_to_admin = "Теперь статус задания <b>№$number</b> : Выполнено!\n";
                     
                     $score_to_save = $task->user->score;
                     $user = $task->user;
                     $user->score = $score_to_save + $task->score;
                     $user->save();
                     
-                    $text_to_users = "Команда <b>".$task->user->name."</b> успешно выполнила <b>Задание №$taskId</b> и заработала <b>".$task->score."</b> баллов";
+                    $text_to_users = "Задание <b>".$task->name."</b> успешно выполнено командой <b>".$task->user->name."</b>.";
                     Telegram::sendMessage([
                         'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
                         'parse_mode' => 'HTML',
@@ -145,30 +154,26 @@ class MainController extends Controller
                     break;
                 case '/work': 
                     $task->status = 1;
-                    $text_to_admin = "<b>Задание №$taskId</b> отмечено как: В работе!\n";
+                    $text_to_admin = "Теперь статус задания <b>№$number</b> : В работе!\n";
+                    $text_to_users = "Задание <b>".$task->name."</b> выполняемое командой ".$task->user->name 
+                                    ."требования к заданию и повторите загрузку соответствующих материалов.";
+                    Telegram::sendMessage([
+                        'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
+                        'parse_mode' => 'HTML',
+                        'text' => $text_to_users
+                    ]);
                     break;
                 case '/clear': 
                     $task->status = 0;
                     $task->user_id = 0;
-                    $text_to_admin = "<b>Задание №$taskId</b> очищено!\n";
-                    break;
-                case '/list':
-                    $users = User::all();
-                    foreach ($users as $user) {
-                        $text_to_admin .= "<b>Команда:</b> '.$user->name.'\n<b>Количество баллов:</b> ".$user->score."\n----------------------------\n"; 
-                    }
-                    break;
-                case '/clear_team':
-                    $user = User::find($taskId); 
-                    $user->score = 0;
-                    $text_to_admin = "Прогресс команды <b>".$user->name."</b> обнулен!\n";
+                    $text_to_admin = "Теперь статус задания <b>№$number</b> : Открыто!\n";
                     break;
                 default: $text_to_admin = "<b>Несуществующая команда!</b>\n";
-                    break;
+                break;
             }
             $task->save();
         } else {
-            $text_to_admin = "<b>Задача №$taskId не существует!</b>\n";
+            $text_to_admin = "<b>Задача №$number не существует!</b>\n";
         }
 
         Telegram::sendMessage([

@@ -283,14 +283,14 @@
         $('button.btn-coral').click(function() {
             if(isTaskTaken) {alert('Вы можете выполнять только 1 задание одновременно!'); return 0;}
             let task = $(this).parents('.card').data('task');
-            let team = $('.team').html();
+            let team = $('.team p').html();
             let title =  $(this).parents('.card').find('.card-header a').html();
             sendTask(task, team, title, "true");
         });
         
         $('button.btn-danger').click(function() {
             let task = $(this).parents('.card').data('task');
-            let team = $('.team').html();
+            let team = $('.team p').html();
             let title =  $(this).parents('.card').find('.card-header a').html();
             sendTask(task, team, title, "false");
             isTaskTaken = false;

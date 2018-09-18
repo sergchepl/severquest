@@ -8,7 +8,7 @@
                 <div onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();"
                             data-teamId='{{Auth::user()->id}}' class="team">
-                    {{Auth::user()->name}}
+                    <p>{{Auth::user()->name}}</p>
                     <br>
                     <span class="badge badge-light">{{Auth::user()->score}}</span>
                 </div>
