@@ -101,9 +101,9 @@ class MainController extends Controller
             if($command === '/list') {
                 $users = User::all();
                 foreach ($users as $user) {
-                    $text_to_admin .= "----------------------------\n<b>ID команды:</b> ".$user->id."\n<b>Название команды:</b> ".$user->name."\n<b>Количество баллов:</b> ".$user->score."\n"; 
+                    $text_to_admin .= "---------------------------------------------------\n<b>ID команды:</b> ".$user->id."\n<b>Название команды:</b> ".$user->name."\n<b>Количество баллов:</b> ".$user->score."\n"; 
                 }
-                $text_to_admin .= "----------------------------\n";
+                $text_to_admin .= "---------------------------------------------------\n";
             } else {
                 $user = User::find($number); 
                 $user->score = 0;
@@ -143,6 +143,12 @@ class MainController extends Controller
                     $task->status = 0;
                     $task->user_id = 0;
                     $text_to_admin = "Теперь статус задания <b>№$number</b> : Открыто!\n";
+                    $text_to_users = "Задание <b>".$request->title."</b> снова доступно для выполнения всеми командами.";
+                    Telegram::sendMessage([
+                        'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
+                        'parse_mode' => 'HTML',
+                        'text' => $text_to_users
+                    ]);
                     break;
                 default: $text_to_admin = "<b>Несуществующая команда!</b>\n";
                 break;

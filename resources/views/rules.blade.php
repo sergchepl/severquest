@@ -79,14 +79,6 @@
             </div>
 
             <div class="form-group row">
-                <label for="login" class="col-md-4 col-form-label text-md-right">Логин</label>
-
-                <div class="col-md-6">
-                    <input id="login" type="login" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="login" required>
-                </div>
-            </div>
-
-            <div class="form-group row">
                 <label for="password" class="col-md-4 col-form-label text-md-right">Пароль</label>
 
                 <div class="col-md-6">
@@ -121,7 +113,7 @@
         </form>
         @else
             <div class="col-8 offset-2 my-5">
-                <a style="float:right" href="/home" role="button" class="btn btn-lg btn-success">
+                <a href="/home" role="button" class="btn btn-lg btn-success">
                     Вернуться в бой!
                 </a>
             </div>
