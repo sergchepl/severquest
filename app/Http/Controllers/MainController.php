@@ -143,7 +143,7 @@ class MainController extends Controller
                     $task->status = 0;
                     $task->user_id = 0;
                     $text_to_admin = "Теперь статус задания <b>№$number</b> : Открыто!\n";
-                    $text_to_users = "Задание <b>".$request->title."</b> снова доступно для выполнения всеми командами.";
+                    $text_to_users = "Задание <b>".$task->name."</b> снова доступно для выполнения всеми командами.";
                     Telegram::sendMessage([
                         'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
                         'parse_mode' => 'HTML',
