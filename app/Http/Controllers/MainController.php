@@ -132,6 +132,7 @@ class MainController extends Controller
             } else {
                 $user = User::find($number); 
                 $user->score = 0;
+                $user->save();
                 $text_to_admin = "Прогресс команды <b>".$user->name."</b> обнулен!\n";
             }
         } else if($task != null) {
