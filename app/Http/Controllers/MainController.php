@@ -171,7 +171,7 @@ class MainController extends Controller
                             ]);
                             break;
                         case '/ban':
-                            $ban = new Ban();
+                            $ban = new Ban;
                             $ban->user_id = $task->user_id;
                             $ban->task_id = $task->id;
                             $ban->save();
