@@ -85,7 +85,7 @@ class MainController extends Controller
     {
         $updates = Telegram::getWebhookUpdates();
         Log::info($updates);
-        if($updates->channel_post != -1001308540909) {
+        if($updates->channel_post == NULL || $updates->channel_post->chat->id != -1001308540909) {
             return response('ok', 200);
         }
         
