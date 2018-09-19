@@ -363,10 +363,12 @@
                                 }                            
                             });
                             let lastElement = data.length;
+                            
                             console.log(data[lastElement-1]);
                             if(typeof data[lastElement-1] !== 'number') {
+                                bannedTasks = 0;
                                 data[lastElement-1].forEach(element => {
-                                    
+                                    bannedTasks++;
                                     if($('.card[data-task='+element.task_id+']').data('type') == 2) 
                                         $('.card[data-task='+element.task_id+']').addClass('disabled check').removeClass('inwork banned sharing');
                                     else 

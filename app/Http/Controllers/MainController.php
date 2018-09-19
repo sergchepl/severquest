@@ -71,9 +71,13 @@ class MainController extends Controller
         }
         $timestamp = ($temp_time != 0) ? $temp_time : $request->timestamp;
         if(count($taskToSend) == 0) return NULL;
-        array_push($taskToSend, $timestamp);
+        
         if(count($bannedTasks) != $request->banned_tasks) array_push($taskToSend, $bannedTasks);
-        return $taskToSend;
+        else if(count($taskToSend) == 0) return NULL;
+        else {
+            array_push($taskToSend, $timestamp);
+            return $taskToSend;
+        }
 
     }
 
