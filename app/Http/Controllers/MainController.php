@@ -84,11 +84,11 @@ class MainController extends Controller
     public function webhook() 
     {
         $updates = Telegram::getWebhookUpdates();
-        if($updates->channel_post == NULL) {
+        Log::info($updates);
+        if($updates->channel_post != "-1001308540909") {
             return response('ok', 200);
         }
-        Log::info($updates);
-
+        
         $task = $updates->channel_post->text;
         $entities = $updates->channel_post->entities ? $updates->channel_post->entities[0]['length'] : 0;
         $command = substr($task, 0, $entities);
