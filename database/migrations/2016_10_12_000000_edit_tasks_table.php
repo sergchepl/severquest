@@ -15,6 +15,7 @@ class EditTasksTable extends Migration
     {
         Schema::table('tasks', function($table){
             $table->integer('score');
+            $table->integer('type');
         });
     }
 
@@ -27,6 +28,7 @@ class EditTasksTable extends Migration
     {
         Schema::table('tasks', function($table){
             $table->dropColumn('score');
+            $table->dropColumn('type');
         });
     }
 }
