@@ -126,6 +126,10 @@ class MainController extends Controller
         } else if($task != null) {
             switch($command) {
                 case '/done': 
+                    if($task->user_id == 0) {
+                        $text_to_admin = "Задания <b>№$number</b> не может быть Выполнено: Нет статуса В работе или На проверке!\n";
+                        break;
+                    }
                     $task->status = 3;
                     $text_to_admin = "Теперь статус задания <b>№$number</b> : Выполнено!\n";
                     
