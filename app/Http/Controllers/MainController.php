@@ -59,6 +59,7 @@ class MainController extends Controller
 
     public function checkTakenTasks(Request $request) {
         $bannedTasks = User::find(Auth::user()->id)->bans;
+        // Log::info($bannedTasks);
         $tasks = Task::all();
         $taskToSend = [];
         $temp_time = 0;
@@ -70,14 +71,17 @@ class MainController extends Controller
             }
         }
         $timestamp = ($temp_time != 0) ? $temp_time : $request->timestamp;
-        if(count($taskToSend) == 0) return NULL;
         
-        if(count($bannedTasks) != $request->banned_tasks) array_push($taskToSend, $bannedTasks);
-        else if(count($taskToSend) == 0) return NULL;
-        else {
+        if(count($taskToSend) == 0) {
+            return NULL;
+        } else {
+            if(count($bannedTasks) !== $request->banned_tasks) {
+                array_push($taskToSend, $bannedTasks);
+            } 
             array_push($taskToSend, $timestamp);
             return $taskToSend;
         }
+        
 
     }
 

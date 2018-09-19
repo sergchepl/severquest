@@ -329,7 +329,7 @@
 
                         console.log(data);
                         
-                        if(data != false) {                     
+                        if(data) {                     
                             data.forEach(element => {                            
                                 if(typeof element === "number") timestamp = element;
                                 if(element.status == "3") {
