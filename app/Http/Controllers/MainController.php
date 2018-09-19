@@ -127,7 +127,7 @@ class MainController extends Controller
             switch($command) {
                 case '/done': 
                     if($task->user_id == 0) {
-                        $text_to_admin = "Задания <b>№$number</b> не может быть Выполнено: Нет статуса В работе или На проверке!\n";
+                        $text_to_admin = "Статус задания <b>№$number</b> не может быть Выполнено: Задание не закреплено ни за какой командой!\n";
                         break;
                     }
                     $task->status = 3;
@@ -146,6 +146,10 @@ class MainController extends Controller
                     ]);
                     break;
                 case '/work': 
+                    if($task->user_id == 0) {
+                        $text_to_admin = "Статус задания <b>№$number</b> не может быть В работе: Задание не закреплено ни за какой командой!\n";
+                        break;
+                    }
                     $task->status = 1;
                     $text_to_admin = "Теперь статус задания <b>№$number</b> : В работе!\n";
                     $text_to_users = "⚠️ Задание <b>".$task->name."</b> выполняемое командой <b>".$task->user->name."</b> требует доработки. Внимательно " 
