@@ -129,7 +129,8 @@ class MainController extends Controller
                 break;
             case '/clear_ban':
                 $bans = Ban::where('user_id',$number)->delete();
-                $text_to_admin = "Забаненные задания команды <b>".$bans->user->name."</b> обнулены!\n";
+                $user = User::find($number);
+                $text_to_admin = "Забаненные задания команды <b>".$user->name."</b> обнулены!\n";
                 break;
             default: 
                 if($task != null) {
