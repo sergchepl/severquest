@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Task;
 use App\User;
+use App\Ban;
 use Illuminate\Support\Facades\Auth;
 use Telegram\Bot\Laravel\Facades\Telegram;
 use Telegram\Bot\FileUpload\InputFile;
@@ -57,6 +58,7 @@ class MainController extends Controller
     }
 
     public function checkTakenTasks(Request $request) {
+        $bannedTasks = User::find(Auth::user()->id)->bans;
         $tasks = Task::all();
         $taskToSend = [];
         $temp_time = 0;
@@ -70,6 +72,7 @@ class MainController extends Controller
         $timestamp = ($temp_time != 0) ? $temp_time : $request->timestamp;
         if(count($taskToSend) == 0) return NULL;
         array_push($taskToSend, $timestamp);
+        if(count($bannedTasks) != $request->banned_tasks) array_push($taskToSend, $bannedTasks);
         return $taskToSend;
 
     }
@@ -97,8 +100,8 @@ class MainController extends Controller
         $text_to_admin = "";
 
         $task = Task::find($number);
-        if($command === '/list' || $command === '/clear_team') {
-            if($command === '/list') {
+        switch($command) {
+            case '/list': 
                 $users = User::orderBy('score','desc')->get();
                 foreach ($users as $k => $user) {
                     switch($k) {
@@ -117,68 +120,81 @@ class MainController extends Controller
                     }
                 }
                 $text_to_admin .= "------------------------------------\n";
-            } else {
+                break;
+            case '/clear_team':
                 $user = User::find($number); 
                 $user->score = 0;
                 $user->save();
                 $text_to_admin = "Прогресс команды <b>".$user->name."</b> обнулен!\n";
-            }
-        } else if($task != null) {
-            switch($command) {
-                case '/done': 
-                    if($task->user_id == 0) {
-                        $text_to_admin = "Статус задания <b>№$number</b> не может быть Выполнено: Задание не закреплено ни за какой командой!\n";
-                        break;
-                    }
-                    $task->status = 3;
-                    $text_to_admin = "Теперь статус задания <b>№$number</b> : Выполнено!\n";
-                    
-                    $score_to_save = $task->user->score;
-                    $user = $task->user;
-                    $user->score = $score_to_save + $task->score;
-                    $user->save();
-                    
-                    $text_to_users = "🎉 Задание <b>".$task->name."</b> успешно выполнено командой <b>".$task->user->name."</b>. 🎉";
-                    Telegram::sendMessage([
-                        'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
-                        'parse_mode' => 'HTML',
-                        'text' => $text_to_users
-                    ]);
-                    break;
-                case '/work': 
-                    if($task->user_id == 0) {
-                        $text_to_admin = "Статус задания <b>№$number</b> не может быть В работе: Задание не закреплено ни за какой командой!\n";
-                        break;
-                    }
-                    $task->status = 1;
-                    $text_to_admin = "Теперь статус задания <b>№$number</b> : В работе!\n";
-                    $text_to_users = "⚠️ Задание <b>".$task->name."</b> выполняемое командой <b>".$task->user->name."</b> требует доработки. Внимательно " 
-                                    ."проверьте требования к заданию и повторите загрузку соответствующих материалов. ⚠️";
-                    Telegram::sendMessage([
-                        'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
-                        'parse_mode' => 'HTML',
-                        'text' => $text_to_users
-                    ]);
-                    break;
-                case '/clear': 
-                    $task->status = 0;
-                    $task->user_id = 0;
-                    $text_to_admin = "Теперь статус задания <b>№$number</b> : Открыто!\n";
-                    $text_to_users = "🎲 Задание <b>".$task->name."</b> снова доступно для выполнения всеми командами. 🎲";
-                    Telegram::sendMessage([
-                        'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
-                        'parse_mode' => 'HTML',
-                        'text' => $text_to_users
-                    ]);
-                    break;
-                default: $text_to_admin = "<b>Такая задача не существует!</b>\n";
                 break;
-            }
-            $task->save();
-        } else {
-            $text_to_admin = "<b>Несуществующая команда!</b>\n";
-        }
+            case '/clear_ban':
+                $bans = Ban::where('user_id',$number)->delete();
+                $text_to_admin = "Забаненные задания команды <b>".$bans->user->name."</b> обнулены!\n";
+                break;
+            default: 
+                if($task != null) {
+                    switch($command) {
+                        case '/done': 
+                            if($task->user_id == 0) {
+                                $text_to_admin = "Статус задания <b>№$number</b> не может быть Выполнено: Задание не закреплено ни за какой командой!\n";
+                                break;
+                            }
+                            $task->status = 3;
+                            $text_to_admin = "Теперь статус задания <b>№$number</b> : Выполнено!\n";
+                            
+                            $score_to_save = $task->user->score;
+                            $user = $task->user;
+                            $user->score = $score_to_save + $task->score;
+                            $user->save();
+                            
+                            $text_to_users = "🎉 Задание <b>".$task->name."</b> успешно выполнено командой <b>".$task->user->name."</b>. 🎉";
+                            Telegram::sendMessage([
+                                'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
+                                'parse_mode' => 'HTML',
+                                'text' => $text_to_users
+                            ]);
+                            break;
+                        case '/work': 
+                            if($task->user_id == 0) {
+                                $text_to_admin = "Статус задания <b>№$number</b> не может быть В работе: Задание не закреплено ни за какой командой!\n";
+                                break;
+                            }
+                            $task->status = 1;
+                            $text_to_admin = "Теперь статус задания <b>№$number</b> : В работе!\n";
+                            $text_to_users = "⚠️ Задание <b>".$task->name."</b> выполняемое командой <b>".$task->user->name."</b> требует доработки. Внимательно " 
+                                            ."проверьте требования к заданию и повторите загрузку соответствующих материалов. ⚠️";
+                            Telegram::sendMessage([
+                                'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
+                                'parse_mode' => 'HTML',
+                                'text' => $text_to_users
+                            ]);
+                            break;
+                        case '/ban':
+                            $ban = new Ban();
+                            $ban->user_id = $task->user_id;
+                            $ban->task_id = $task->id;
+                            $ban->save();
 
+                            $text_to_admin = "Теперь статус задания <b>№$number</b> : Открыто!\nДля команды <b>".$task->user->name."</b> доступ к заданию закрыт!";
+                            $text_to_users = "🎲 Задание <b>".$task->name."</b> снова доступно для выполнения всеми командами. 🎲";
+                            $task->status = 0;
+                            $task->user_id = 0;
+
+                            Telegram::sendMessage([
+                                'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
+                                'parse_mode' => 'HTML',
+                                'text' => $text_to_users
+                            ]);
+                            break;
+                        default: $text_to_admin = "<b>Такая задача не существует!</b>\n";
+                            break;
+                    }
+                    $task->save();
+                } else {
+                    $text_to_admin = "<b>Несуществующая команда!</b>\n";
+                }
+                break;
+        }
         Telegram::sendMessage([
             'chat_id' => '-1001308540909',
             'parse_mode' => 'HTML',

@@ -81,6 +81,9 @@
     .card.done {
         background-color:darkgreen;
     }
+    .card.banned {
+        background-color:brown;
+    }
     .card.check {
         background-color: chocolate;
     }
@@ -200,7 +203,7 @@
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.js"></script>
     <script>
-        var isTaskTaken = false, timestamp = 0;
+        var isTaskTaken = false, timestamp = 0, bannedTasks = 0;
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -245,12 +248,10 @@
             var progressBar = $('#progressbar');
             var $that = $(this),
                 formData = new FormData($that.get(0)),
-                thatTaskId = $(this).parents('.card').data('task');
-            
-            $('.card[data-task='+thatTaskId+'] button.btn-coral').addClass('hide');
-            $('.card[data-task='+thatTaskId+'] button.btn-danger').removeClass('hide');
-            $('.card[data-task='+thatTaskId+'] button.btn-success').attr('disabled', true);
-            $('.card[data-task='+thatTaskId+']').addClass('check');
+                thatTaskId = $('input[name="task_id"]').val();
+            console.log(thatTaskId);
+            $('button[type="submit"]').attr('disabled', true);
+            $('.card[data-task='+thatTaskId+'] button.btn-danger').removeClass('hide').attr('disabled', true);
             e.preventDefault();
             
             $.ajax({
@@ -273,7 +274,13 @@
                 return xhr;
             },
             success: function() {
+                $('button[type="submit"]').attr('disabled', false);
                 $('.answer').hide( "slow" );
+            },
+            error: function(error) {
+                $('.card[data-task='+thatTaskId+'] button.btn-danger').removeClass('hide').attr('disabled', false);
+                $('button[type="submit"]').attr('disabled', false);
+                console.log(error);
             }
             });
         });
@@ -302,14 +309,18 @@
                 $.ajax({
                     type: "GET",
                     url: '/check-tasks',
-                    data: {'timestamp' : timestamp},
+                    data: {
+                        'timestamp' : timestamp,
+                        'banned_tasks' : bannedTasks
+                    },
                     success: function (data) {
                         let userCount = 0;
 
                         console.log(data);
-                        if(data) {                     
+                        
+                        if(data != false) {                     
                             data.forEach(element => {                            
-                                if(element.status == null) console.log(timestamp = element);
+                                if(typeof element === "number") timestamp = element;
                                 if(element.status == "3") {
                                     $('.card[data-task='+element.id+'] button.btn-coral').attr('disabled', true).parents('.card').addClass('disabled done').removeClass('inwork check');
                                     $('.card[data-task='+element.id+'] button.btn-coral').addClass('hide');
@@ -340,6 +351,15 @@
                                     $('.card[data-task='+element.id+']').removeClass('inwork disabled done');
                                 }                            
                             });
+                            let lastElement = data.length;
+                            if(typeof data[lastElement-1] !== 'number') {
+                                data[lastElement-1].forEach(element => {
+                                    $('.card[data-task='+element.task_id+'] button.btn-coral').attr('disabled', true).parents('.card').addClass('disabled banned').removeClass('inwork check');
+                                    $('.card[data-task='+element.task_id+'] button.btn-coral').addClass('hide');
+                                    $('.card[data-task='+element.task_id+'] button.btn-danger').addClass('hide');
+                                    $('.card[data-task='+element.task_id+'] button.btn-success').addClass('hide');            
+                                });
+                            }
                             if(userCount > 0) {
                                 isTaskTaken = true;
                             } else {
