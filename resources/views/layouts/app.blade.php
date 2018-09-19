@@ -246,7 +246,7 @@
             $('input[name="task"]').val($(this).parents('.card').find('a').html());
             $('input[name="task_text"]').val($(this).parents('.card').find('p').html());
             $('input[name="task_id"]').val($(this).parents('.card').data('task'));
-            $('input[name="task_id"]').val($(this).parents('.card').data('type'));
+            $('input[name="task_type"]').val($(this).parents('.card').data('type'));
         });
         $('button.btn-info').click(function(){
             $('.answer').show( "slow" );
