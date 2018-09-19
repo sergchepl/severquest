@@ -40,12 +40,12 @@ class MainController extends Controller
         {
             $task->user_id = Auth::user()->id;
             $task->status = 1;
-            $text = "🚲 Команда <b>".$request->team."</b> приступила к выполнению задания <b>".$request->title."</b>. 🚲";
+            $text = "🚲 Команда <b>".$request->team."</b> приступила к выполнению задания <b>".$request->title."</b>.";
         } else 
         {
             $task->user_id = 0;
             $task->status = 0;
-            $text = "🎲 Задание <b>".$request->title."</b> снова доступно для выполнения всеми командами. 🎲";
+            $text = "🎲 Задание <b>".$request->title."</b> снова доступно для выполнения всеми командами.";
         }
         $task->save();
         Telegram::sendMessage([
@@ -79,9 +79,17 @@ class MainController extends Controller
 
     public function sendAnswer(Request $request)
     {
-        $task = Task::find($request->task_id);
-        $task->status = 2;
-        $task->save();
+        if($request->task_type == 1) {
+            $task = Task::find($request->task_id);
+            $task->status = 2;
+            $task->save();
+        }
+        if($request->task_type == 2) {
+            $ban = new Ban;
+            $ban->user_id = Auth::user()->id;
+            $ban->task_id = $request->task_id;
+            $ban->save();
+        }
         return response('ok', 200);
     }
     public function webhook() 
@@ -148,7 +156,7 @@ class MainController extends Controller
                             $user->score = $score_to_save + $task->score;
                             $user->save();
                             
-                            $text_to_users = "🎉 Задание <b>".$task->name."</b> успешно выполнено командой <b>".$task->user->name."</b>. 🎉";
+                            $text_to_users = "🎉 Задание <b>".$task->name."</b> успешно выполнено командой <b>".$task->user->name."</b>.";
                             Telegram::sendMessage([
                                 'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
                                 'parse_mode' => 'HTML',
@@ -163,7 +171,7 @@ class MainController extends Controller
                             $task->status = 1;
                             $text_to_admin = "Теперь статус задания <b>№$number</b> : В работе!\n";
                             $text_to_users = "⚠️ Задание <b>".$task->name."</b> выполняемое командой <b>".$task->user->name."</b> требует доработки. Внимательно " 
-                                            ."проверьте требования к заданию и повторите загрузку соответствующих материалов. ⚠️";
+                                            ."проверьте требования к заданию и повторите загрузку соответствующих материалов.️";
                             Telegram::sendMessage([
                                 'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
                                 'parse_mode' => 'HTML',
@@ -177,7 +185,7 @@ class MainController extends Controller
                             $ban->save();
 
                             $text_to_admin = "Теперь статус задания <b>№$number</b> : Открыто!\nДля команды <b>".$task->user->name."</b> доступ к заданию закрыт!";
-                            $text_to_users = "🎲 Задание <b>".$task->name."</b> снова доступно для выполнения всеми командами. 🎲";
+                            $text_to_users = "🎲 Задание <b>".$task->name."</b> снова доступно для выполнения всеми командами.";
                             $task->status = 0;
                             $task->user_id = 0;
 

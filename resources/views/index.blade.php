@@ -18,10 +18,9 @@
                 </form>
                 {{-- ДЛЯ ТЕСТОВ!!!!!! --}}
             </header>
-            <h1>Общие</h1>
-            
+            <h1>Уникальные</h1>
                 @foreach ($tasks as $k => $task)
-                    <div class="card mt-2 {{ (Auth::user()->id != $task->user_id) && $task->user_id ? ' disabled ' : '' }}" data-task="{{$task->id}}">
+                    @if($task->type == 1)<div class="card mt-2 {{ (Auth::user()->id != $task->user_id) && $task->user_id ? ' disabled ' : '' }}" data-task="{{$task->id}}" data-type="1">
                         <div class="card-header" id="heading-{{$k}}">
                             <h5 class="mb-0">
                                 <a data-toggle="collapse" href="#collapse-{{$k}}" aria-expanded="false">
@@ -43,8 +42,32 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                 @endforeach
-           
+            <h1>Общие</h1>
+                @foreach ($tasks as $k => $task)
+                    @if($task->type == 2)<div class="card sharing mt-2" data-task="{{$task->id}}" data-type="2">
+                        <div class="card-header" id="heading-{{$k}}">
+                            <h5 class="mb-0">
+                                <a data-toggle="collapse" href="#collapse-{{$k}}" aria-expanded="false">
+                                    {{$task->name}}
+                                </a>
+                                <span class="badge badge-light">{{$task->score}}</span>
+                            </h5>
+                            
+                        </div>
+                    
+                        <div id="collapse-{{$k}}" class="collapse" aria-labelledby="heading-{{$k}}">
+                            <div class="card-body">
+                                <p>
+                                    {!!$task->description!!}
+                                </p>
+                                <button class="btn btn-info btn-lg" role="button">Хочу Сдать!</button>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                @endforeach
         </div>
         <div class="answer" style="display:none">
             <button type="button" class="close">
@@ -57,6 +80,7 @@
                 <input type="hidden" name="task" value="">
                 <input type="hidden" name="task_text" value="">
                 <input type="hidden" name="task_id" value="">
+                <input type="hidden" name="task_type" value="">
                 <div class="form-group ">
                     <input type="file" name="files[]" style="font-size: 1rem" multiple>
                 </div>
