@@ -72,15 +72,18 @@ class MainController extends Controller
         }
         $timestamp = ($temp_time != 0) ? $temp_time : $request->timestamp;
         
-        if(count($taskToSend) == 0) {
-            return NULL;
-        } else {
-            if(count($bannedTasks) !== $request->banned_tasks) {
-                array_push($taskToSend, $bannedTasks);
-            } 
+        
+        if(count($bannedTasks) != $request->banned_tasks) {
+            array_push($taskToSend, $timestamp);
+            array_push($taskToSend, $bannedTasks);
+            return $taskToSend;
+        }  
+        if(count($taskToSend) != 0) {
             array_push($taskToSend, $timestamp);
             return $taskToSend;
         }
+        
+        return NULL;
         
 
     }
@@ -193,6 +196,22 @@ class MainController extends Controller
                             $ban->save();
 
                             $text_to_admin = "Теперь статус задания <b>№$number</b> : Открыто!\nДля команды <b>".$task->user->name."</b> доступ к заданию закрыт!";
+                            $text_to_users = "🎲 Задание <b>".$task->name."</b> снова доступно для выполнения всеми командами.";
+                            $task->status = 0;
+                            $task->user_id = 0;
+
+                            Telegram::sendMessage([
+                                'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
+                                'parse_mode' => 'HTML',
+                                'text' => $text_to_users
+                            ]);
+                            break;
+                        case '/clear':
+                            $task->user_id = 0;
+                            $task->status = 0;
+                            $task->save();
+
+                            $text_to_admin = "Теперь статус задания <b>№$number</b> : Открыто!\n";
                             $text_to_users = "🎲 Задание <b>".$task->name."</b> снова доступно для выполнения всеми командами.";
                             $task->status = 0;
                             $task->user_id = 0;

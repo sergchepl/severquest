@@ -19,55 +19,63 @@
                 {{-- ДЛЯ ТЕСТОВ!!!!!! --}}
             </header>
             <h1>Уникальные</h1>
-                @foreach ($tasks as $k => $task)
-                    @if($task->type == 1)<div class="card mt-2 {{ (Auth::user()->id != $task->user_id) && $task->user_id ? ' disabled ' : '' }}" data-task="{{$task->id}}" data-type="1">
-                        <div class="card-header" id="heading-{{$k}}">
-                            <h5 class="mb-0">
-                                <a data-toggle="collapse" href="#collapse-{{$k}}" aria-expanded="false">
-                                    {{$task->name}}
-                                </a>
-                                <span class="badge badge-light">{{$task->score}}</span>
-                            </h5>
-                            
-                        </div>
-                    
-                        <div id="collapse-{{$k}}" class="collapse" aria-labelledby="heading-{{$k}}">
-                            <div class="card-body">
-                                <p>
-                                    {!!$task->description!!}
-                                </p>
-                                <button class="btn btn-coral btn-lg" role="button" {{ (Auth::user()->id != $task->user_id) && $task->user_id ? ' disabled ' : '' }}>За дело!</button>
-                                <button class="btn btn-danger hide btn-lg" role="button" >Отменись!</button>
-                                <button style="float:right" class="btn btn-success btn-lg" role="button" {{ Auth::user()->id != $task->user_id ? ' disabled ' : '' }}>Хочу Сдать!</button>
+                <div class="type-1">
+                    @foreach ($tasks as $k => $task)
+                        @if($task->type == 1)
+                        <div class="card mt-2 {{ (Auth::user()->id != $task->user_id) && $task->user_id ? ' disabled ' : '' }}" data-task="{{$task->id}}" data-type="1">
+                            <div class="card-header" id="heading-{{$k}}">
+                                <h5 class="mb-0">
+                                    <a data-toggle="collapse" href="#collapse-{{$k}}" aria-expanded="false">
+                                        {{$task->name}}
+                                    </a>
+                                    <span class="badge badge-light">{{$task->score}}</span>
+                                </h5>
+                                
+                            </div>
+                        
+                            <div id="collapse-{{$k}}" class="collapse" aria-labelledby="heading-{{$k}}">
+                                <div class="card-body">
+                                    <p>
+                                        {!!$task->description!!}
+                                    </p>
+                                    <button class="btn btn-coral btn-lg" role="button" {{ (Auth::user()->id != $task->user_id) && $task->user_id ? ' disabled ' : '' }}>За дело!</button>
+                                    <button class="btn btn-danger hide btn-lg" role="button" >Отменись!</button>
+                                    <button style="float:right" class="btn btn-success btn-lg" role="button" {{ Auth::user()->id != $task->user_id ? ' disabled ' : '' }}>Хочу Сдать!</button>
+                                    <div class="status" style="display:none"></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    @endif
-                @endforeach
+                        @endif
+                    @endforeach
+                </div>
             <h1>Общие</h1>
-                @foreach ($tasks as $k => $task)
-                    @if($task->type == 2)<div class="card sharing mt-2" data-task="{{$task->id}}" data-type="2">
-                        <div class="card-header" id="heading-{{$k}}">
-                            <h5 class="mb-0">
-                                <a data-toggle="collapse" href="#collapse-{{$k}}" aria-expanded="false">
-                                    {{$task->name}}
-                                </a>
-                                <span class="badge badge-light">{{$task->score}}</span>
-                            </h5>
-                            
-                        </div>
-                    
-                        <div id="collapse-{{$k}}" class="collapse" aria-labelledby="heading-{{$k}}">
-                            <div class="card-body">
-                                <p>
-                                    {!!$task->description!!}
-                                </p>
-                                <button class="btn btn-info btn-lg" role="button">Хочу Сдать!</button>
+                <div class="type-2">
+                    @foreach ($tasks as $k => $task)
+                        @if($task->type == 2)
+                        <div class="card sharing mt-2" data-task="{{$task->id}}" data-type="2">
+                            <div class="card-header" id="heading-{{$k}}">
+                                <h5 class="mb-0">
+                                    <a data-toggle="collapse" href="#collapse-{{$k}}" aria-expanded="false">
+                                        {{$task->name}}
+                                    </a>
+                                    <span class="badge badge-light">{{$task->score}}</span>
+                                </h5>
+                                
+                            </div>
+                        
+                            <div id="collapse-{{$k}}" class="collapse" aria-labelledby="heading-{{$k}}">
+                                <div class="card-body">
+                                    <p>
+                                        {!!$task->description!!}
+                                    </p>
+                                    <button class="btn btn-info btn-lg" role="button">Хочу Сдать!</button>
+                                    <div class="status" style="display:none"></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    @endif
-                @endforeach
+                        @endif
+                    @endforeach
+                </div>
         </div>
         <div class="answer" style="display:none">
             <button type="button" class="close">
