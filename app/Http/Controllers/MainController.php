@@ -153,10 +153,14 @@ class MainController extends Controller
                 break;
             case '/add':
                 $user = User::find(substr($number, 0, 2));
+                if(count($user) == 0) {
+                    $text_to_admin = "Команды с таким ID не существует!\n";
+                    break;
+                }
                 $score_to_save = $task->user->score;
                 $user->score = $score_to_save + substr($number, 2);
                 $user->save();
-                $text_to_admin = "Команде <b>".$user->name."</b> успешно добавлено ".substr($number, 2)."!\n";
+                $text_to_admin = "Команде <b>".$user->name."</b> успешно добавлено <b>".substr($number, 2)."</b> очков!\n";
                 break;
             default: 
                 if($task != null) {
