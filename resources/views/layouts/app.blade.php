@@ -345,7 +345,7 @@
                                 if(element.user_id == $('.team').data('teamid') && element.status == "1") {
                                     $('.card[data-task='+element.id+'] button.btn-coral').hide();
                                     $('.card[data-task='+element.id+'] button.btn-danger').show().attr('disabled', false);
-                                    $('.card[data-task='+element.id+'] button.btn-success').attr('disabled', false);
+                                    $('.card[data-task='+element.id+'] button.btn-success').show().attr('disabled', false);
                                     $('.card[data-task='+element.id+']').removeClass('check disabled').addClass('inwork');
                                     $('.card[data-task='+element.id+'] div.status').hide();
                                     userCount++;
@@ -353,6 +353,7 @@
                                 if(element.user_id != $('.team').data('teamid') && element.status == "1") {
                                     $('.card[data-task='+element.id+'] button.btn-coral').attr('disabled', true).parents('.card').addClass('disabled');
                                     $('.card[data-task='+element.id+'] div.status').hide();
+                                    $('.card[data-task='+element.id+'] button').hide();
                                 }
                                 if(element.status == 0) {
                                     $('.card[data-task='+element.id+'] button.btn-coral').show().attr('disabled', false);

@@ -151,6 +151,13 @@ class MainController extends Controller
                 $user = User::find($number);
                 $text_to_admin = "Забаненные задания команды <b>".$user->name."</b> обнулены!\n";
                 break;
+            case '/add':
+                $user = User::find(substr($number, 0, 2));
+                $score_to_save = $task->user->score;
+                $user->score = $score_to_save + substr($number, 2);
+                $user->save();
+                $text_to_admin = "Команде <b>".$user->name."</b> успешно добавлено ".substr($number, 2)."!\n";
+                break;
             default: 
                 if($task != null) {
                     switch($command) {
