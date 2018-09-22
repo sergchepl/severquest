@@ -115,7 +115,7 @@ class MainController extends Controller
         $commandArray = explode(' ', $commandText);
         $command = $commandArray[0];
         $number = (int)$commandArray[1];
-        $secondNumber = $commandArray[2] ? (int)$commandArray[2] : 0; 
+        $secondNumber = count($commandArray) > 2 ? (int)$commandArray[2] : 0; 
         $text_to_admin = "";
         
         $task = Task::find($number);
