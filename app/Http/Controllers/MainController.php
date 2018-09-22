@@ -112,15 +112,12 @@ class MainController extends Controller
         }
         
         $commandText = $updates->channel_post->text;
-        // $entities = $updates->channel_post->entities ? $updates->channel_post->entities[0]['length'] : 0;
-        // $command = substr($task, 0, $entities);
-        // $number = substr($task, $entities+1);
         $commandArray = explode(' ', $commandText);
-        $command = str_replace(' ', '', $commandArray[0]);
-        $number = (int)str_replace(' ', '', $commandArray[1]);
-        $secondNumber = $commandArray[2] ? (int)str_replace(' ', '', $commandArray[2]) : 0; 
+        $command = $commandArray[0];
+        $number = (int)$commandArray[1];
+        $secondNumber = $commandArray[2] ? (int)$commandArray[2] : 0; 
         $text_to_admin = "";
-        Log::info($commandArray);
+        
         $task = Task::find($number);
         switch($command) {
             case '/list': 
@@ -160,7 +157,7 @@ class MainController extends Controller
                     $text_to_admin = "Команды с таким ID не существует!\n";
                     break;
                 }
-                $score_to_save = $task->user->score;
+                $score_to_save = $user->score;
                 $user->score = $score_to_save + $secondNumber;
                 $user->save();
                 $text_to_admin = "Команде <b>".$user->name."</b> успешно добавлено <b>".$secondNumber."</b> очков!\n";
@@ -171,7 +168,7 @@ class MainController extends Controller
                     $text_to_admin = "Команды с таким ID не существует!\n";
                     break;
                 }
-                $score_to_save = $task->user->score;
+                $score_to_save = $user->score;
                 $user->score = $score_to_save - $secondNumber;
                 $user->save();
                 $text_to_admin = "Команде <b>".$user->name."</b> успешно отнято <b>".$secondNumber."</b> очков!\n";
