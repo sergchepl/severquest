@@ -111,11 +111,14 @@ class MainController extends Controller
             return response('ok', 200);
         }
         
-        $task = $updates->channel_post->text;
-        $entities = $updates->channel_post->entities ? $updates->channel_post->entities[0]['length'] : 0;
-        $command = substr($task, 0, $entities);
-        $number = substr($task, $entities+1);
-        
+        $commandText = $updates->channel_post->text;
+        // $entities = $updates->channel_post->entities ? $updates->channel_post->entities[0]['length'] : 0;
+        // $command = substr($task, 0, $entities);
+        // $number = substr($task, $entities+1);
+        $commandArray = explode(' ', $commandText);
+        $command = $commandArray[0];
+        $number = $commandArray[1];
+        $secondNumber = $commandArray[2] ? $commandArray[2] : 0; 
         $text_to_admin = "";
 
         $task = Task::find($number);
@@ -152,15 +155,26 @@ class MainController extends Controller
                 $text_to_admin = "Забаненные задания команды <b>".$user->name."</b> обнулены!\n";
                 break;
             case '/add':
-                $user = User::find(substr($number, 0, 2));
+                $user = User::find($number);
                 if(count($user) == 0) {
                     $text_to_admin = "Команды с таким ID не существует!\n";
                     break;
                 }
                 $score_to_save = $task->user->score;
-                $user->score = $score_to_save + substr($number, 2);
+                $user->score = $score_to_save + $secondNumber;
                 $user->save();
-                $text_to_admin = "Команде <b>".$user->name."</b> успешно добавлено <b>".substr($number, 2)."</b> очков!\n";
+                $text_to_admin = "Команде <b>".$user->name."</b> успешно добавлено <b>".$secondNumber."</b> очков!\n";
+                break;
+            case '/remove':
+                $user = User::find($number);
+                if(count($user) == 0) {
+                    $text_to_admin = "Команды с таким ID не существует!\n";
+                    break;
+                }
+                $score_to_save = $task->user->score;
+                $user->score = $score_to_save - $secondNumber;
+                $user->save();
+                $text_to_admin = "Команде <b>".$user->name."</b> успешно отнято <b>".$secondNumber."</b> очков!\n";
                 break;
             default: 
                 if($task != null) {

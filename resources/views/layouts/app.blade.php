@@ -55,7 +55,7 @@
         font-size: 2rem; */
         background-color:darkcyan;
         opacity: .9;
-        margin: 0 .7rem;
+        margin: 0 .9rem;
     }
     .card::before {
         content: '◖';
@@ -91,7 +91,7 @@
         background-color:darkgray;
     }
     .card-header h5 {
-        width: 84.5vw;
+        width: 83vw;
         font-size: 1.3rem;
         font-weight: 700;
     }
@@ -171,7 +171,7 @@
         vertical-align: 0%;
         color:coral;
     }
-    p {
+    p:not(.card-body p) {
         font-size: 1rem;
         text-align:justify;
         z-index: 2;
@@ -329,7 +329,7 @@
                         if(data) {                     
                             data.forEach(element => {                            
                                 if(typeof element === "number") timestamp = element;
-                                if(element.status == "3") {
+                                if(element.user_id == $('.team').data('teamid') && element.status == "3") {
                                     $('.card[data-task='+element.id+'] button.btn-coral').attr('disabled', true).parents('.card').addClass('disabled done').removeClass('inwork check banned');
                                     $('.card[data-task='+element.id+'] button.btn-coral').hide();
                                     $('.card[data-task='+element.id+'] button.btn-danger').hide();
@@ -350,9 +350,9 @@
                                     $('.card[data-task='+element.id+'] div.status').hide();
                                     userCount++;
                                 }
-                                if(element.user_id != $('.team').data('teamid') && element.status == "1") {
+                                if(element.user_id != $('.team').data('teamid')) {
                                     $('.card[data-task='+element.id+'] button.btn-coral').attr('disabled', true).parents('.card').addClass('disabled');
-                                    $('.card[data-task='+element.id+'] div.status').hide();
+                                    $('.card[data-task='+element.id+'] div.status').show().html('Уже занято другой командой!');
                                     $('.card[data-task='+element.id+'] button').hide();
                                 }
                                 if(element.status == 0) {
