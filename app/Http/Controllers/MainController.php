@@ -116,11 +116,11 @@ class MainController extends Controller
         // $command = substr($task, 0, $entities);
         // $number = substr($task, $entities+1);
         $commandArray = explode(' ', $commandText);
-        $command = $commandArray[0];
-        $number = $commandArray[1];
-        $secondNumber = $commandArray[2] ? $commandArray[2] : 0; 
+        $command = str_replace(' ', '', $commandArray[0]);
+        $number = (int)str_replace(' ', '', $commandArray[1]);
+        $secondNumber = $commandArray[2] ? (int)str_replace(' ', '', $commandArray[2]) : 0; 
         $text_to_admin = "";
-
+        Log::info($commandArray);
         $task = Task::find($number);
         switch($command) {
             case '/list': 
