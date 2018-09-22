@@ -15,7 +15,7 @@
     body {
         font-family: 'Neucha', cursive;
         font-weight: 400;
-        font-size: 2rem;
+        font-size: 1.5rem;
         color: white;
     }
     body:before {
@@ -34,7 +34,7 @@
         background-size: cover;
     }
     header {
-        padding: 1rem 2rem;
+        padding: 1rem 2rem !important; 
     }
     .team {
         float: right;
@@ -54,7 +54,7 @@
         font-weight: 700;
         font-size: 2rem; */
         background-color:darkcyan;
-        opacity: .9;
+        /* opacity: .9; */
         margin: 0 .9rem;
     }
     .card::before {
@@ -154,7 +154,12 @@
         display: inline-flex;
         
     }
-    h3::before, h3::after {
+    h2{
+        font-size: 2rem;
+        display: inline-flex;
+        
+    }
+    h3::before, h3::after, h2::before, h2::after {
         content: '▬';
         margin: 0 1rem;
         font-size: 1rem;
@@ -176,7 +181,6 @@
         text-align:justify;
         z-index: 2;
         display: block;
-        text-indent: 1rem;
     }
     ul, li {
         font-size: initial;
@@ -205,6 +209,11 @@
     .close {
         margin: 1rem 1rem 0 0;
     }
+    .jumbotron {
+        margin: 0 1rem;
+        background-color: inherit;
+        /* opacity: .9; */
+    }
     </style>
 </head>
 <body>
@@ -219,6 +228,16 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        // RULES
+        $('.rules button.btn-success').click(function(){
+            alert(321);
+        });
+        $('.rules button.btn-danger').click(function() {
+            alert(123);
+        });
+        // END RULES
+
+        // SEND to server info for changind status
         var sendTask = function(taskId, teamName, titleName, takeTaskBool) {
             $.ajax({
                 type: "PUT",
@@ -237,28 +256,44 @@
                 }
             });
         }
-        $('button.btn-success').click(function(){
-            $('.answer').show( "slow" );
-            $('input[name="task"]').val($(this).parents('.card').find('a').html());
-            $('input[name="task_text"]').val($(this).parents('.card').find('p').html());
-            $('input[name="task_id"]').val($(this).parents('.card').data('task'));
-            $('input[name="task_type"]').val($(this).parents('.card').data('type'));
+        $('button.btn-coral').click(function() {
+            if(isTaskTaken) {alert('Вы можете выполнять только 1 задание одновременно!'); return 0;}
+            let task = $(this).parents('.card').data('task');
+            let team = $('.team div').html();
+            let title =  $(this).parents('.card').find('.card-header a').html();
+            sendTask(task, team, title, "true");
         });
-        $('button.btn-info').click(function(){
+        
+        $('.card[data-type="1"] button.btn-danger').click(function() {
+            let task = $(this).parents('.card').data('task');
+            let team = $('.team div').html();
+            let title =  $(this).parents('.card').find('.card-header a').html();
+            sendTask(task, team, title, "false");
+            isTaskTaken = false;
+        });
+        // functions for interactions with tasks
+        var setDataInInput = function(that) {
+            $('input[name="task"]').val($(that).parents('.card').find('a').html());
+            $('input[name="task_text"]').val($(that).parents('.card').find('p').html());
+            $('input[name="task_id"]').val($(that).parents('.card').data('task'));
+            $('input[name="task_type"]').val($(that).parents('.card').data('type'));
+        }
+        $('.card[data-type="1"] button.btn-success, button.btn-info').click(function(){
             $('.answer').show( "slow" );
-            $('input[name="task"]').val($(this).parents('.card').find('a').html());
-            $('input[name="task_text"]').val($(this).parents('.card').find('p').html());
-            $('input[name="task_id"]').val($(this).parents('.card').data('task'));
-            $('input[name="task_type"]').val($(this).parents('.card').data('type'));
+            setDataInInput(this);
         });
         $('.form-inline').submit(function(e) {
             var progressBar = $('#progressbar');
             var $that = $(this),
                 formData = new FormData($that.get(0)),
                 thatTaskId = $('input[name="task_id"]').val();
+            
             console.log(thatTaskId);
+            
             $('button[type="submit"]').attr('disabled', true);
-            if(thatTaskId != 2) $('.card[data-task='+thatTaskId+'] button.btn-danger').removeClass('hide').attr('disabled', true);
+            if(thatTaskId != 2) 
+                $('.card[data-task='+thatTaskId+'] button.btn-danger').removeClass('hide').attr('disabled', true);
+            
             e.preventDefault();
             
             $.ajax({
@@ -268,13 +303,10 @@
             processData: false,
             data: formData,
             xhr: function(){
-                var xhr = $.ajaxSettings.xhr(); // получаем объект XMLHttpRequest
-                xhr.upload.addEventListener('progress', function(evt){ // добавляем обработчик события progress (onprogress)
-                    if(evt.lengthComputable) { // если известно количество байт
-                        // высчитываем процент загруженного
+                var xhr = $.ajaxSettings.xhr();
+                xhr.upload.addEventListener('progress', function(evt){ 
+                    if(evt.lengthComputable) {
                         var percentComplete = Math.ceil(evt.loaded / evt.total * 100);
-                        // устанавливаем значение в атрибут value тега <progress>
-                        // и это же значение альтернативным текстом для браузеров, не поддерживающих <progress>
                         progressBar.val(percentComplete).text('Загружено ' + percentComplete + '%');
                     }
                 }, false);
@@ -295,23 +327,8 @@
         $('.close').click(function(){
             $('.answer').hide( "slow" );
         });
-        $('button.btn-coral').click(function() {
-            if(isTaskTaken) {alert('Вы можете выполнять только 1 задание одновременно!'); return 0;}
-            let task = $(this).parents('.card').data('task');
-            let team = $('.team p').html();
-            let title =  $(this).parents('.card').find('.card-header a').html();
-            sendTask(task, team, title, "true");
-        });
-        
-        $('button.btn-danger').click(function() {
-            let task = $(this).parents('.card').data('task');
-            let team = $('.team p').html();
-            let title =  $(this).parents('.card').find('.card-header a').html();
-            sendTask(task, team, title, "false");
-            isTaskTaken = false;
-        });
 
-
+        // Sync from server per 0.5sec
         var timer = function () {
             var readingtimer = setInterval(function () {
                 $.ajax({
@@ -395,7 +412,7 @@
                         }
                     }
                 });
-            }, 1000);
+            }, 500);
         }
         timer();
     </script>                   

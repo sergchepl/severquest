@@ -162,6 +162,11 @@ class MainController extends Controller
                 $user->save();
                 $text_to_admin = "Команде <b>".$user->name."</b> успешно добавлено <b>".$secondNumber."</b> очков!\n";
                 $text_to_users = "⚡️ Команде <b>".$user->name."</b> добавлено <b>".$secondNumber."</b> очков!\n";
+                Telegram::sendMessage([
+                    'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
+                    'parse_mode' => 'HTML',
+                    'text' => $text_to_users
+                ]);
                 break;
             case '/remove':
                 $user = User::find($number);
@@ -174,6 +179,11 @@ class MainController extends Controller
                 $user->save();
                 $text_to_admin = "Команде <b>".$user->name."</b> успешно отнято <b>".$secondNumber."</b> очков!\n";
                 $text_to_users = "⚡️ Команде <b>".$user->name."</b> отнято <b>".$secondNumber."</b> очков!\n";
+                Telegram::sendMessage([
+                    'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
+                    'parse_mode' => 'HTML',
+                    'text' => $text_to_users
+                ]);
                 break;
             default: 
                 if($task != null) {
