@@ -171,7 +171,7 @@
         vertical-align: 0%;
         color:coral;
     }
-    p:not(.card-body p) {
+    p {
         font-size: 1rem;
         text-align:justify;
         z-index: 2;
@@ -350,7 +350,7 @@
                                     $('.card[data-task='+element.id+'] div.status').hide();
                                     userCount++;
                                 }
-                                if(element.user_id != $('.team').data('teamid')) {
+                                if(element.user_id != $('.team').data('teamid') && element.type != 2) {
                                     $('.card[data-task='+element.id+'] button.btn-coral').attr('disabled', true).parents('.card').addClass('disabled');
                                     $('.card[data-task='+element.id+'] div.status').show().html('Уже занято другой командой!');
                                     $('.card[data-task='+element.id+'] button').hide();

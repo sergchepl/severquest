@@ -161,6 +161,7 @@ class MainController extends Controller
                 $user->score = $score_to_save + $secondNumber;
                 $user->save();
                 $text_to_admin = "Команде <b>".$user->name."</b> успешно добавлено <b>".$secondNumber."</b> очков!\n";
+                $text_to_users = "⚡️ Команде <b>".$user->name."</b> добавлено <b>".$secondNumber."</b> очков!\n";
                 break;
             case '/remove':
                 $user = User::find($number);
@@ -172,6 +173,7 @@ class MainController extends Controller
                 $user->score = $score_to_save - $secondNumber;
                 $user->save();
                 $text_to_admin = "Команде <b>".$user->name."</b> успешно отнято <b>".$secondNumber."</b> очков!\n";
+                $text_to_users = "⚡️ Команде <b>".$user->name."</b> отнято <b>".$secondNumber."</b> очков!\n";
                 break;
             default: 
                 if($task != null) {
