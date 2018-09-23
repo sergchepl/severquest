@@ -290,7 +290,7 @@
             $('.answer').show("slow");
             setDataInInput(this);
         });
-        $('.form-inline').on('submit', function () {
+        $('.form-inline').on('submit', function (e) {
             let progressBar = $('#progressbar'),
                 $that = $(this),
                 formData = new FormData($that.get(0)),
@@ -310,7 +310,7 @@
                 contentType: false,
                 processData: false,
                 data: formData,
-                xhr: () => {
+                xhr: function() {
                     var xhr = $.ajaxSettings.xhr();
                     xhr.upload.addEventListener('progress', function (evt) {
                         if (evt.lengthComputable) {
