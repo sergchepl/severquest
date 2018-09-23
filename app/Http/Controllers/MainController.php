@@ -103,8 +103,8 @@ class MainController extends Controller
         $commandText = $updates->channel_post->text;
         $commandArray = explode(' ', $commandText);
         $command = $commandArray[0];
-        $number = count($commandArray) > 1 ? (int)$commandArray[1] : 0;
-        $secondNumber = count($commandArray) > 2 ? (int)$commandArray[2] : 0; 
+        $number = count($commandArray) > 1 ? (int)$commandArray[1] : 1;
+        $secondNumber = count($commandArray) > 2 ? (int)$commandArray[2] : 1; 
         $text_to_admin = "";
         
         $task = Task::find($number);
