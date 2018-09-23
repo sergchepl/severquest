@@ -388,7 +388,7 @@
                                 $('.card[data-task=' + element.id + '] button.btn-coral').show().attr('disabled', false);
                                 $('.card[data-task=' + element.id + '] button.btn-danger').hide();
                                 $('.card[data-task=' + element.id + '] button.btn-success').show().attr('disabled', true);
-                                $('.card[data-task=' + element.id + ']').removeClass('inwork disabled done banned');
+                                $('.card[data-task=' + element.id + ']').removeClass('inwork disabled done banned check');
                                 $('.card[data-task=' + element.id + '] div.status').hide();
                             }
                         });

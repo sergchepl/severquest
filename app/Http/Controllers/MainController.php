@@ -140,6 +140,12 @@ class MainController extends Controller
                 $user = User::find($number);
                 $task = Task::find($secondNumber);
                 $text_to_admin = "Задание <b>".$task->name."</b> команды <b>".$user->name."</b> разбанено!\n";
+                $text_to_users = "🚦 Задание <b>".$task->name."</b> команды <b>".$user->name."</b> разбанено!\n";
+                Telegram::sendMessage([
+                    'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
+                    'parse_mode' => 'HTML',
+                    'text' => $text_to_users
+                ]);
                 break;
             case '/add':
                 $user = User::find($number);
@@ -220,7 +226,7 @@ class MainController extends Controller
                             $ban->save();
 
                             $text_to_admin = "Теперь статус задания <b>№$number</b> : Открыто!\nДля команды <b>".$task->user->name."</b> доступ к заданию закрыт!";
-                            $text_to_users = "🎲 Задание <b>".$task->name."</b> снова доступно для выполнения всеми командами.";
+                            $text_to_users = "🎲 Задание <b>".$task->name."</b> снова доступно для выполнения всеми командами.\n🚧 Команда </b>"+$task->user->name+"</b> провалила выполнение этого задания.";
                             $task->status = 0;
                             $task->user_id = 0;
 
