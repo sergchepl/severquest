@@ -222,23 +222,35 @@
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.js"></script>
     <script>
-        var isTaskTaken = false, timestamp = 0, bannedTasks = 0;
+        var isTaskTaken = false,
+            timestamp = 0,
+            bannedTasks = 0,
+            pointsFromRules = 0;
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
         // RULES
-        $('.rules button.btn-success').click(function(){
-            alert(321);
+        var slideRules = () => {
+            let prevActive = $('.rules').data('active'),
+                active = $("#" + prevActive + "").slideUp('slow').next().slideDown('slow');
+            $('.rules').data('active', active[0].id);
+        }
+        $('.rules button.btn-success').on('click', () => {
+            slideRules();
         });
-        $('.rules button.btn-danger').click(function() {
-            alert(123);
+        $('.rules button.btn-danger').on('click', () => {
+            slideRules();
         });
         // END RULES
 
         // SEND to server info for changind status
-        var sendTask = function(taskId, teamName, titleName, takeTaskBool) {
+        var sendTask = (task, takeTaskBool) => {
+            // console.log(that);
+            let taskId = $(task).parents('.card').data('task'),
+                teamName = $('.team div').html(),
+                titleName = $(task).parents('.card').find('.card-header a').html();
             $.ajax({
                 type: "PUT",
                 data: ({
@@ -248,173 +260,166 @@
                     team_bool: takeTaskBool
                 }),
                 url: '/take-task',
-                success: function (data) {
+                success: (data) => {
                     console.log(data);
                 },
-                error: function(error) {
+                error: (error) => {
                     console.log(error);
                 }
             });
         }
-        $('button.btn-coral').click(function() {
-            if(isTaskTaken) {alert('Вы можете выполнять только 1 задание одновременно!'); return 0;}
-            let task = $(this).parents('.card').data('task');
-            let team = $('.team div').html();
-            let title =  $(this).parents('.card').find('.card-header a').html();
-            sendTask(task, team, title, "true");
+        $('.card').on('click', 'button.btn-coral', function () {
+            if (isTaskTaken) {
+                alert('Вы можете выполнять только 1 задание одновременно!');
+                return 0;
+            }
+            sendTask(this, "true");
         });
-        
-        $('.card[data-type="1"] button.btn-danger').click(function() {
-            let task = $(this).parents('.card').data('task');
-            let team = $('.team div').html();
-            let title =  $(this).parents('.card').find('.card-header a').html();
-            sendTask(task, team, title, "false");
+        $('.card[data-type="1"] button.btn-danger').on('click', function () {
+            sendTask(this, "false");
             isTaskTaken = false;
         });
         // functions for interactions with tasks
-        var setDataInInput = function(that) {
-            $('input[name="task"]').val($(that).parents('.card').find('a').html());
-            $('input[name="task_text"]').val($(that).parents('.card').find('p').html());
-            $('input[name="task_id"]').val($(that).parents('.card').data('task'));
-            $('input[name="task_type"]').val($(that).parents('.card').data('type'));
+        var setDataInInput = (task) => {
+            $('input[name="task"]').val($(task).parents('.card').find('a').html());
+            $('input[name="task_text"]').val($(task).parents('.card').find('p').html());
+            $('input[name="task_id"]').val($(task).parents('.card').data('task'));
+            $('input[name="task_type"]').val($(task).parents('.card').data('type'));
         }
-        $('.card[data-type="1"] button.btn-success, button.btn-info').click(function(){
-            $('.answer').show( "slow" );
+        $('.card[data-type="1"] button.btn-success, button.btn-info').on('click', function () {
+            $('.answer').show("slow");
             setDataInInput(this);
         });
-        $('.form-inline').submit(function(e) {
-            var progressBar = $('#progressbar');
-            var $that = $(this),
+        $('.form-inline').on('submit', function () {
+            let progressBar = $('#progressbar'),
+                $that = $(this),
                 formData = new FormData($that.get(0)),
                 thatTaskId = $('input[name="task_id"]').val();
-            
+
             console.log(thatTaskId);
-            
+
             $('button[type="submit"]').attr('disabled', true);
-            if(thatTaskId != 2) 
-                $('.card[data-task='+thatTaskId+'] button.btn-danger').removeClass('hide').attr('disabled', true);
-            
+            if (thatTaskId != 2)
+                $('.card[data-task=' + thatTaskId + '] button.btn-danger').removeClass('hide').attr('disabled', true);
+
             e.preventDefault();
-            
+
             $.ajax({
-            url: $that.attr('action'),
-            type: $that.attr('method'),
-            contentType: false,
-            processData: false,
-            data: formData,
-            xhr: function(){
-                var xhr = $.ajaxSettings.xhr();
-                xhr.upload.addEventListener('progress', function(evt){ 
-                    if(evt.lengthComputable) {
-                        var percentComplete = Math.ceil(evt.loaded / evt.total * 100);
-                        progressBar.val(percentComplete).text('Загружено ' + percentComplete + '%');
-                    }
-                }, false);
-                return xhr;
-            },
-            success: function() {
-                $('button[type="submit"]').attr('disabled', false);
-                $('input').val('');
-                $('.answer').hide( "slow" );
-            },
-            error: function(error) {
-                if(thatTaskId != 2) $('.card[data-task='+thatTaskId+'] button.btn-danger').removeClass('hide').attr('disabled', false);
-                $('button[type="submit"]').attr('disabled', false);
-                console.log(error);
-            }
+                url: $that.attr('action'),
+                type: $that.attr('method'),
+                contentType: false,
+                processData: false,
+                data: formData,
+                xhr: () => {
+                    var xhr = $.ajaxSettings.xhr();
+                    xhr.upload.addEventListener('progress', function (evt) {
+                        if (evt.lengthComputable) {
+                            var percentComplete = Math.ceil(evt.loaded / evt.total * 100);
+                            progressBar.val(percentComplete).text('Загружено ' + percentComplete + '%');
+                        }
+                    }, false);
+                    return xhr;
+                },
+                success: () => {
+                    $('button[type="submit"]').attr('disabled', false);
+                    $('input').val('');
+                    $('.answer').hide("slow");
+                },
+                error: error => {
+                    if (thatTaskId != 2) $('.card[data-task=' + thatTaskId + '] button.btn-danger').removeClass('hide').attr('disabled', false);
+                    $('button[type="submit"]').attr('disabled', false);
+                    console.log(error);
+                }
             });
         });
-        $('.close').click(function(){
-            $('.answer').hide( "slow" );
+        $('.close').on('click', () => {
+            $('.answer').hide("slow");
         });
 
-        // Sync from server per 0.5sec
-        var timer = function () {
-            var readingtimer = setInterval(function () {
-                $.ajax({
-                    type: "GET",
-                    url: '/check-tasks',
-                    data: {
-                        'timestamp' : timestamp,
-                        'banned_tasks' : bannedTasks
-                    },
-                    success: function (data) {
-                        let userCount = 0;
+        // Sync from server per 1sec
+        $(window).on('load', () => {
+            var readingtimer = setInterval(() => {
+                httpSync();
+            }, 1000);
 
-                        console.log(data);
-                        
-                        if(data) {                     
-                            data.forEach(element => {                            
-                                if(typeof element === "number") timestamp = element;
-                                if(element.user_id == $('.team').data('teamid') && element.status == "3") {
-                                    $('.card[data-task='+element.id+'] button.btn-coral').attr('disabled', true).parents('.card').addClass('disabled done').removeClass('inwork check banned');
-                                    $('.card[data-task='+element.id+'] button.btn-coral').hide();
-                                    $('.card[data-task='+element.id+'] button.btn-danger').hide();
-                                    $('.card[data-task='+element.id+'] button.btn-success').hide();
-                                    $('.card[data-task='+element.id+'] div.status').show().html('Успешно выполнено!');
-                                }
-                                if(element.user_id == $('.team').data('teamid') && element.status == "2") {
-                                    $('.card[data-task='+element.id+'] button').hide();
-                                    $('.card[data-task='+element.id+']').addClass('check');
-                                    $('.card[data-task='+element.id+'] div.status').show().html('Находится на проверке, ожидайте!');
-                                    userCount++;
-                                }
-                                if(element.user_id == $('.team').data('teamid') && element.status == "1") {
-                                    $('.card[data-task='+element.id+'] button.btn-coral').hide();
-                                    $('.card[data-task='+element.id+'] button.btn-danger').show().attr('disabled', false);
-                                    $('.card[data-task='+element.id+'] button.btn-success').show().attr('disabled', false);
-                                    $('.card[data-task='+element.id+']').removeClass('check disabled').addClass('inwork');
-                                    $('.card[data-task='+element.id+'] div.status').hide();
-                                    userCount++;
-                                }
-                                if(element.user_id != $('.team').data('teamid') && element.type != 2) {
-                                    $('.card[data-task='+element.id+'] button.btn-coral').attr('disabled', true).parents('.card').addClass('disabled');
-                                    $('.card[data-task='+element.id+'] div.status').show().html('Уже занято другой командой!');
-                                    $('.card[data-task='+element.id+'] button').hide();
-                                }
-                                if(element.status == 0) {
-                                    $('.card[data-task='+element.id+'] button.btn-coral').show().attr('disabled', false);
-                                    $('.card[data-task='+element.id+'] button.btn-danger').hide();
-                                    $('.card[data-task='+element.id+'] button.btn-success').show().attr('disabled', true);
-                                    $('.card[data-task='+element.id+']').removeClass('inwork disabled done banned');
-                                    $('.card[data-task='+element.id+'] div.status').hide();
-                                }                            
-                            });
-                            let lastElement = data.length;
-                            
-                            console.log(data[lastElement-1]);
-                            if(typeof data[lastElement-1] !== 'number') {
-                                bannedTasks = 0;
-                                data[lastElement-1].forEach(element => {
-                                    bannedTasks++;
-                                    if($('.card[data-task='+element.task_id+']').data('type') == 2) {
-                                        $('.card[data-task='+element.task_id+']').addClass('disabled check').removeClass('inwork banned sharing');
-                                        $('.card[data-task='+element.task_id+'] button').hide();
-                                        $('.card[data-task='+element.task_id+'] div.status').show().html('Ваш ответ принят!');
-                                    } else { 
-                                        $('.card[data-task='+element.task_id+']').addClass('disabled banned').removeClass('inwork check sharing');
-                                        $('.card[data-task='+element.task_id+'] button').hide();
-                                        $('.card[data-task='+element.task_id+'] div.status').show().html('Вы не можете больше выполнять это задание!');
-                                    }           
-                                });
-                            }
-                            if(userCount > 0) {
-                                isTaskTaken = true;
-                            } else {
-                                isTaskTaken = false;
-                            }
-                        }
+            function httpSync() {
+                let options = {
+                    method: "GET",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    error: function(error) {
-                        console.log(error);
-                        if(error.status == 401) {
+                    credentials: 'same-origin'
+                }
+                return fetch("/check-tasks?timestamp=" + timestamp + "&banned_tasks=" + bannedTasks + "", options)
+                    .then(response => {
+                        if (response.redirected)
                             clearInterval(readingtimer);
+                        return response.json();
+                    }).then(data => {
+                        console.log(data);
+                        let userCount = 0;
+                        data.forEach(element => {
+                            if (typeof element === "number") timestamp = element;
+                            if (element.user_id == $('.team').data('teamid') && element.status == "3") {
+                                $('.card[data-task=' + element.id + '] button.btn-coral').attr('disabled', true).parents('.card').addClass('disabled done').removeClass('inwork check banned');
+                                $('.card[data-task=' + element.id + '] button').hide();
+                                $('.card[data-task=' + element.id + '] div.status').show().html('Успешно выполнено!');
+                            }
+                            if (element.user_id == $('.team').data('teamid') && element.status == "2") {
+                                $('.card[data-task=' + element.id + '] button').hide();
+                                $('.card[data-task=' + element.id + ']').addClass('check');
+                                $('.card[data-task=' + element.id + '] div.status').show().html('Находится на проверке, ожидайте!');
+                                userCount++;
+                            }
+                            if (element.user_id == $('.team').data('teamid') && element.status == "1") {
+                                $('.card[data-task=' + element.id + '] button.btn-coral').hide();
+                                $('.card[data-task=' + element.id + '] button.btn-danger').show().attr('disabled', false);
+                                $('.card[data-task=' + element.id + '] button.btn-success').show().attr('disabled', false);
+                                $('.card[data-task=' + element.id + ']').removeClass('check disabled').addClass('inwork');
+                                $('.card[data-task=' + element.id + '] div.status').hide();
+                                userCount++;
+                            }
+                            if (element.user_id != $('.team').data('teamid') && element.type != 2) {
+                                $('.card[data-task=' + element.id + '] button.btn-coral').attr('disabled', true).parents('.card').addClass('disabled');
+                                $('.card[data-task=' + element.id + '] div.status').show().html('Уже занято другой командой!');
+                                $('.card[data-task=' + element.id + '] button').hide();
+                            }
+                            if (element.status == 0) {
+                                $('.card[data-task=' + element.id + '] button.btn-coral').show().attr('disabled', false);
+                                $('.card[data-task=' + element.id + '] button.btn-danger').hide();
+                                $('.card[data-task=' + element.id + '] button.btn-success').show().attr('disabled', true);
+                                $('.card[data-task=' + element.id + ']').removeClass('inwork disabled done banned');
+                                $('.card[data-task=' + element.id + '] div.status').hide();
+                            }
+                        });
+                        if (userCount > 0) {
+                            isTaskTaken = true;
+                        } else {
+                            isTaskTaken = false;
                         }
-                    }
-                });
-            }, 500);
-        }
-        timer();
+                        let lastElement = data.length;
+                        if (typeof data[lastElement - 1] !== 'number') {
+                            return data[lastElement - 1];
+                        }
+                    }).then(bannedData => {
+                        bannedTasks = 0;
+                        bannedData.forEach(element => {
+                            bannedTasks++;
+                            if ($('.card[data-task=' + element.task_id + ']').data('type') == 2) {
+                                $('.card[data-task=' + element.task_id + ']').addClass('disabled check').removeClass('inwork banned sharing');
+                                $('.card[data-task=' + element.task_id + '] button').hide();
+                                $('.card[data-task=' + element.task_id + '] div.status').show().html('Ваш ответ принят!');
+                            } else {
+                                $('.card[data-task=' + element.task_id + ']').addClass('disabled banned').removeClass('inwork check sharing');
+                                $('.card[data-task=' + element.task_id + '] button').hide();
+                                $('.card[data-task=' + element.task_id + '] div.status').show().html('Вы не можете больше выполнять это задание!');
+                            }
+                        });
+                    }).catch(error => {
+                        console.log(error);
+                    });
+            }
+        });
     </script>                   
 </body>
 </html>

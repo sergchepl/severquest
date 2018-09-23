@@ -14,26 +14,21 @@ use GuzzleHttp\Client;
 
 class MainController extends Controller
 {
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth', ['except' => ['rules', 'webhook']]);
     }
 
-    public function rules()
-    {
+    public function rules() {
         return view('rules');
     }
     
-    public function index()
-    {
+    public function index() {
         $tasks = Task::all();
         Log::info($tasks);
         return view('index')->with('tasks', $tasks);
     }
 
-    public function takeTask(Request $request)
-    {
-               
+    public function takeTask(Request $request) {         
         $task = Task::find($request->task);
         
         if($request->team_bool == "true")
@@ -59,7 +54,7 @@ class MainController extends Controller
 
     public function checkTakenTasks(Request $request) {
         $bannedTasks = User::find(Auth::user()->id)->bans;
-        // Log::info($bannedTasks);
+        // Log::info($request->timestamp);
         $tasks = Task::all();
         $taskToSend = [];
         $temp_time = 0;
@@ -72,7 +67,6 @@ class MainController extends Controller
         }
         $timestamp = ($temp_time != 0) ? $temp_time : $request->timestamp;
         
-        
         if(count($bannedTasks) != $request->banned_tasks) {
             array_push($taskToSend, $timestamp);
             array_push($taskToSend, $bannedTasks);
@@ -82,14 +76,10 @@ class MainController extends Controller
             array_push($taskToSend, $timestamp);
             return $taskToSend;
         }
-        
-        return NULL;
-        
-
+        return response('ok', 204);
     }
 
-    public function sendAnswer(Request $request)
-    {
+    public function sendAnswer(Request $request) {
         if($request->task_type == 1) {
             $task = Task::find($request->task_id);
             $task->status = 2;
@@ -103,8 +93,7 @@ class MainController extends Controller
         }
         return response('ok', 200);
     }
-    public function webhook() 
-    {
+    public function webhook() {
         $updates = Telegram::getWebhookUpdates();
         Log::info($updates);
         if($updates->channel_post == NULL || $updates->channel_post->chat->id != -1001308540909) {
@@ -147,9 +136,10 @@ class MainController extends Controller
                 $text_to_admin = "Прогресс команды <b>".$user->name."</b> обнулен!\n";
                 break;
             case '/clear_ban':
-                $bans = Ban::where('user_id',$number)->delete();
+                $bans = Ban::where('user_id',$number)->where('task_id', $secondNumber)->delete();
                 $user = User::find($number);
-                $text_to_admin = "Забаненные задания команды <b>".$user->name."</b> обнулены!\n";
+                $task = Task::find($secondNumber);
+                $text_to_admin = "Задание <b>".$task->name."</b> команды <b>".$user->name."</b> разбанено!\n";
                 break;
             case '/add':
                 $user = User::find($number);
