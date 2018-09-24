@@ -137,7 +137,7 @@
     content: ' ';
     display: block;
     position: fixed;
-    left: 1.5rem;
+    left: 5vw;
     top: 0;
     width: 90%;
     height: 100vh;
@@ -232,17 +232,72 @@
             }
         });
         // RULES
+        var setScore = () => {
+            return fetch('/set-score',{
+                method: "PUT",
+                body: JSON.stringify({score: pointsFromRules}),
+                headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'Content-Type' : 'application/json'
+                    },
+                credentials: 'same-origin'
+            })
+            .then((response) => {
+                if(response.ok) {
+                    return response.text();
+                }
+                throw new Error(response.text());
+            })
+            .catch((error) => {
+                console.log(error);
+            }); 
+        }
         var slideRules = () => {
-            let prevActive = $('.rules').data('active'),
-                active = $("#" + prevActive + "").slideUp('slow').next().slideDown('slow');
-            $('.rules').data('active', active[0].id);
+            let prevActiveRuleId = $('.rules').data('active'),
+                nextRule = $("#" + prevActiveRuleId).slideUp('slow').next('div');
+            if (nextRule.length == 0) {
+                setScore()
+                .then((res) => {
+                    let html = '<h2>Вы успешно прошли обучение и заработали свои первые '+res+' баллов!</h2>';
+                        html += '<p style="text-align:center">Ожидайте автоматического перенаправления к списку заданий.</p>';
+                    $('#endRules').show().html(html);
+                    // redirect
+                    setTimeout(() => window.location.replace("/home"),3000);
+                });    
+            } else {
+                nextRule.slideDown('slow');
+                $('.rules').data('active', nextRule.attr('id'));
+            }
         }
         $('.rules button.btn-success').on('click', () => {
+            pointsFromRules += 5;
             slideRules();
+            var obj = document.getElementById('timer');
+            obj.innerHTML = 15;
+            $('.rules button.btn-success').attr('disabled', true);
+            
+            setTimeout(timer,1000);
         });
         $('.rules button.btn-danger').on('click', () => {
             slideRules();
+            var obj = document.getElementById('timer');
+            obj.innerHTML = 15;
+            $('.rules button.btn-success').attr('disabled', true);
         });
+        function timer() {
+            var obj = document.getElementById('timer');
+            if(!obj) return;
+            obj.innerHTML--;
+            
+            if (obj.innerHTML == 0) {
+                $('.rules button.btn-success').attr('disabled', false);
+                setTimeout(function(){},1000);
+            }
+            else{
+                setTimeout(timer,1000);
+            }
+        }
+        setTimeout(timer,1000);
         // END RULES
 
         // SEND to server info for changind status
@@ -352,9 +407,14 @@
                 }
                 return fetch("/check-tasks?timestamp=" + timestamp + "&banned_tasks=" + bannedTasks + "", options)
                     .then(response => {
-                        if (response.redirected)
+                        if (response.redirected) {
                             clearInterval(readingtimer);
-                        return response.json();
+                            throw new Error('Unatorizated!');   
+                        }                            
+                        if(response.ok && response.status != 204) {
+                            return response.json();
+                        } 
+                        throw new Error('Data is empty!');
                     }).then(data => {
                         console.log(data);
                         let userCount = 0;
@@ -416,7 +476,7 @@
                             }
                         });
                     }).catch(error => {
-                        console.log(error);
+                        console.log(error.message);
                     });
             }
         });

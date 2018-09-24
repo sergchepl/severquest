@@ -51,10 +51,18 @@ class MainController extends Controller
 
         return $request; 
     }
-
+    public function setScore(Request $request) {
+        $user = User::find(Auth::user()->id);
+        $score_to_save = $user->score;
+        $newScore = json_decode($request);
+        $user->score = $request->score + $score_to_save;
+        $user->read_rules = true;
+        $user->save();
+        return response($request->score, 200);
+    }
     public function checkTakenTasks(Request $request) {
         $bannedTasks = User::find(Auth::user()->id)->bans;
-        // Log::info($request->timestamp);
+        
         $tasks = Task::all();
         $taskToSend = [];
         $temp_time = 0;
@@ -113,21 +121,21 @@ class MainController extends Controller
                 $users = User::orderBy('score','desc')->get();
                 foreach ($users as $k => $user) {
                     switch($k) {
-                        case 0: $text_to_admin .= "--------------------🥇----------------\n<b>ID команды:</b> ".$user->id
+                        case 0: $text_to_admin .= "------------------🥇------------------\n<b>ID команды:</b> ".$user->id
                                     ."\n<b>Название команды:</b> ".$user->name."\n<b>Количество баллов:</b> ".$user->score."\n";
                                     break;
-                        case 1: $text_to_admin .= "--------------------🥈----------------\n<b>ID команды:</b> ".$user->id
+                        case 1: $text_to_admin .= "------------------🥈------------------\n<b>ID команды:</b> ".$user->id
                                     ."\n<b>Название команды:</b> ".$user->name."\n<b>Количество баллов:</b> ".$user->score."\n";
                                     break;
-                        case 2: $text_to_admin .= "--------------------🥉----------------\n<b>ID команды:</b> ".$user->id
+                        case 2: $text_to_admin .= "------------------🥉------------------\n<b>ID команды:</b> ".$user->id
                                     ."\n<b>Название команды:</b> ".$user->name."\n<b>Количество баллов:</b> ".$user->score."\n";
                                     break;
-                        default: $text_to_admin .= "------------------------------------\n<b>ID команды:</b> ".$user->id
+                        default: $text_to_admin .= "--------------------------------------\n<b>ID команды:</b> ".$user->id
                                     ."\n<b>Название команды:</b> ".$user->name."\n<b>Количество баллов:</b> ".$user->score."\n"; 
                                     break;
                     }
                 }
-                $text_to_admin .= "------------------------------------\n";
+                $text_to_admin .= "--------------------------------------\n";
                 break;
             case '/clear_team':
                 $user = User::find($number); 
