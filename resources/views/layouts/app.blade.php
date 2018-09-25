@@ -320,6 +320,7 @@
                 },
                 error: (error) => {
                     console.log(error);
+                    if(error.status == 409) alert('А ну не жульничать, а то забаним!');
                 }
             });
         }
@@ -424,12 +425,13 @@
                                 $('.card[data-task=' + element.id + '] button.btn-coral').attr('disabled', true).parents('.card').addClass('disabled done').removeClass('inwork check banned');
                                 $('.card[data-task=' + element.id + '] button').hide();
                                 $('.card[data-task=' + element.id + '] div.status').show().html('Успешно выполнено!');
+                                $('.card[data-task=' + element.id + ']').attr('data-took',0);
                             }
                             if (element.user_id == $('.team').data('teamid') && element.status == "2") {
                                 $('.card[data-task=' + element.id + '] button').hide();
                                 $('.card[data-task=' + element.id + ']').addClass('check');
                                 $('.card[data-task=' + element.id + '] div.status').show().html('Находится на проверке, ожидайте!');
-                                userCount++;
+                                $('.card[data-task=' + element.id + ']').attr('data-took',1);
                             }
                             if (element.user_id == $('.team').data('teamid') && element.status == "1") {
                                 $('.card[data-task=' + element.id + '] button.btn-coral').hide();
@@ -437,12 +439,13 @@
                                 $('.card[data-task=' + element.id + '] button.btn-success').show().attr('disabled', false);
                                 $('.card[data-task=' + element.id + ']').removeClass('check disabled').addClass('inwork');
                                 $('.card[data-task=' + element.id + '] div.status').hide();
-                                userCount++;
+                                $('.card[data-task=' + element.id + ']').attr('data-took',1);
                             }
                             if (element.user_id != $('.team').data('teamid') && element.type != 2) {
                                 $('.card[data-task=' + element.id + '] button.btn-coral').attr('disabled', true).parents('.card').addClass('disabled');
                                 $('.card[data-task=' + element.id + '] div.status').show().html('Уже занято другой командой!');
                                 $('.card[data-task=' + element.id + '] button').hide();
+                                $('.card[data-task=' + element.id + ']').attr('data-took',0);
                             }
                             if (element.status == 0) {
                                 $('.card[data-task=' + element.id + '] button.btn-coral').show().attr('disabled', false);
@@ -450,14 +453,13 @@
                                 $('.card[data-task=' + element.id + '] button.btn-success').show().attr('disabled', true);
                                 $('.card[data-task=' + element.id + ']').removeClass('inwork disabled done banned check');
                                 $('.card[data-task=' + element.id + '] div.status').hide();
+                                $('.card[data-task=' + element.id + ']').attr('data-took',0);
                             }
                         });
-                        if (typeof data[0] !== 'number') {
-                            if (userCount > 0) {
-                                isTaskTaken = true;
-                            } else {
-                                isTaskTaken = false;
-                            }
+                        if ($('.card[data-took="1"]').length > 0) {
+                            isTaskTaken = true;
+                        } else {
+                            isTaskTaken = false;
                         }
                         let lastElement = data.length;
                         if (typeof data[lastElement - 1] !== 'number') {
@@ -476,6 +478,7 @@
                                 $('.card[data-task=' + element.task_id + ']').addClass('disabled banned').removeClass('inwork check sharing');
                                 $('.card[data-task=' + element.task_id + '] button').hide();
                                 $('.card[data-task=' + element.task_id + '] div.status').show().html('Вы не можете больше выполнять это задание!');
+                                $('.card[data-task=' + element.task_id + ']').attr('data-took',0);
                             }
                         });
                     }).catch(error => {

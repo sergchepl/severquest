@@ -33,6 +33,8 @@ class MainController extends Controller
         
         if($request->team_bool == "true")
         {
+            $isDouble = Task::where('user_id', Auth::user()->id)->where('status',1)->get();
+            if (count($isDouble) > 0) return response('Have another task', 409);
             $task->user_id = Auth::user()->id;
             $task->status = 1;
             $text = "🚲 Команда <b>".$request->team."</b> приступила к выполнению задания <b>".$request->title."</b>.";

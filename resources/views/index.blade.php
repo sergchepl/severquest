@@ -22,7 +22,7 @@
                 <div class="type-1">
                     @foreach ($tasks as $k => $task)
                         @if($task->type == 1)
-                        <div class="card mt-2 {{ (Auth::user()->id != $task->user_id) && $task->user_id ? ' disabled ' : '' }}" data-task="{{$task->id}}" data-type="1">
+                <div class="card mt-2 {{ (Auth::user()->id != $task->user_id) && $task->user_id ? ' disabled ' : '' }}" data-task="{{$task->id}}" data-type="1" data-took="0">
                             <div class="card-header" id="heading-{{$k}}">
                                 <h5 class="mb-0">
                                     <a data-toggle="collapse" href="#collapse-{{$k}}" aria-expanded="false">
