@@ -452,10 +452,12 @@
                                 $('.card[data-task=' + element.id + '] div.status').hide();
                             }
                         });
-                        if (userCount > 0) {
-                            isTaskTaken = true;
-                        } else {
-                            isTaskTaken = false;
+                        if (typeof data[0] !== 'number') {
+                            if (userCount > 0) {
+                                isTaskTaken = true;
+                            } else {
+                                isTaskTaken = false;
+                            }
                         }
                         let lastElement = data.length;
                         if (typeof data[lastElement - 1] !== 'number') {
