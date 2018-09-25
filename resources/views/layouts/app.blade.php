@@ -463,6 +463,7 @@
                         if (typeof data[lastElement - 1] !== 'number') {
                             return data[lastElement - 1];
                         }
+                        throw new Error('Data for Ban is empty!');
                     }).then(bannedData => {
                         bannedTasks = 0;
                         bannedData.forEach(element => {
