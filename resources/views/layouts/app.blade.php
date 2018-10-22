@@ -232,7 +232,7 @@
             }
         });
         // RULES
-        var setScore = () => {
+        const setScore = () => {
             return fetch('/set-score',{
                 method: "PUT",
                 body: JSON.stringify({score: pointsFromRules}),
@@ -252,7 +252,7 @@
                 console.log(error);
             }); 
         }
-        var slideRules = () => {
+        const slideRules = () => {
             let prevActiveRuleId = $('.rules').data('active'),
                 nextRule = $("#" + prevActiveRuleId).slideUp('slow').next('div');
             if (nextRule.length == 0) {
@@ -301,7 +301,7 @@
         // END RULES
 
         // SEND to server info for changind status
-        var sendTask = (task, takeTaskBool) => {
+        const sendTask = (task, takeTaskBool) => {
             // console.log(that);
             let taskId = $(task).parents('.card').data('task'),
                 teamName = $('.team div').html(),
@@ -336,7 +336,7 @@
             isTaskTaken = false;
         });
         // functions for interactions with tasks
-        var setDataInInput = (task) => {
+        const setDataInInput = (task) => {
             $('input[name="task"]').val($(task).parents('.card').find('a').html());
             $('input[name="task_text"]').val($(task).parents('.card').find('p').html());
             $('input[name="task_id"]').val($(task).parents('.card').data('task'));
@@ -394,7 +394,7 @@
 
         // Sync from server per 1sec
         $(window).on('load', () => {
-            var readingtimer = setInterval(() => {
+            const readingtimer = setInterval(() => {
                 httpSync();
             }, 1000);
 
