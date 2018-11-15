@@ -17,7 +17,7 @@ body:before {
     width: 100vw;
     height: 200vw;
     z-index: -10;
-    background: url(css/image/back.jpg) no-repeat center center;
+    background: url(./image/back.jpg) no-repeat center center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
