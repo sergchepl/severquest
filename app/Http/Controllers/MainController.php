@@ -202,7 +202,7 @@ class MainController extends Controller
                 break;
             case '/remove':
                 $user = User::find($number);
-                if (count($user) == 0) {
+                if (is_null($user)) {
                     $text_to_admin = "Команды с таким ID не существует!\n";
                     break;
                 }
