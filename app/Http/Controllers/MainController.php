@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Ban;
 use App\Events\Score;
 use App\Events\TaskUpdate;
+use App\Events\BanUpdate;
 use App\Task;
 use App\User;
 use Illuminate\Http\Request;
