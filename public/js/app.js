@@ -1729,11 +1729,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.task.status = task.status;
             }
         });
-        window.taskChannel.listen('BanUpdate', function (_ref2) {
-            var ban = _ref2.ban,
-                active = _ref2.active;
-
-            console.log(ban, active);
+        window.taskChannel.listen('BanUpdate', function (data) {
+            console.log(data);
             if (ban.task_id == _this.task.id && ban.user_id == _this.user.id && active) {
                 _this.isBanned = true;
             }
