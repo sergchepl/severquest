@@ -201,5 +201,5 @@ return [
         // 'stop' => Acme\Project\Commands\StopCommand::class,
         // 'status' => Acme\Project\Commands\StatusCommand::class,
     ],
-    'channel'                      => env('TELEGRAM_CHANNEL_ID', ''),
+    'channel'                      => env('TELEGRAM_CHANNEL_ID', '-1001157878988'),
 ];
