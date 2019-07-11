@@ -237,7 +237,6 @@ class MainController extends Controller
                             $user->save();
 
                             event(new Score($user));
-                            event(new TaskUpdate($task));
 
                             $text_to_users = "🎉 Задание <b>" . $task->name . "</b> успешно выполнено командой <b>" . $task->user->name . "</b>.";
                             Telegram::sendMessage([
@@ -252,12 +251,9 @@ class MainController extends Controller
                                 break;
                             }
                             $task->status = 1;
-                            $task->save();
                             $text_to_admin = "Теперь статус задания <b>№$number</b> : В работе!\n";
                             $text_to_users = "⚠️ Задание <b>" . $task->name . "</b> выполняемое командой <b>" . $task->user->name . "</b> требует доработки. Внимательно "
                                 . "проверьте требования к заданию и повторите загрузку соответствующих материалов.️";
-
-                            event(new TaskUpdate($task));
 
                             Telegram::sendMessage([
                                 'chat_id' => config('telegram.channel'),
@@ -292,8 +288,6 @@ class MainController extends Controller
                             $task->status = 0;
                             $task->user_id = 0;
 
-                            event(new TaskUpdate($task));
-
                             Telegram::sendMessage([
                                 'chat_id' => config('telegram.channel'),
                                 'parse_mode' => 'HTML',
@@ -304,6 +298,8 @@ class MainController extends Controller
                             break;
                     }
                     $task->save();
+                    
+                    event(new TaskUpdate($task));
                 } else {
                     $text_to_admin = "<b>Несуществующая команда!</b>\n";
                 }
