@@ -258,6 +258,9 @@ class MainController extends Controller
                                 . "проверьте требования к заданию и повторите загрузку соответствующих материалов.️";
                             break;
                         case '/ban':
+                            if ($task->user_id == 0) 
+                                break;
+                                
                             $ban = new Ban;
                             $ban->user_id = $task->user_id;
                             $ban->task_id = $task->id;

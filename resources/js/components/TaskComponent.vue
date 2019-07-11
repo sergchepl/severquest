@@ -40,6 +40,7 @@ export default {
             }
         });
         window.taskChannel.listen('BanUpdate', ({ban, active}) => {
+            console.log(ban, active);
             if (ban.task_id == this.task.id && ban.user_id == this.user.id && active) {
                 this.isBanned = true;
             }
