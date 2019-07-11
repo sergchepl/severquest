@@ -42,7 +42,7 @@ export default {
     },
     computed: {
         status() {
-            let status = this.task.status;
+            let status = +this.task.status;
 
             if (status == 0 || (status == 1 && this.user.id == this.task.user_id)) {
                 return '';
@@ -61,7 +61,7 @@ export default {
             let status = this.task.status;
 
             if (this.user.id == this.task.user_id || this.task.user_id == 0) {
-                switch(status) {
+                switch(+status) {
                     case 0:
                         return '';
                     case 1:

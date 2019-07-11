@@ -1735,7 +1735,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     computed: {
         status: function status() {
-            var status = this.task.status;
+            var status = +this.task.status;
 
             if (status == 0 || status == 1 && this.user.id == this.task.user_id) {
                 return '';
@@ -1754,7 +1754,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var status = this.task.status;
 
             if (this.user.id == this.task.user_id || this.task.user_id == 0) {
-                switch (status) {
+                switch (+status) {
                     case 0:
                         return '';
                     case 1:
