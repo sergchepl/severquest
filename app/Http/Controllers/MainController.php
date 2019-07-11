@@ -130,7 +130,7 @@ class MainController extends Controller
         $updates = Telegram::getWebhookUpdates();
         Log::info($updates);
         if ($updates->channel_post == null || $updates->channel_post->chat->id != -1001308540909) {
-            return response('ok', 200);
+            return response('Nothing', 204);
         }
 
         $commandText = $updates->channel_post->text;
@@ -182,7 +182,7 @@ class MainController extends Controller
                 break;
             case '/add':
                 $user = User::find($number);
-                if (count($user) == 0) {
+                if (is_null($user)) {
                     $text_to_admin = "Команды с таким ID не существует!\n";
                     break;
                 }
