@@ -13,9 +13,9 @@
             <div class="card-body">
                 <p v-html="task.description"></p>
                 <template v-if="!status">
-                    <button v-if="!task.user_id && task.type != 2" class="btn btn-coral btn-lg" role="button" @click="takeTask">За дело!</button>
-                    <button v-if="task.user_id == user.id && task.type != 2" class="btn btn-danger hide btn-lg" role="button" @click="cancelTask">Отменись!</button>
-                    <button v-if="task.user_id == user.id || task.type == 2" :class="task.type == 2 ? 'btn-info' : 'btn-success'" class="btn btn-lg" role="button" @click="sendAnswer">Хочу Сдать!</button>
+                    <button v-if="!+task.user_id && +task.type != 2" class="btn btn-coral btn-lg" role="button" @click="takeTask">За дело!</button>
+                    <button v-if="+task.user_id == user.id && +task.type != 2" class="btn btn-danger hide btn-lg" role="button" @click="cancelTask">Отменись!</button>
+                    <button v-if="+task.user_id == user.id || +task.type == 2" :class="+task.type == 2 ? 'btn-info' : 'btn-success'" class="btn btn-lg" role="button" @click="sendAnswer">Хочу Сдать!</button>
                 </template>
                 <p v-else class="status">{{ status }}</p>
             </div>
@@ -36,7 +36,6 @@ export default {
             if (task.id == this.task.id) {
                 this.task.user_id = task.user_id;
                 this.task.status = task.status;
-                console.log(task);
             }
         });
     },

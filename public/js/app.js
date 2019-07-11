@@ -1728,7 +1728,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (task.id == _this.task.id) {
                 _this.task.user_id = task.user_id;
                 _this.task.status = task.status;
-                console.log(task);
             }
         });
     },
@@ -6280,7 +6279,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -47629,7 +47628,7 @@ var render = function() {
               _vm._v(" "),
               !_vm.status
                 ? [
-                    !_vm.task.user_id && _vm.task.type != 2
+                    !+_vm.task.user_id && +_vm.task.type != 2
                       ? _c(
                           "button",
                           {
@@ -47641,7 +47640,7 @@ var render = function() {
                         )
                       : _vm._e(),
                     _vm._v(" "),
-                    _vm.task.user_id == _vm.user.id && _vm.task.type != 2
+                    +_vm.task.user_id == _vm.user.id && +_vm.task.type != 2
                       ? _c(
                           "button",
                           {
@@ -47653,13 +47652,13 @@ var render = function() {
                         )
                       : _vm._e(),
                     _vm._v(" "),
-                    _vm.task.user_id == _vm.user.id || _vm.task.type == 2
+                    +_vm.task.user_id == _vm.user.id || +_vm.task.type == 2
                       ? _c(
                           "button",
                           {
                             staticClass: "btn btn-lg",
                             class:
-                              _vm.task.type == 2 ? "btn-info" : "btn-success",
+                              +_vm.task.type == 2 ? "btn-info" : "btn-success",
                             attrs: { role: "button" },
                             on: { click: _vm.sendAnswer }
                           },
