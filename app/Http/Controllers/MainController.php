@@ -252,7 +252,7 @@ class MainController extends Controller
                                 break;
                             }
                             $task->status = 1;
-                            $user->save();
+                            $task->save();
                             $text_to_admin = "Теперь статус задания <b>№$number</b> : В работе!\n";
                             $text_to_users = "⚠️ Задание <b>" . $task->name . "</b> выполняемое командой <b>" . $task->user->name . "</b> требует доработки. Внимательно "
                                 . "проверьте требования к заданию и повторите загрузку соответствующих материалов.️";
