@@ -15,6 +15,7 @@ class BanUpdate implements ShouldBroadcastNow
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $ban;
+    public $active;
     /**
      * Create a new event instance.
      *
