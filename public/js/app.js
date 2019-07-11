@@ -1667,9 +1667,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         var _this = this;
 
-        this.channel.listen('Score', function (_ref) {
-            var data = _ref.data;
-
+        this.channel.listen('Score', function (data) {
             console.log(data);
             _this.score = data.score;
         });

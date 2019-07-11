@@ -17,7 +17,7 @@ export default {
     },
     mounted() {
         this.channel
-            .listen('Score', ( {data} ) => {
+            .listen('Score', ( data ) => {
                 console.log(data);
                 this.score = data.score;
             });
