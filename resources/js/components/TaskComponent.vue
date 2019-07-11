@@ -1,5 +1,5 @@
 <template>
-  <div class="card mt-2" :class="[statusClass, {'sharing': task.type == 2}]">
+  <div class="card mt-2" :class="[statusClass, {'sharing': task.type == 2}, {'banned': isBanned}]">
         <div class="card-header" :id="'heading-'+task.id">
             <h5 class="mb-0">
                 <a data-toggle="collapse" :href="'#collapse-'+task.id" aria-expanded="false">
@@ -29,6 +29,7 @@ export default {
     data: function() {
         return {
             task: this.taskProp,
+            isBanned: false,
         }
     },
     mounted() {
@@ -38,11 +39,22 @@ export default {
                 this.task.status = task.status;
             }
         });
+        window.taskChannel.listen('BanUpdate', ({ban, active}) => {
+            if (ban.task_id == this.task.id && ban.user_id == this.user.id && active) {
+                this.isBanned = true;
+            }
+            if (ban.task_id == this.task.id && ban.user_id == this.user.id && !active) {
+                this.isBanned = false;
+            }
+        });
     },
     computed: {
         status() {
             let status = +this.task.status;
 
+            if (isBanned) {
+                return 'Задание заблокировано для выполнения!';
+            }
             if (status == 0 || (status == 1 && this.user.id == this.task.user_id)) {
                 return '';
             }

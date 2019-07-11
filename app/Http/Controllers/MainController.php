@@ -168,12 +168,18 @@ class MainController extends Controller
                 $user->save();
                 $text_to_admin = "Прогресс команды <b>" . $user->name . "</b> обнулен!\n";
                 break;
+                
+                event(new Score($user));
+
             case '/clear_ban':
-                $bans = Ban::where('user_id', $number)->where('task_id', $secondNumber)->delete();
+                $ban = Ban::where('user_id', $number)->where('task_id', $secondNumber)->first()->delete();
                 $user = User::find($number);
                 $task = Task::find($secondNumber);
                 $text_to_admin = "Задание <b>" . $task->name . "</b> команды <b>" . $user->name . "</b> разбанено!\n";
                 $text_to_users = "🚦 Задание <b>" . $task->name . "</b> команды <b>" . $user->name . "</b> разбанено!\n";
+                
+                event(new BanUpdate($ban, false));
+                
                 Telegram::sendMessage([
                     'chat_id' => config('telegram.channel'),
                     'parse_mode' => 'HTML',
@@ -239,11 +245,6 @@ class MainController extends Controller
                             event(new Score($user));
 
                             $text_to_users = "🎉 Задание <b>" . $task->name . "</b> успешно выполнено командой <b>" . $task->user->name . "</b>.";
-                            Telegram::sendMessage([
-                                'chat_id' => config('telegram.channel'),
-                                'parse_mode' => 'HTML',
-                                'text' => $text_to_users,
-                            ]);
                             break;
                         case '/work':
                             if ($task->user_id == 0) {
@@ -254,12 +255,6 @@ class MainController extends Controller
                             $text_to_admin = "Теперь статус задания <b>№$number</b> : В работе!\n";
                             $text_to_users = "⚠️ Задание <b>" . $task->name . "</b> выполняемое командой <b>" . $task->user->name . "</b> требует доработки. Внимательно "
                                 . "проверьте требования к заданию и повторите загрузку соответствующих материалов.️";
-
-                            Telegram::sendMessage([
-                                'chat_id' => config('telegram.channel'),
-                                'parse_mode' => 'HTML',
-                                'text' => $text_to_users,
-                            ]);
                             break;
                         case '/ban':
                             $ban = new Ban;
@@ -267,32 +262,19 @@ class MainController extends Controller
                             $ban->task_id = $task->id;
                             $ban->save();
 
+                            event(new BanUpdate($ban, true));
+
                             $text_to_admin = "Теперь статус задания <b>№$number</b> : Открыто!\nДля команды <b>" . $task->user->name . "</b> доступ к заданию закрыт!";
                             $text_to_users = "🎲 Задание <b>" . $task->name . "</b> снова доступно для выполнения всеми командами.\n🚧 Команда <b>" . $task->user->name . "</b> провалила выполнение этого задания.";
                             $task->status = 0;
                             $task->user_id = 0;
-
-                            Telegram::sendMessage([
-                                'chat_id' => config('telegram.channel'),
-                                'parse_mode' => 'HTML',
-                                'text' => $text_to_users,
-                            ]);
                             break;
                         case '/clear':
                             $task->user_id = 0;
                             $task->status = 0;
-                            $task->save();
 
                             $text_to_admin = "Теперь статус задания <b>№$number</b> : Открыто!\n";
                             $text_to_users = "🎲 Задание <b>" . $task->name . "</b> снова доступно для выполнения всеми командами.";
-                            $task->status = 0;
-                            $task->user_id = 0;
-
-                            Telegram::sendMessage([
-                                'chat_id' => config('telegram.channel'),
-                                'parse_mode' => 'HTML',
-                                'text' => $text_to_users,
-                            ]);
                             break;
                         default:$text_to_admin = "<b>Такая задача не существует!</b>\n";
                             break;
@@ -300,6 +282,12 @@ class MainController extends Controller
                     $task->save();
                     
                     event(new TaskUpdate($task));
+                    
+                    Telegram::sendMessage([
+                        'chat_id' => config('telegram.channel'),
+                        'parse_mode' => 'HTML',
+                        'text' => $text_to_users,
+                    ]);
                 } else {
                     $text_to_admin = "<b>Несуществующая команда!</b>\n";
                 }

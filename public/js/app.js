@@ -1714,7 +1714,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: ['taskProp', 'user'],
     data: function data() {
         return {
-            task: this.taskProp
+            task: this.taskProp,
+            isBanned: false
         };
     },
     mounted: function mounted() {
@@ -1728,12 +1729,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.task.status = task.status;
             }
         });
+        window.taskChannel.listen('BanUpdate', function (_ref2) {
+            var ban = _ref2.ban,
+                active = _ref2.active;
+
+            if (ban.task_id == _this.task.id && ban.user_id == _this.user.id && active) {
+                _this.isBanned = true;
+            }
+            if (ban.task_id == _this.task.id && ban.user_id == _this.user.id && !active) {
+                _this.isBanned = false;
+            }
+        });
     },
 
     computed: {
         status: function status() {
             var status = +this.task.status;
 
+            if (isBanned) {
+                return 'Задание заблокировано для выполнения!';
+            }
             if (status == 0 || status == 1 && this.user.id == this.task.user_id) {
                 return '';
             }
@@ -6277,7 +6292,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -47573,7 +47588,11 @@ var render = function() {
     "div",
     {
       staticClass: "card mt-2",
-      class: [_vm.statusClass, { sharing: _vm.task.type == 2 }]
+      class: [
+        _vm.statusClass,
+        { sharing: _vm.task.type == 2 },
+        { banned: _vm.isBanned }
+      ]
     },
     [
       _c(

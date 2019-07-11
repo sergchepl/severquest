@@ -85,7 +85,7 @@ form {
 }
 
 .card.banned {
-    background-color: brown;
+    background-color: brown !important;
 }
 
 .card.check {
