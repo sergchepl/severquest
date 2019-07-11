@@ -52,7 +52,7 @@ export default {
         status() {
             let status = +this.task.status;
 
-            if (isBanned) {
+            if (this.isBanned) {
                 return 'Задание заблокировано для выполнения!';
             }
             if (status == 0 || (status == 1 && this.user.id == this.task.user_id)) {
