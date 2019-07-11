@@ -25,11 +25,11 @@
 
 <script>
 export default {
-    props: ['taskProp', 'user'],
+    props: ['taskProp', 'user', 'isBannedProp'],
     data: function() {
         return {
             task: this.taskProp,
-            isBanned: false,
+            isBanned: this.isBannedProp,
         }
     },
     mounted() {

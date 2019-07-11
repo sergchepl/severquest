@@ -12,4 +12,9 @@ class Task extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    public function ban()
+    {
+        return $this->hasMany(Ban::class);
+    }
 }

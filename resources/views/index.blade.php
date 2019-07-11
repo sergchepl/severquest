@@ -10,7 +10,6 @@
                             data-teamId='{{Auth::user()->id}}' class="team">
                     <div>{{Auth::user()->name}}</div>
                     <Score :user="{{ Auth::user() }}"></Score>
-                    {{-- <span class="badge badge-light">{{Auth::user()->score}}</span> --}}
                 </div>s
                 {{-- ДЛЯ ТЕСТОВ!!!!!! --}}
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -23,7 +22,7 @@
                 <div class="type-1">
                     @foreach ($tasks as $k => $task)
                         @if($task->type == 1)
-                            <Task :task-prop="{{ $task }}"  :user="{{ Auth::user() }}"></Task>
+                            <Task :task-prop="{{ $task }}"  :user="{{ Auth::user() }}" :is-banned-prop="{{ $task->ban()->whereUserId(Auth()->user()->id)->first() ? 'true' : 'false' }}"></Task>
                         @endif
                     @endforeach
                 </div>

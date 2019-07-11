@@ -1711,11 +1711,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['taskProp', 'user'],
+    props: ['taskProp', 'user', 'isBannedProp'],
     data: function data() {
         return {
             task: this.taskProp,
-            isBanned: false
+            isBanned: this.isBannedProp
         };
     },
     mounted: function mounted() {
