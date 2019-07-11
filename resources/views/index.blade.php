@@ -9,8 +9,9 @@
                         document.getElementById('logout-form').submit();"
                             data-teamId='{{Auth::user()->id}}' class="team">
                     <div>{{Auth::user()->name}}</div>
-                    <span class="badge badge-light">{{Auth::user()->score}}</span>
-                </div>
+                    <Score :user="{{ Auth::user() }}"></Score>
+                    {{-- <span class="badge badge-light">{{Auth::user()->score}}</span> --}}
+                </div>s
                 {{-- ДЛЯ ТЕСТОВ!!!!!! --}}
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
@@ -22,29 +23,7 @@
                 <div class="type-1">
                     @foreach ($tasks as $k => $task)
                         @if($task->type == 1)
-                <div class="card mt-2 {{ (Auth::user()->id != $task->user_id) && $task->user_id ? ' disabled ' : '' }}" data-task="{{$task->id}}" data-type="1" data-took="0">
-                            <div class="card-header" id="heading-{{$k}}">
-                                <h5 class="mb-0">
-                                    <a data-toggle="collapse" href="#collapse-{{$k}}" aria-expanded="false">
-                                        {{$task->name}}
-                                    </a>
-                                    <span class="badge badge-light">{{$task->score}}</span>
-                                </h5>
-                                
-                            </div>
-                        
-                            <div id="collapse-{{$k}}" class="collapse" aria-labelledby="heading-{{$k}}">
-                                <div class="card-body">
-                                    <p>
-                                        {!!$task->description!!}
-                                    </p>
-                                    <button class="btn btn-coral btn-lg" role="button" {{ (Auth::user()->id != $task->user_id) && $task->user_id ? ' disabled ' : '' }}>За дело!</button>
-                                    <button class="btn btn-danger hide btn-lg" role="button" >Отменись!</button>
-                                    <button style="float:right" class="btn btn-success btn-lg" role="button" {{ Auth::user()->id != $task->user_id ? ' disabled ' : '' }}>Хочу Сдать!</button>
-                                    <div class="status" style="display:none"></div>
-                                </div>
-                            </div>
-                        </div>
+                            <Task :task-prop="{{ $task }}"  :user="{{ Auth::user() }}"></Task>
                         @endif
                     @endforeach
                 </div>
@@ -52,31 +31,12 @@
                 <div class="type-2">
                     @foreach ($tasks as $k => $task)
                         @if($task->type == 2)
-                        <div class="card sharing mt-2" data-task="{{$task->id}}" data-type="2">
-                            <div class="card-header" id="heading-{{$k}}">
-                                <h5 class="mb-0">
-                                    <a data-toggle="collapse" href="#collapse-{{$k}}" aria-expanded="false">
-                                        {{$task->name}}
-                                    </a>
-                                    <span class="badge badge-light">{{$task->score}}</span>
-                                </h5>
-                                
-                            </div>
-                        
-                            <div id="collapse-{{$k}}" class="collapse" aria-labelledby="heading-{{$k}}">
-                                <div class="card-body">
-                                    <p>
-                                        {!!$task->description!!}
-                                    </p>
-                                    <button class="btn btn-info btn-lg" role="button">Хочу Сдать!</button>
-                                    <div class="status" style="display:none"></div>
-                                </div>
-                            </div>
-                        </div>
+                            <Task :task-prop="{{ $task }}"  :user="{{ Auth::user() }}"></Task>
                         @endif
                     @endforeach
                 </div>
         </div>
+        <Modal></Modal>
         <div class="answer" style="display:none">
             <button type="button" class="close">
                 <span aria-hidden="true">&times;</span>

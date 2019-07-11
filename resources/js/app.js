@@ -9,14 +9,37 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+import Vuex from 'vuex';
+
+Vue.use(Vuex);
+
+const store = new Vuex.Store({
+    state: {
+      modal: {
+          active: false,
+          taskId: null
+      }
+    },
+    mutations: {
+      setModal (state, {active, taskId}) {
+        state.modal.active = active;
+        state.modal.taskId = taskId;
+      }
+    }
+  })
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+window.taskChannel = window.Echo.channel('tasks'); // will listen all task events
+
+Vue.component('Modal', require('./components/ModalComponent.vue'));
+Vue.component('Score', require('./components/ScoreComponent.vue'));
+Vue.component('Task', require('./components/TaskComponent.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    store
 });

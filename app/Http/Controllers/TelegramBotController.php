@@ -33,7 +33,7 @@ class TelegramBotController extends Controller
             . $request->message;
  
         Telegram::sendMessage([
-            'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
+            'chat_id' => config('telegram.channel'),
             'parse_mode' => 'HTML',
             'text' => $text
         ]);
@@ -51,7 +51,7 @@ class TelegramBotController extends Controller
         $photo = $request->file('files');
         foreach($photo as $ph){
             Telegram::sendPhoto([
-                'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
+                'chat_id' => config('telegram.channel'),
                 'photo' => InputFile::createFromContents(file_get_contents($ph->getRealPath()), str_random(10) . '.' . $ph->getClientOriginalExtension())
             ]);
         }    

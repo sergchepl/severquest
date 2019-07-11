@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Task;
 use Telegram\Bot\Laravel\Facades\Telegram;
 use Telegram\Bot\FileUpload\InputFile;
 
@@ -20,25 +21,23 @@ class TelegramSendPhoto
         return $next($request);
     }
     public function terminate($request, $response)
-  {
+    {
     $photo = ($request->file('files')) ? $request->file('files') : NULL;
-        
-    
-    if($request->task_type == 1) {
-        $text = "<b>Задание №".$request->task_id." пришло на проверку!</b>\n"
-        . "Название : ".$request->task."\n"
-        . "Описание задания: ".$request->task_text."\n"
-        . "Команда : ".$request->team."\n"
+    $task = Task::find($request->task_id);
+
+    if($task->type == 1) {
+        $text = "<b>Задание №".$task->id." пришло на проверку!</b>\n"
+        . "Название : ".$task->name."\n"
+        . "Команда : ".$task->user->name."\n"
         . "Сообщение от команды : ".$request->text;
-        $text_to_users = "💡 Задание <b>".$request->task."</b> проверяется администратором, ожидайте результат проверки.";
+        $text_to_users = "💡 Задание <b>".$task->name."</b> проверяется администратором, ожидайте результат проверки.";
     }
-    if($request->task_type == 2) {
-        $text = "<b>🔥 Общее задание №".$request->task_id." пришло на проверку!</b> 🔥\n"
-        . "Название : ".$request->task."\n"
-        . "Описание задания: ".$request->task_text."\n"
-        . "Команда : ".$request->team."\n"
+    if($task->type == 2) {
+        $text = "<b>🔥 Общее задание №".$task->id." пришло на проверку!</b> 🔥\n"
+        . "Название : ".$task->name."\n"
+        . "Команда : ".$task->user->name."\n"
         . "Сообщение от команды : ".$request->text;
-        $text_to_users = "🔥 Общее задание <b>".$request->task."</b> команды <b>".$request->team."</b> успешно сдано и проверяется администратором, ответ будет в конце игры SeverQuest.";
+        $text_to_users = "🔥 Общее задание <b>".$task->name."</b> команды <b>".$task->user->name."</b> успешно сдано и проверяется администратором, ответ будет в конце игры SeverQuest.";
     }
 
     Telegram::sendMessage([
@@ -56,7 +55,7 @@ class TelegramSendPhoto
     }
     
     Telegram::sendMessage([
-        'chat_id' => env('TELEGRAM_CHANNEL_ID', ''),
+        'chat_id' => config('telegram.channel'),
         'parse_mode' => 'HTML',
         'text' => $text_to_users
     ]);
