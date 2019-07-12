@@ -183,12 +183,11 @@ class MainController extends Controller
                 $user = User::find($number);
                 $task = Task::find($secondNumber);
                 $ban = Ban::where('user_id', $number)->where('task_id', $secondNumber)->first();
-
+                \Log::debug($ban->toArray());
                 if (is_null($ban)) {
                     $text_to_admin = "Задание <b>" . $task->name . "</b> команды <b>" . $user->name . "</b> не было заблокировано!\n";
                     break;
                 }
-
                 $ban->delete();
                 
                 $text_to_admin = "Задание <b>" . $task->name . "</b> команды <b>" . $user->name . "</b> разбанено!\n";
