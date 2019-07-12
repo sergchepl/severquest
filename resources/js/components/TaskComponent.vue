@@ -86,11 +86,11 @@ export default {
                     case 3:
                         return 'disabled done';
                 }
+            }
             if (+this.task.type == 2 && this.isBanned) {
                 return 'disabled check';
             }
             return 'disabled';
-            
         }
     },
     methods: {
