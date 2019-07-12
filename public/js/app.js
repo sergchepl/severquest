@@ -1633,7 +1633,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     taskId: null
                 });
             }).catch(function (error) {
-                console.log(error.perponse);
+                console.log(error.response);
             });
         }
     }
@@ -1680,136 +1680,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ }),
 
 /***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]],\"plugins\":[\"transform-object-rest-spread\",[\"transform-runtime\",{\"polyfill\":false,\"helpers\":false}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/js/components/TaskComponent.vue":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['taskProp', 'user', 'isBannedProp'],
-    data: function data() {
-        return {
-            task: this.taskProp,
-            isBanned: this.isBannedProp
-        };
-    },
-    mounted: function mounted() {
-        var _this = this;
-
-        window.taskChannel.listen('TaskUpdate', function (_ref) {
-            var task = _ref.task;
-
-            if (task.id == _this.task.id) {
-                _this.task.user_id = task.user_id;
-                _this.task.status = task.status;
-            }
-        });
-        window.taskChannel.listen('BanUpdate', function (_ref2) {
-            var ban = _ref2.ban,
-                active = _ref2.active;
-
-            console.log(ban, active);
-            if (ban.task_id == _this.task.id && ban.user_id == _this.user.id && active) {
-                _this.isBanned = true;
-            }
-            if (ban.task_id == _this.task.id && ban.user_id == _this.user.id && !active) {
-                _this.isBanned = false;
-            }
-        });
-    },
-
-    computed: {
-        status: function status() {
-            var status = +this.task.status;
-
-            if (this.isBanned) {
-                return 'Задание заблокировано для выполнения!';
-            }
-            if (status == 0 || status == 1 && this.user.id == this.task.user_id) {
-                return '';
-            }
-            if (this.user.id != this.task.user_id) {
-                return 'Уже занято другой командой!';
-            }
-            if (this.user.id == this.task.user_id && status == 2) {
-                return 'Находится на проверке, ожидайте!';
-            }
-            if (this.user.id == this.task.user_id && status == 3) {
-                return 'Успешно выполнено!';
-            }
-        },
-        statusClass: function statusClass() {
-            var status = this.task.status;
-
-            if (this.user.id == this.task.user_id || this.task.user_id == 0) {
-                switch (+status) {
-                    case 0:
-                        return '';
-                    case 1:
-                        return 'inwork';
-                    case 2:
-                        return 'disabled check';
-                    case 3:
-                        return 'disabled done';
-                }
-            } else {
-                return 'disabled';
-            }
-        }
-    },
-    methods: {
-        takeTask: function takeTask() {
-            axios.put('/take-task', {
-                task_id: this.task.id,
-                is_taking: true
-            }).catch(function (error) {
-                console.log(error.response);
-                if (error.response.status == 409) {
-                    alert('Вы можете выполнять только 1 задание одновременно!');
-                }
-            });
-        },
-        cancelTask: function cancelTask() {
-            axios.put('/take-task', {
-                task_id: this.task.id,
-                is_taking: false
-            }).catch(function (error) {
-                console.log(error.response);
-            });
-        },
-        sendAnswer: function sendAnswer() {
-            this.$store.commit('setModal', {
-                active: true,
-                taskId: this.task.id
-            });
-        }
-    }
-});
+throw new Error("Module build failed: SyntaxError: C:/xampp/htdocs/severquest/resources/js/components/TaskComponent.vue: Unexpected token, expected , (124:0)\n\n\u001b[0m \u001b[90m 122 | \u001b[39m    }\n \u001b[90m 123 | \u001b[39m}\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 124 | \u001b[39m\n \u001b[90m     | \u001b[39m\u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n");
 
 /***/ }),
 
@@ -6293,7 +6166,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 

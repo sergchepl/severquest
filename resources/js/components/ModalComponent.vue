@@ -52,7 +52,7 @@ export default {
                     taskId: null
                 });
             }).catch(error => {
-                console.log(error.perponse);
+                console.log(error.response);
             });
         }
     },

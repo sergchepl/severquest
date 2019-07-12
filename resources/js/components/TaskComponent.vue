@@ -53,6 +53,9 @@ export default {
         status() {
             let status = +this.task.status;
 
+            if (this.isBanned && +this.task.type == 2) {
+                return 'Ваш ответ принят!';
+            }
             if (this.isBanned) {
                 return 'Задание заблокировано для выполнения!';
             }
@@ -72,7 +75,7 @@ export default {
         statusClass() {
             let status = this.task.status;
 
-            if (this.user.id == this.task.user_id || this.task.user_id == 0) {
+            if ((this.user.id == this.task.user_id || this.task.user_id == 0) && !this.isBanned) {
                 switch(+status) {
                     case 0:
                         return '';
@@ -83,9 +86,11 @@ export default {
                     case 3:
                         return 'disabled done';
                 }
-            } else {
-                return 'disabled';
+            if (+this.task.type == 2 && this.isBanned) {
+                return 'disabled check';
             }
+            return 'disabled';
+            
         }
     },
     methods: {
