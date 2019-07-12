@@ -176,7 +176,13 @@ class MainController extends Controller
                 event(new Score($user));
 
             case '/clear_ban':
-                $ban = Ban::where('user_id', $number)->where('task_id', $secondNumber)->first()->delete();
+                $ban = Ban::where('user_id', $number)->where('task_id', $secondNumber)->first();
+
+                if (is_null($ban)) {
+                    return response('Nothing', 204);
+                }
+                
+                $ban->delete();
                 $user = User::find($number);
                 $task = Task::find($secondNumber);
                 $text_to_admin = "Задание <b>" . $task->name . "</b> команды <b>" . $user->name . "</b> разбанено!\n";
