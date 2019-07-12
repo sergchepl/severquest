@@ -259,7 +259,7 @@ class MainController extends Controller
                             break;
                         case '/ban':
                             if ($task->user_id == 0) 
-                                break;
+                                return response('Nothing', 204);
                                 
                             $ban = new Ban;
                             $ban->user_id = $task->user_id;
@@ -280,7 +280,8 @@ class MainController extends Controller
                             $text_to_admin = "Теперь статус задания <b>№$number</b> : Открыто!\n";
                             $text_to_users = "🎲 Задание <b>" . $task->name . "</b> снова доступно для выполнения всеми командами.";
                             break;
-                        default:$text_to_admin = "<b>Такая задача не существует!</b>\n";
+                        default:
+                            $text_to_admin = "<b>Такая задача не существует!</b>\n";
                             break;
                     }
                     $task->save();
