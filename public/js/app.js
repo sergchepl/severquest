@@ -47597,7 +47597,7 @@ var render = function() {
       class: [
         _vm.statusClass,
         { sharing: _vm.task.type == 2 },
-        { banned: _vm.isBanned }
+        { banned: _vm.isBanned && !+_vm.task.type == 2 }
       ]
     },
     [

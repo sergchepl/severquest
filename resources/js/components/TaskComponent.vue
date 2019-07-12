@@ -1,5 +1,5 @@
 <template>
-  <div class="card mt-2" :class="[statusClass, {'sharing': task.type == 2}, {'banned': isBanned}]">
+  <div class="card mt-2" :class="[statusClass, {'sharing': task.type == 2}, {'banned': isBanned && !+task.type == 2}]">
         <div class="card-header" :id="'heading-'+task.id">
             <h5 class="mb-0">
                 <a data-toggle="collapse" :href="'#collapse-'+task.id" aria-expanded="false">

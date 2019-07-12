@@ -30,7 +30,7 @@
                 <div class="type-2">
                     @foreach ($tasks as $k => $task)
                         @if($task->type == 2)
-                            <Task :task-prop="{{ $task }}"  :user="{{ Auth::user() }}"></Task>
+                            <Task :task-prop="{{ $task }}"  :user="{{ Auth::user() }}" :is-banned-prop="{{ $task->ban()->whereUserId(Auth()->user()->id)->first() ? 'true' : 'false' }}"></Task>
                         @endif
                     @endforeach
                 </div>
