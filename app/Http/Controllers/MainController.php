@@ -168,23 +168,29 @@ class MainController extends Controller
                 break;
             case '/clear_team':
                 $user = User::find($number);
+
+                if (is_null($user)) {
+                    $text_to_admin = "Команды <b>№" . $number . "</b> не существует!\n";
+                    break;
+                }
                 $user->score = 0;
                 $user->save();
                 $text_to_admin = "Прогресс команды <b>" . $user->name . "</b> обнулен!\n";
-                break;
                 
                 event(new Score($user));
-
+                break;
             case '/clear_ban':
+                $user = User::find($number);
+                $task = Task::find($secondNumber);
                 $ban = Ban::where('user_id', $number)->where('task_id', $secondNumber)->first();
 
                 if (is_null($ban)) {
-                    return response('Nothing', 204);
+                    $text_to_admin = "Задание <b>" . $task->name . "</b> команды <b>" . $user->name . "</b> не было заблокировано!\n";
+                    break;
                 }
-                
+
                 $ban->delete();
-                $user = User::find($number);
-                $task = Task::find($secondNumber);
+                
                 $text_to_admin = "Задание <b>" . $task->name . "</b> команды <b>" . $user->name . "</b> разбанено!\n";
                 $text_to_users = "🚦 Задание <b>" . $task->name . "</b> команды <b>" . $user->name . "</b> разбанено!\n";
                 
