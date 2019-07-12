@@ -114,14 +114,17 @@ class MainController extends Controller
             $task->update([
                 'status' => 2,
             ]);
+
+            event(new TaskUpdate($task));
         }
         if ($task->type == 2) {
             $ban = Ban::create([
                 'user_id' => Auth::user()->id,
                 'task_id' => $request->task_id,
-            ]); //TODO: make BAN work
+            ]); 
+
+            event(new BanUpdate($ban, true));
         }
-        event(new TaskUpdate($task));
 
         return response('ok', 200);
     }
