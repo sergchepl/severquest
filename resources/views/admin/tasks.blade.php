@@ -1,7 +1,8 @@
 @extends('layouts.admin')
 
 @section('main')
-  <section class="wrapper site-min-height">
+  <section class="wrapper site-min-height"> 
+      {{-- TODO: add BANS to configute them --}}
     <h3><i class="fa fa-angle-right"></i> Обычные Задачи</h3>
     <div class="row mt">
       @foreach ($tasks as $task)
