@@ -26,7 +26,7 @@ Route::post('/login','Auth\LoginController@authenticate');
 Route::post('/AAG1RIo_ym-2We-yuTsN8IWg8Jlex7lEY4s/webhook', 'MainController@webhook');
 Route::get('/setwebhook', 'TelegramBotController@setWebhook');
 
-Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function() {
+Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function() {
     Route::get('dashboard', 'AdminController@dashboard')->name('dashboard');
     Route::get('tasks', 'AdminController@tasks')->name('tasks');
     Route::get('task/create', 'AdminController@createTask')->name('tasks.new');
