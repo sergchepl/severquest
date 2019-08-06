@@ -20,7 +20,7 @@
                     <div class="radio">
                       <label>
                         <input type="radio" name="type" value="1" @if($task->type == 1) checked @endif>
-                          Обычные задачи
+                          Уникальные задачи
                         </label>
                     </div>
                     <div class="radio">

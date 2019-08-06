@@ -19,7 +19,7 @@
                     <div class="radio">
                       <label>
                         <input type="radio" name="type" value="1" checked>
-                          Обычные задачи
+                          Уникальные задачи
                         </label>
                     </div>
                     <div class="radio">
