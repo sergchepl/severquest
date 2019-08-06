@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'login', 'password',
+        'name', 'login', 'password', 'read_rules'
     ];
 
     /**
@@ -27,9 +27,20 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function isAdmin()
+    {
+        return $this->is_admin === 1;
+    }
+
     public function task()
     {
         return $this->hasOne('App\Task');
+    }
+
+    public function completed_tasks()
+    {
+        return $this->hasMany('App\Task')->whereStatus(3);
     }
     public function bans()
     {

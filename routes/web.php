@@ -24,5 +24,15 @@ Auth::routes();
 Route::post('/login','Auth\LoginController@authenticate');
 
 Route::post('/AAG1RIo_ym-2We-yuTsN8IWg8Jlex7lEY4s/webhook', 'MainController@webhook');
-
 Route::get('/setwebhook', 'TelegramBotController@setWebhook');
+
+Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function() {
+    Route::get('dashboard', 'AdminController@dashboard')->name('dashboard');
+    Route::get('tasks', 'AdminController@tasks')->name('tasks');
+    Route::get('task/create', 'AdminController@createTask')->name('tasks.new');
+    Route::get('task/{task}/delete', 'AdminController@deleteTask')->name('task.delete');
+
+    Route::get('users', 'AdminController@users')->name('users');
+    Route::get('user/{user}/activate', 'AdminController@activateUser')->name('user.activate');
+    Route::get('user/{user}/delete', 'AdminController@deleteUser')->name('user.delete');
+});
