@@ -39,7 +39,6 @@ Vue.component('Modal', require('./components/ModalComponent.vue'));
 Vue.component('Score', require('./components/ScoreComponent.vue'));
 Vue.component('Task', require('./components/TaskComponent.vue'));
 Vue.component('main-chart', require('./components/MainChartComponent.vue'));
-Vue.component('weather', require('./components/WeatherComponent.vue'));
 
 const app = new Vue({
     el: '#app',

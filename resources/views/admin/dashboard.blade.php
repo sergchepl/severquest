@@ -7,8 +7,14 @@
           <div class="col-lg-9 main-chart">
             <Main-chart :users="{{ $users }}"></Main-chart>
             <div class="row">
-              <!-- TWITTER PANEL -->
-              <weather></weather>
+              <!-- WEATHER PANEL -->
+              <div class="col-md-4 mb">
+                  <div class="weather pn">
+                    <i class="fa fa-cloud fa-4x"></i>
+                    <h2>{{ round($temperature, 1) }}º C</h2>
+                    <h4>СЕВЕРОДОНЕЦК</h4>
+                  </div>
+                </div>
               <!-- /col-md-4 -->
               <div class="col-md-4 mb">
                 <!-- WHITE PANEL - TOP USER -->
