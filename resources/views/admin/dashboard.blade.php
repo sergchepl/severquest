@@ -10,7 +10,7 @@
               <!-- WEATHER PANEL -->
               <div class="col-md-4 mb">
                   <div class="weather pn">
-                    <i class="fa fa-cloud fa-4x"></i>
+                    <img src="{{ $icon_url }}" alt="">
                     <h2>{{ round($temperature, 1) }}º C</h2>
                     <h4>СЕВЕРОДОНЕЦК</h4>
                   </div>

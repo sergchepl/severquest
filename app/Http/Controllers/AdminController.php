@@ -10,13 +10,15 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
-        $temperature = json_decode(file_get_contents("https://api.openweathermap.org/data/2.5/weather?q=SIEVIERODONETSK&appid=8ec388c04f920dbec4234d96e9be6623"))->main->temp - 273.15;
-
+        $weather = json_decode(file_get_contents("https://api.openweathermap.org/data/2.5/weather?q=SIEVIERODONETSK&appid=8ec388c04f920dbec4234d96e9be6623"));
+        $temperature = $weather->main->temp - 273.15;
+        $icon_url = "http://openweathermap.org/img/wn/".$weather->weather[0]->icon."@2x.png";
+        
         $tasks = Task::all();
         $users = User::whereIsAdmin(false)->get();
         $best_user = User::whereIsAdmin(false)->orderBy('score', 'desc')->with('completed_tasks')->first();
 
-        return view('admin.dashboard', compact('tasks', 'users', 'best_user', 'temperature'));
+        return view('admin.dashboard', compact('tasks', 'users', 'best_user', 'temperature', 'icon_url'));
     }
 
     public function tasks()
