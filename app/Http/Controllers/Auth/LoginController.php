@@ -43,6 +43,9 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             // Authentication passed...
+            if(Auth::user()->is_admin) {
+                return redirect('/admin/dashboard');
+            }
             return redirect('/home');
         } else {
             $request->session()->flash('errors');
