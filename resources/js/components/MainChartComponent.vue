@@ -14,7 +14,7 @@
       </ul>
       <div v-for="user in users" :key="user.id" class="bar">
         <div class="title">{{ user.name }}</div>
-        <div class="value tooltips" :data-original-title="user.score" data-toggle="tooltip" data-placement="top">{{ user.score / 300 * 100 }}%</div>
+        <div class="value tooltips" :data-original-title="user.score" data-toggle="tooltip" data-placement="top">{{ user.score / 250 * 100 }}%</div>
       </div>
     </div>
     <!--custom chart end-->

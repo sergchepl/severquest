@@ -47799,7 +47799,7 @@ var render = function() {
                   "data-placement": "top"
                 }
               },
-              [_vm._v(_vm._s((user.score / 300) * 100) + "%")]
+              [_vm._v(_vm._s((user.score / 250) * 100) + "%")]
             )
           ])
         })
