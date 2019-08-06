@@ -132,6 +132,15 @@
       console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
     }
   </script>
+  <script src="https://cdn.tiny.cloud/1/r5dnrnvhdkqbpdrk8ihegv0bwyn4touy2fkvc8ko85phxls4/tinymce/5/tinymce.min.js"></script>
+  <script>
+      tinymce.init({
+        selector: '#description',
+        plugins : 'advlist autolink link image lists charmap print preview',
+        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+        content_css: '{{ asset('css/bootstrap.css') }}',
+      });
+      </script>
 </body>
 
 </html>

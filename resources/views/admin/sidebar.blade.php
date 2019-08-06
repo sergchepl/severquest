@@ -10,13 +10,13 @@
           </a>
       </li>
       <li class="sub-menu">
-        <a class="@if(strcmp(\URL::current(), route('tasks')) == 0 || strcmp(\URL::current(), route('tasks.new')) == 0 )) active @endif" href="#">
+        <a class="@if(strcmp(\URL::current(), route('tasks')) == 0 || strcmp(\URL::current(), route('task.new')) == 0 )) active @endif" href="#">
           <i class="fa fa-desktop"></i>
           <span>Задачи</span>
         </a>
         <ul class="sub">
           <li class="@if(strcmp(\URL::current(), route('tasks')) == 0 )) active @endif"><a href="{{ route('tasks')}}">Список Задач</a></li>
-          <li class="@if(strcmp(\URL::current(), route('tasks.new')) == 0 )) active @endif"><a href="{{ route('tasks.new')}}">Добавить новую задачу</a></li>
+          <li class="@if(strcmp(\URL::current(), route('task.new')) == 0 )) active @endif"><a href="{{ route('task.new')}}">Добавить новую задачу</a></li>
         </ul>
       </li>
       <li>

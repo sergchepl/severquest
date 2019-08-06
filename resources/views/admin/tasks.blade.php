@@ -13,14 +13,14 @@
             </div>
             {!! $task->description !!}
             <div class="row mb">
-              <div class="col-sm-10 col-xs-10 goleft">
+              <div class="col-sm-8 col-xs-8 goleft">
                 <p>Количество<br/>Балов:</p>
               </div>
-              <div class="col-sm-2 col-xs-2">
+              <div class="col-sm-4 col-xs-4">
                 <h2>{{ $task->score }}</h2>
               </div>
               <div class="col-sm-12 mb">
-                  <a href="#" class="btn btn-theme">Изменить</a>
+                  <a href="{{ route('task.edit', $task->id) }}" class="btn btn-theme">Изменить</a>
                   <a href="{{ route('task.delete', $task->id) }}" class="btn btn-theme04">Удалить</a>
               </div>  
             </div>
@@ -40,14 +40,14 @@
               </div>
               {!! $task->description !!}
               <div class="row mb">
-                <div class="col-sm-10 col-xs-10 goleft">
+                <div class="col-sm-8 col-xs-8 goleft">
                   <p style="color: white;">Количество<br/>Балов:</p>
                 </div>
-                <div class="col-sm-2 col-xs-2">
+                <div class="col-sm-4 col-xs-4">
                   <h2 style="color: white;">{{ $task->score }}</h2>
                 </div>
                 <div class="col-sm-12 mb">
-                    <a href="#" class="btn btn-theme">Изменить</a>
+                    <a href="{{ route('task.edit', $task->id) }}" class="btn btn-theme">Изменить</a>
                     <a href="{{ route('task.delete', $task->id) }}" class="btn btn-theme04">Удалить</a>
                 </div>  
               </div>

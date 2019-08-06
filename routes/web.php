@@ -29,7 +29,10 @@ Route::get('/setwebhook', 'TelegramBotController@setWebhook');
 Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function() {
     Route::get('dashboard', 'AdminController@dashboard')->name('dashboard');
     Route::get('tasks', 'AdminController@tasks')->name('tasks');
-    Route::get('task/create', 'AdminController@createTask')->name('tasks.new');
+    Route::get('task/create', 'AdminController@createTask')->name('task.new');
+    Route::get('task/{task}/edit', 'AdminController@editTask')->name('task.edit');
+    Route::post('task/save', 'AdminController@saveTask')->name('task.save');
+    Route::post('task/{task}/update', 'AdminController@updateTask')->name('task.update');
     Route::get('task/{task}/delete', 'AdminController@deleteTask')->name('task.delete');
 
     Route::get('users', 'AdminController@users')->name('users');

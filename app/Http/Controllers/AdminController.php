@@ -31,6 +31,39 @@ class AdminController extends Controller
         return view('admin.create-task');
     }
 
+    public function editTask(Task $task)
+    {
+        return view('admin.edit-task', compact('task'));
+    }
+
+    public function saveTask(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|min:5',
+            'type' => 'required',
+            'score' => 'required|integer',
+            'description' => 'required'
+        ]);
+
+        Task::create($data);
+
+        return \redirect(route('tasks'));
+    }
+
+    public function updateTask(Request $request, Task $task)
+    {
+        $data = $request->validate([
+            'name' => 'required|min:5',
+            'type' => 'required',
+            'score' => 'required|integer',
+            'description' => 'required'
+        ]);
+
+        $task->update($data);
+
+        return \redirect(route('tasks'));
+    }
+
     public function deleteTask(Task $task)
     {
         $task->delete();
