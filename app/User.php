@@ -30,7 +30,7 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->is_admin === 1;
+        return (int) $this->is_admin === 1;
     }
 
     public function task()
