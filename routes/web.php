@@ -16,7 +16,6 @@ Route::get('/', 'MainController@rules');
 Route::get('/home', 'MainController@index');
 
 Route::put('/take-task', 'MainController@takeTask');
-Route::get('/check-tasks', 'MainController@checkTakenTasks');
 Route::post('/send-answer', 'MainController@sendAnswer')->middleware('telegramphoto');
 Route::put('/set-score', 'MainController@setScore');
 
@@ -34,6 +33,8 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function(
     Route::post('task/save', 'AdminController@saveTask')->name('task.save');
     Route::post('task/{task}/update', 'AdminController@updateTask')->name('task.update');
     Route::get('task/{task}/delete', 'AdminController@deleteTask')->name('task.delete');
+    Route::get('bans', 'AdminController@bans')->name('bans');
+    Route::get('ban/{ban}/delete', 'AdminController@deleteBan')->name('ban.delete');
 
     Route::get('users', 'AdminController@users')->name('users');
     Route::get('user/{user}/activate', 'AdminController@activateUser')->name('user.activate');

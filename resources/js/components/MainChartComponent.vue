@@ -33,7 +33,9 @@ export default {
         
     },
     mounted() {
-        
+        window.Echo.private('score.1').listen('Score', (data) => {
+            console.log(data);
+        })
     },
     methods: {
         

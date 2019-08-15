@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Task;
+use App\Ban;
 use App\User;
 
 class AdminController extends Controller
@@ -69,6 +70,20 @@ class AdminController extends Controller
     public function deleteTask(Task $task)
     {
         $task->delete();
+
+        return back();
+    }
+
+    public function bans()
+    {
+        $bans = Ban::with(['user', 'task'])->get();
+
+        return view('admin.bans', compact('bans'));
+    }
+
+    public function deleteBan(Ban $ban)
+    {
+        $ban->delete();
 
         return back();
     }

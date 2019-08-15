@@ -2,7 +2,6 @@
 
 @section('main')
   <section class="wrapper site-min-height"> 
-      {{-- TODO: add BANS to configute them --}}
     <h3><i class="fa fa-angle-right"></i> Уникальные Задачи</h3>
     <div class="row mt">
       @foreach ($tasks as $task)

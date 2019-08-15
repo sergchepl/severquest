@@ -1606,7 +1606,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {};
     },
     computed: {},
-    mounted: function mounted() {},
+    mounted: function mounted() {
+        window.Echo.private('score.1').listen('Score', function (data) {
+            console.log(data);
+        });
+    },
 
     methods: {}
 });
@@ -6358,7 +6362,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 

@@ -69,41 +69,12 @@ class MainController extends Controller
     {
         $user = User::find(Auth::user()->id);
         $score_to_save = $user->score;
-        $newScore = json_decode($request);
-        $user->score = $request->score + $score_to_save;
-        $user->read_rules = true;
-        $user->save();
+
+        $user->update([
+            'score' => $request->score + $score_to_save,
+            'read_rules' => true,
+        ]);
         return response($request->score, 200);
-    }
-
-    public function checkTakenTasks(Request $request)
-    {
-        $bannedTasks = User::find(Auth::user()->id)->bans;
-
-        $tasks = Task::all();
-        $taskToSend = [];
-        $temp_time = 0;
-        foreach ($tasks as $task) {
-            if (strtotime($task->updated_at) > $request->timestamp) {
-                array_push($taskToSend, $task);
-                if (strtotime($task->updated_at) > $temp_time) {
-                    $temp_time = strtotime($task->updated_at);
-                }
-
-            }
-        }
-        $timestamp = ($temp_time != 0) ? $temp_time : $request->timestamp;
-
-        if (count($bannedTasks) != $request->banned_tasks) {
-            array_push($taskToSend, $timestamp);
-            array_push($taskToSend, $bannedTasks);
-            return $taskToSend;
-        }
-        if (count($taskToSend) != 0) {
-            array_push($taskToSend, $timestamp);
-            return $taskToSend;
-        }
-        return response('ok', 204);
     }
 
     public function sendAnswer(Request $request)

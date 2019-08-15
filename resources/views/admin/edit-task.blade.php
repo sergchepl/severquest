@@ -2,7 +2,7 @@
 
 @section('main')
   <section class="wrapper site-min-height">
-      <h3><i class="fa fa-angle-right"></i> Новая Задача</h3>
+      <h3><i class="fa fa-angle-right"></i> Изменить Задачу</h3>
         <div class="row">
           <div class="col-lg-10">
             <form action="{{ route('task.update', $task->id) }}" method="POST" class="form-horizontal style-form">
