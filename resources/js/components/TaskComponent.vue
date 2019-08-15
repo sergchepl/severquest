@@ -33,13 +33,13 @@ export default {
         }
     },
     mounted() {
-        window.taskChannel.listen('TaskUpdate', ({task}) => {
+        this.taskChannel.listen('TaskUpdate', ({task}) => {
             if (task.id == this.task.id) {
                 this.task.user_id = task.user_id;
                 this.task.status = task.status;
             }
         });
-        window.taskChannel.listen('BanUpdate', ({ban, active}) => {
+        this.taskChannel.listen('BanUpdate', ({ban, active}) => {
             console.log(ban, active);
             if (ban.task_id == this.task.id && ban.user_id == this.user.id && active) {
                 this.isBanned = true;
@@ -50,6 +50,9 @@ export default {
         });
     },
     computed: {
+        taskChannel() {
+            return window.Echo.channel('tasks'); // will listen all task events
+        },
         status() {
             let status = +this.task.status;
 

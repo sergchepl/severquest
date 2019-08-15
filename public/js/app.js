@@ -1763,7 +1763,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         var _this = this;
 
-        window.taskChannel.listen('TaskUpdate', function (_ref) {
+        this.taskChannel.listen('TaskUpdate', function (_ref) {
             var task = _ref.task;
 
             if (task.id == _this.task.id) {
@@ -1771,7 +1771,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.task.status = task.status;
             }
         });
-        window.taskChannel.listen('BanUpdate', function (_ref2) {
+        this.taskChannel.listen('BanUpdate', function (_ref2) {
             var ban = _ref2.ban,
                 active = _ref2.active;
 
@@ -1786,6 +1786,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     computed: {
+        taskChannel: function taskChannel() {
+            return window.Echo.channel('tasks'); // will listen all task events
+        },
         status: function status() {
             var status = +this.task.status;
 
@@ -6340,7 +6343,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -61303,8 +61306,6 @@ var store = new __WEBPACK_IMPORTED_MODULE_0_vuex__["a" /* default */].Store({
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
-window.taskChannel = window.Echo.channel('tasks'); // will listen all task events
 
 Vue.component('Modal', __webpack_require__("./resources/js/components/ModalComponent.vue"));
 Vue.component('Score', __webpack_require__("./resources/js/components/ScoreComponent.vue"));

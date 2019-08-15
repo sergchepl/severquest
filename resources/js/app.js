@@ -33,8 +33,6 @@ const store = new Vuex.Store({
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-window.taskChannel = window.Echo.channel('tasks'); // will listen all task events
-
 Vue.component('Modal', require('./components/ModalComponent.vue'));
 Vue.component('Score', require('./components/ScoreComponent.vue'));
 Vue.component('Task', require('./components/TaskComponent.vue'));
