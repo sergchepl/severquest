@@ -1,6 +1,6 @@
 <template>
   <div class="answer" v-if="modal.active">
-        <button type="button" class="close">
+        <button type="button" class="close" @click="closeModal">
             <span aria-hidden="true">&times;</span>
         </button>
         <form ref="form" class="form-inline" method="post" enctype="multipart/form-data">
@@ -35,6 +35,12 @@ export default {
         
     },
     methods: {
+        closeModal() {
+            this.$store.commit('setModal', {
+                    active: false,
+                    taskId: null
+                });
+        },
         send() {
             this.uploading = true;
 

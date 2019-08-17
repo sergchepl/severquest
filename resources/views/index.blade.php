@@ -4,13 +4,13 @@
     <div class="container-fluid">
         <div class="row">
             <header class="col-12">
-                <a href="/"><img src="/css/image/logo.jpg" alt=""></a>
+                SEVERQUEST<a href="/"><img src="/css/image/logo.jpg" alt=""></a>
                 <div onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();"
                             data-teamId='{{Auth::user()->id}}' class="team">
                     <div>{{Auth::user()->name}}</div>
                     <Score :user="{{ Auth::user() }}"></Score>
-                </div>s
+                </div>
                 {{-- ДЛЯ ТЕСТОВ!!!!!! --}}
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf

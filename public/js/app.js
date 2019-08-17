@@ -1658,6 +1658,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {},
 
     methods: {
+        closeModal: function closeModal() {
+            this.$store.commit('setModal', {
+                active: false,
+                taskId: null
+            });
+        },
         send: function send() {
             var _this = this;
 
@@ -6492,7 +6498,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -47729,7 +47735,15 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _vm.modal.active
     ? _c("div", { staticClass: "answer" }, [
-        _vm._m(0),
+        _c(
+          "button",
+          {
+            staticClass: "close",
+            attrs: { type: "button" },
+            on: { click: _vm.closeModal }
+          },
+          [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+        ),
         _vm._v(" "),
         _c(
           "form",
@@ -47756,9 +47770,9 @@ var render = function() {
               domProps: { value: _vm.modal.taskId }
             }),
             _vm._v(" "),
-            _vm._m(1),
+            _vm._m(0),
             _vm._v(" "),
-            _vm._m(2),
+            _vm._m(1),
             _vm._v(" "),
             _c(
               "button",
@@ -47780,14 +47794,6 @@ var render = function() {
     : _vm._e()
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("button", { staticClass: "close", attrs: { type: "button" } }, [
-      _c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
