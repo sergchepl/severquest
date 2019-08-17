@@ -33,10 +33,11 @@ const store = new Vuex.Store({
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('Modal', require('./components/ModalComponent.vue'));
-Vue.component('Score', require('./components/ScoreComponent.vue'));
-Vue.component('Task', require('./components/TaskComponent.vue'));
-Vue.component('main-chart', require('./components/MainChartComponent.vue'));
+Vue.component('Modal', require('./components/Modal.vue'));
+Vue.component('Score', require('./components/Score.vue'));
+Vue.component('Task', require('./components/Task.vue'));
+Vue.component('Rules', require('./components/Rules.vue'));
+Vue.component('main-chart', require('./components/MainChart.vue'));
 
 const app = new Vue({
     el: '#app',
