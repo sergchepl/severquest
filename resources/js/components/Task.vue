@@ -1,26 +1,28 @@
 <template>
-  <div class="card mt-2" :class="[statusClass, {'sharing': task.type == 2}, {'banned': isBanned && +task.type != 2}]">
-        <div class="card-header" :id="'heading-'+task.id">
-            <h5 class="mb-0">
-                <a data-toggle="collapse" :href="'#collapse-'+task.id" aria-expanded="false">
-                    {{ task.name }}
-                </a>
-                <span class="badge badge-light">{{ task.score }}</span>
-            </h5>
-        </div>
-    
-        <div :id="'collapse-'+task.id" class="collapse" :aria-labelledby="'heading-'+task.id">
-            <div class="card-body">
-                <p v-html="task.description"></p>
-                <template v-if="!status">
-                    <button v-if="!+task.user_id && +task.type != 2" class="btn btn-coral btn-lg" role="button" @click="takeTask">За дело!</button>
-                    <button v-if="+task.user_id == user.id && +task.type != 2" class="btn btn-danger hide btn-lg" role="button" @click="cancelTask">Отменись!</button>
-                    <button v-if="+task.user_id == user.id || +task.type == 2" :class="+task.type == 2 ? 'btn-info' : 'btn-success'" class="btn btn-lg" role="button" @click="sendAnswer">Хочу Сдать!</button>
-                </template>
-                <p v-else class="status">{{ status }}</p>
+  <transition name="color">
+    <div class="card mt-2" :class="[statusClass, {'sharing': task.type == 2}, {'banned': isBanned && +task.type != 2}, {'wibro': isDoubleTask}]">
+            <div class="card-header" :id="'heading-'+task.id">
+                <h5 class="mb-0">
+                    <a data-toggle="collapse" :href="'#collapse-'+task.id" aria-expanded="false">
+                        {{ task.name }}
+                    </a>
+                    <span class="badge badge-light">{{ task.score }}</span>
+                </h5>
+            </div>
+        
+            <div :id="'collapse-'+task.id" class="collapse" :aria-labelledby="'heading-'+task.id">
+                <div class="card-body">
+                    <p v-html="task.description"></p>
+                    <template v-if="!status">
+                        <button v-if="!+task.user_id && +task.type != 2" class="btn btn-coral btn-lg" role="button" @click="takeTask">За дело!</button>
+                        <button v-if="+task.user_id == user.id && +task.type != 2" class="btn btn-danger hide btn-lg" role="button" @click="cancelTask">Отменись!</button>
+                        <button v-if="+task.user_id == user.id || +task.type == 2" :class="+task.type == 2 ? 'btn-info' : 'btn-success'" class="btn btn-lg" role="button" @click="sendAnswer">Хочу Сдать!</button>
+                    </template>
+                    <p v-else class="status">{{ status }}</p>
+                </div>
             </div>
         </div>
-    </div>
+    </transition>
 </template>
 
 <script>
@@ -30,6 +32,7 @@ export default {
         return {
             task: this.taskProp,
             isBanned: this.isBannedProp,
+            isDoubleTask: false,
         }
     },
     mounted() {
@@ -104,7 +107,8 @@ export default {
             }).catch(error => {
                 console.log(error.response);
                 if (error.response.status == 409) {
-                    alert('Вы можете выполнять только 1 задание одновременно!');
+                    this.isDoubleTask = true;
+                    setTimeout(() => this.isDoubleTask = false, 500);
                 }
             })
         },
@@ -127,5 +131,37 @@ export default {
 </script>
 
 <style>
-
+.color-enter-active, .color-leave-active {
+  transition: all .5s;
+}
+.wibro {
+    -webkit-animation: 0.1s tremor ease-out infinite;  
+    animation: 0.1s tremor ease-out infinite;
+}
+@-webkit-keyframes tremor {
+    0%, 25% {
+        left: -1px;
+        top:-1px;
+        -webkit-transform: translateX(-1px);
+        transform: translateX(-1px);
+    }
+    50%, 100% {
+        left: 1px;
+        top: 1px;
+        -webkit-transform: translateX(1px);
+        transform: translateX(1px);
+    }
+}
+@keyframes tremor {
+    0%, 25% {
+        left: -1px;
+        -webkit-transform: translateX(-1px);
+        transform: translateX(-1px);
+    }
+    50%, 100% {
+        left: 1px;
+        -webkit-transform: translateX(1px);
+        transform: translateX(1px);
+    }
+}
 </style>

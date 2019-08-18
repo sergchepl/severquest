@@ -37,7 +37,6 @@ header {
 }
 
 form {
-    margin: 2rem;
     font-size: 1.5rem;
 }
 
@@ -219,6 +218,7 @@ li {
     position: fixed;
     bottom: 0px;
     background-color: white;
+    width: 93%;
 }
 
 .answer:before {

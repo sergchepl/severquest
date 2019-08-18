@@ -1641,13 +1641,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: [],
     data: function data() {
         return {
             uploading: false,
-            progress: 0
+            progress: 0,
+            inputText: 'Выбрать файлы'
         };
     },
     computed: {
@@ -1658,6 +1669,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {},
 
     methods: {
+        refreshData: function refreshData() {
+            this.uploading = false;
+            this.progress = 0;
+            this.inputText = 'Выбрать файлы';
+        },
         closeModal: function closeModal() {
             this.$store.commit('setModal', {
                 active: false,
@@ -1679,7 +1695,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     'Content-Type': 'multipart/form-data'
                 }
             }).then(function (response) {
-                _this.uploading = false;
+                _this.refreshData();
                 _this.$store.commit('setModal', {
                     active: false,
                     taskId: null
@@ -1687,6 +1703,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).catch(function (error) {
                 console.log(error.response);
             });
+        },
+        changeFile: function changeFile(e) {
+            if (e.target.files.length > 0) {
+                this.inputText = "Выбрано " + e.target.files.length + ' фото';
+            } else {
+                this.inputText = 'Выбрать файлы';
+            }
         }
     }
 
@@ -1921,13 +1944,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['taskProp', 'user', 'isBannedProp'],
     data: function data() {
         return {
             task: this.taskProp,
-            isBanned: this.isBannedProp
+            isBanned: this.isBannedProp,
+            isDoubleTask: false
         };
     },
     mounted: function mounted() {
@@ -2004,13 +2030,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         takeTask: function takeTask() {
+            var _this2 = this;
+
             axios.put('/take-task', {
                 task_id: this.task.id,
                 is_taking: true
             }).catch(function (error) {
                 console.log(error.response);
                 if (error.response.status == 409) {
-                    alert('Вы можете выполнять только 1 задание одновременно!');
+                    _this2.isDoubleTask = true;
+                    setTimeout(function () {
+                        return _this2.isDoubleTask = false;
+                    }, 500);
                 }
             });
         },
@@ -6498,7 +6529,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.inputfile {\r\n    width: 0.1px;\r\n    height: 0.1px;\r\n    opacity: 0;\r\n    overflow: hidden;\r\n    position: absolute;\r\n    z-index: -1;\n}\n.inputfile + label {\r\n    color: white;\r\n    font-size: 1.25rem;\r\n    font-weight: 700;\r\n    text-overflow: ellipsis;\r\n    white-space: nowrap;\r\n    cursor: pointer;\r\n    overflow: hidden;\r\n    padding: 0;\r\n    margin: 0;\r\n    display: -webkit-box;\r\n    display: -ms-flexbox;\r\n    display: flex;\r\n    -webkit-box-orient: vertical;\r\n    -webkit-box-direction: normal;\r\n        -ms-flex-flow: column;\r\n            flex-flow: column;\r\n    -webkit-box-align: center;\r\n        -ms-flex-align: center;\r\n            align-items: center;\n}\n.inputfile + label figure {\r\n    background-color: white;\r\n    display: block;\r\n    position: relative;\r\n    padding: 10px;\r\n    margin: 0;\r\n    border-radius: 10%;\r\n    -webkit-box-flex: 1;\r\n        -ms-flex-positive: 1;\r\n            flex-grow: 1;\n}\r\n", ""]);
 
 // exports
 
@@ -6528,7 +6559,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.color-enter-active, .color-leave-active {\r\n  -webkit-transition: all .5s;\r\n  transition: all .5s;\n}\n.wibro {\r\n    -webkit-animation: 0.1s tremor ease-out infinite;  \r\n    animation: 0.1s tremor ease-out infinite;\n}\n@-webkit-keyframes tremor {\n0%, 25% {\r\n        left: -1px;\r\n        top:-1px;\r\n        -webkit-transform: translateX(-1px);\r\n        transform: translateX(-1px);\n}\n50%, 100% {\r\n        left: 1px;\r\n        top: 1px;\r\n        -webkit-transform: translateX(1px);\r\n        transform: translateX(1px);\n}\n}\n@keyframes tremor {\n0%, 25% {\r\n        left: -1px;\r\n        -webkit-transform: translateX(-1px);\r\n        transform: translateX(-1px);\n}\n50%, 100% {\r\n        left: 1px;\r\n        -webkit-transform: translateX(1px);\r\n        transform: translateX(1px);\n}\n}\r\n", ""]);
 
 // exports
 
@@ -47749,74 +47780,113 @@ var render = function() {
           "form",
           {
             ref: "form",
-            staticClass: "form-inline",
+            staticClass: "form-inline align-items-center w-100",
             attrs: { method: "post", enctype: "multipart/form-data" }
           },
           [
-            _vm.uploading
-              ? _c(
-                  "progress",
-                  {
-                    staticClass: "progress",
-                    attrs: { max: "100" },
-                    domProps: { value: _vm.progress }
-                  },
-                  [_vm._v(_vm._s(_vm.progress) + "%")]
-                )
-              : _vm._e(),
-            _vm._v(" "),
             _c("input", {
               attrs: { type: "hidden", name: "task_id" },
               domProps: { value: _vm.modal.taskId }
             }),
             _vm._v(" "),
-            _vm._m(0),
-            _vm._v(" "),
-            _vm._m(1),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "w-100 d-flex justify-content-around align-items-center mb-2"
+              },
+              [
+                _c("input", {
+                  staticClass: "inputfile",
+                  staticStyle: { "font-size": "1rem" },
+                  attrs: {
+                    id: "file",
+                    type: "file",
+                    name: "files[]",
+                    multiple: ""
+                  },
+                  on: { change: _vm.changeFile }
+                }),
+                _vm._v(" "),
+                _c("label", { attrs: { for: "file" } }, [
+                  _c("figure", [
+                    _c(
+                      "svg",
+                      {
+                        attrs: {
+                          xmlns: "http://www.w3.org/2000/svg",
+                          width: "20",
+                          height: "17",
+                          viewBox: "0 0 20 17"
+                        }
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            d:
+                              "M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"
+                          }
+                        })
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("span", [_vm._v(_vm._s(_vm.inputText))])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "progress w-50" }, [
+                  _c("div", {
+                    staticClass: "progress-bar progress-bar-striped bg-success",
+                    style: "width:" + _vm.progress + "%",
+                    attrs: {
+                      role: "progressbar",
+                      "aria-valuenow": _vm.progress,
+                      "aria-valuemin": "0",
+                      "aria-valuemax": "100"
+                    }
+                  })
+                ])
+              ]
+            ),
             _vm._v(" "),
             _c(
-              "button",
+              "div",
               {
-                staticClass: "btn btn-primary mb-2",
-                staticStyle: { "font-size": "1rem" },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.send($event)
-                  }
-                }
+                staticClass:
+                  "w-100 d-flex justify-content-around align-items-center p-3"
               },
-              [_vm._v("Submit")]
+              [
+                _c("input", {
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    name: "text",
+                    placeholder: "Доп.текст"
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary ml-3",
+                    staticStyle: { "font-size": "1rem" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.send($event)
+                      }
+                    }
+                  },
+                  [_vm._v("Submit")]
+                )
+              ]
             )
           ]
         )
       ])
     : _vm._e()
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group " }, [
-      _c("input", {
-        staticStyle: { "font-size": "1rem" },
-        attrs: { type: "file", name: "files[]", multiple: "" }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group mr-3 mb-2" }, [
-      _c("input", {
-        staticClass: "form-control",
-        attrs: { type: "text", name: "text", placeholder: "Доп.текст" }
-      })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -48155,115 +48225,123 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      staticClass: "card mt-2",
-      class: [
-        _vm.statusClass,
-        { sharing: _vm.task.type == 2 },
-        { banned: _vm.isBanned && +_vm.task.type != 2 }
-      ]
-    },
-    [
-      _c(
-        "div",
-        { staticClass: "card-header", attrs: { id: "heading-" + _vm.task.id } },
-        [
-          _c("h5", { staticClass: "mb-0" }, [
-            _c(
-              "a",
-              {
-                attrs: {
-                  "data-toggle": "collapse",
-                  href: "#collapse-" + _vm.task.id,
-                  "aria-expanded": "false"
-                }
-              },
-              [
-                _vm._v(
-                  "\n                  " +
-                    _vm._s(_vm.task.name) +
-                    "\n              "
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c("span", { staticClass: "badge badge-light" }, [
-              _vm._v(_vm._s(_vm.task.score))
-            ])
-          ])
+  return _c("transition", { attrs: { name: "color" } }, [
+    _c(
+      "div",
+      {
+        staticClass: "card mt-2",
+        class: [
+          _vm.statusClass,
+          { sharing: _vm.task.type == 2 },
+          { banned: _vm.isBanned && +_vm.task.type != 2 },
+          { wibro: _vm.isDoubleTask }
         ]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "collapse",
-          attrs: {
-            id: "collapse-" + _vm.task.id,
-            "aria-labelledby": "heading-" + _vm.task.id
-          }
-        },
-        [
-          _c(
-            "div",
-            { staticClass: "card-body" },
-            [
-              _c("p", {
-                domProps: { innerHTML: _vm._s(_vm.task.description) }
-              }),
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "card-header",
+            attrs: { id: "heading-" + _vm.task.id }
+          },
+          [
+            _c("h5", { staticClass: "mb-0" }, [
+              _c(
+                "a",
+                {
+                  attrs: {
+                    "data-toggle": "collapse",
+                    href: "#collapse-" + _vm.task.id,
+                    "aria-expanded": "false"
+                  }
+                },
+                [
+                  _vm._v(
+                    "\n                      " +
+                      _vm._s(_vm.task.name) +
+                      "\n                  "
+                  )
+                ]
+              ),
               _vm._v(" "),
-              !_vm.status
-                ? [
-                    !+_vm.task.user_id && +_vm.task.type != 2
-                      ? _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-coral btn-lg",
-                            attrs: { role: "button" },
-                            on: { click: _vm.takeTask }
-                          },
-                          [_vm._v("За дело!")]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    +_vm.task.user_id == _vm.user.id && +_vm.task.type != 2
-                      ? _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-danger hide btn-lg",
-                            attrs: { role: "button" },
-                            on: { click: _vm.cancelTask }
-                          },
-                          [_vm._v("Отменись!")]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    +_vm.task.user_id == _vm.user.id || +_vm.task.type == 2
-                      ? _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-lg",
-                            class:
-                              +_vm.task.type == 2 ? "btn-info" : "btn-success",
-                            attrs: { role: "button" },
-                            on: { click: _vm.sendAnswer }
-                          },
-                          [_vm._v("Хочу Сдать!")]
-                        )
-                      : _vm._e()
-                  ]
-                : _c("p", { staticClass: "status" }, [
-                    _vm._v(_vm._s(_vm.status))
-                  ])
-            ],
-            2
-          )
-        ]
-      )
-    ]
-  )
+              _c("span", { staticClass: "badge badge-light" }, [
+                _vm._v(_vm._s(_vm.task.score))
+              ])
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "collapse",
+            attrs: {
+              id: "collapse-" + _vm.task.id,
+              "aria-labelledby": "heading-" + _vm.task.id
+            }
+          },
+          [
+            _c(
+              "div",
+              { staticClass: "card-body" },
+              [
+                _c("p", {
+                  domProps: { innerHTML: _vm._s(_vm.task.description) }
+                }),
+                _vm._v(" "),
+                !_vm.status
+                  ? [
+                      !+_vm.task.user_id && +_vm.task.type != 2
+                        ? _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-coral btn-lg",
+                              attrs: { role: "button" },
+                              on: { click: _vm.takeTask }
+                            },
+                            [_vm._v("За дело!")]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      +_vm.task.user_id == _vm.user.id && +_vm.task.type != 2
+                        ? _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-danger hide btn-lg",
+                              attrs: { role: "button" },
+                              on: { click: _vm.cancelTask }
+                            },
+                            [_vm._v("Отменись!")]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      +_vm.task.user_id == _vm.user.id || +_vm.task.type == 2
+                        ? _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-lg",
+                              class:
+                                +_vm.task.type == 2
+                                  ? "btn-info"
+                                  : "btn-success",
+                              attrs: { role: "button" },
+                              on: { click: _vm.sendAnswer }
+                            },
+                            [_vm._v("Хочу Сдать!")]
+                          )
+                        : _vm._e()
+                    ]
+                  : _c("p", { staticClass: "status" }, [
+                      _vm._v(_vm._s(_vm.status))
+                    ])
+              ],
+              2
+            )
+          ]
+        )
+      ]
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
