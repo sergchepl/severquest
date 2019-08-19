@@ -5,7 +5,7 @@ body {
     font-family: 'Neucha', cursive;
     font-weight: 400;
     font-size: 1.5rem;
-    color: white;
+    color: #f6f6e9;
 }
 
 body:before {
@@ -17,7 +17,7 @@ body:before {
     width: 100vw;
     height: 200vw;
     z-index: -10;
-    background: url(./image/back.jpg) no-repeat center center;
+    background: #080d11;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -49,14 +49,14 @@ form {
     /* font-family: 'Amatic SC', cursive;
         font-weight: 700;
         font-size: 2rem; */
-    background-color: darkcyan;
+    background-color: #005792;
     /* opacity: .9; */
     margin: 0 .9rem;
 }
 
 .card::before {
     content: '◖';
-    color: coral;
+    color: #005792;
     position: absolute;
     left: -14px;
     z-index: -1;
@@ -64,7 +64,7 @@ form {
 
 .card::after {
     content: '◗';
-    color: coral;
+    color: #005792;
     position: absolute;
     right: -14px;
     z-index: -1;
@@ -76,7 +76,7 @@ form {
 }
 
 .card.inwork {
-    background-color: steelblue;
+    background-color: #13334c;
 }
 
 .card.done {
@@ -88,7 +88,7 @@ form {
 }
 
 .card.check {
-    background-color: chocolate;
+    background-color: #fd5f00;
 }
 
 .card.sharing {
@@ -103,7 +103,7 @@ form {
 
 .card-header a {
     text-decoration: none;
-    color: white;
+    color: #f6f6e9;
 }
 
 .card-body {
@@ -117,13 +117,13 @@ form {
 }
 
 .btn-coral {
-    background-color: coral;
-    color: white;
+    background-color: #fd5f00;
+    color: #f6f6e9;
 }
 
 .status {
     font-size: 1.4rem;
-    color: white;
+    color: #f6f6e9;
     font-weight: 700;
     margin: 0;
     text-align: center;
@@ -139,7 +139,7 @@ h1::after {
     margin: 0 1rem;
     font-size: 1.5rem;
     vertical-align: 15%;
-    color: darkcyan;
+    color: #005792;
 }
 
 .rules {
@@ -158,7 +158,7 @@ h1::after {
     height: 100vh;
     opacity: 0.9;
     z-index: -1;
-    background-color: darkcyan;
+    background-color: black;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -185,7 +185,7 @@ h2::after {
     margin: 0 1rem;
     font-size: 1rem;
     vertical-align: 10%;
-    color: coral;
+    color: #fd5f00;
 }
 
 .rules-title {
@@ -198,7 +198,7 @@ h1.rules-title::before {
     content: '⬥';
     font-size: 2.5rem;
     vertical-align: 0%;
-    color: coral;
+    color: #fd5f00;
 }
 
 p {
@@ -217,8 +217,8 @@ li {
 .answer {
     position: fixed;
     bottom: 0px;
-    background-color: white;
-    width: 93%;
+    background-color: #f6f6e9;
+    margin-right: 15px;
 }
 
 .answer:before {
@@ -230,7 +230,7 @@ li {
     height: 100%;
     opacity: 0.9;
     z-index: -1;
-    background-color: coral;
+    background-color: #fd5f00;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;

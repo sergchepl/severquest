@@ -14,7 +14,6 @@
     <main id="app">
         @yield('content')
     </main>
-
     <script src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>

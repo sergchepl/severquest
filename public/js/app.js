@@ -1651,6 +1651,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: [],
@@ -6529,7 +6531,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.inputfile {\r\n    width: 0.1px;\r\n    height: 0.1px;\r\n    opacity: 0;\r\n    overflow: hidden;\r\n    position: absolute;\r\n    z-index: -1;\n}\n.inputfile + label {\r\n    color: white;\r\n    font-size: 1.25rem;\r\n    font-weight: 700;\r\n    text-overflow: ellipsis;\r\n    white-space: nowrap;\r\n    cursor: pointer;\r\n    overflow: hidden;\r\n    padding: 0;\r\n    margin: 0;\r\n    display: -webkit-box;\r\n    display: -ms-flexbox;\r\n    display: flex;\r\n    -webkit-box-orient: vertical;\r\n    -webkit-box-direction: normal;\r\n        -ms-flex-flow: column;\r\n            flex-flow: column;\r\n    -webkit-box-align: center;\r\n        -ms-flex-align: center;\r\n            align-items: center;\n}\n.inputfile + label figure {\r\n    background-color: white;\r\n    display: block;\r\n    position: relative;\r\n    padding: 10px;\r\n    margin: 0;\r\n    border-radius: 10%;\r\n    -webkit-box-flex: 1;\r\n        -ms-flex-positive: 1;\r\n            flex-grow: 1;\n}\r\n", ""]);
+exports.push([module.i, "\n.inputfile {\r\n    width: 0.1px;\r\n    height: 0.1px;\r\n    opacity: 0;\r\n    overflow: hidden;\r\n    position: absolute;\r\n    z-index: -1;\n}\n.inputfile + label {\r\n    color: white;\r\n    font-size: 1.25rem;\r\n    font-weight: 700;\r\n    text-overflow: ellipsis;\r\n    white-space: nowrap;\r\n    cursor: pointer;\r\n    overflow: hidden;\r\n    padding: 0;\r\n    margin: 0;\r\n    display: -webkit-box;\r\n    display: -ms-flexbox;\r\n    display: flex;\r\n    -webkit-box-orient: vertical;\r\n    -webkit-box-direction: normal;\r\n        -ms-flex-flow: column;\r\n            flex-flow: column;\r\n    -webkit-box-align: center;\r\n        -ms-flex-align: center;\r\n            align-items: center;\n}\n.inputfile + label figure {\r\n    background-color: white;\r\n    display: block;\r\n    position: relative;\r\n    padding: 10px;\r\n    margin: 0;\r\n    border-radius: 10%;\r\n    -webkit-box-flex: 1;\r\n        -ms-flex-positive: 1;\r\n            flex-grow: 1;\n}\n.slide-fade-enter-active {\r\n  -webkit-transition: all .3s ease;\r\n  transition: all .3s ease;\n}\n.slide-fade-leave-active {\r\n  -webkit-transition: all .3s ease;\r\n  transition: all .3s ease;\n}\n.slide-fade-enter, .slide-fade-leave-to\r\n/* .slide-fade-leave-active до версии 2.1.8 */ {\r\n  -webkit-transform: translateY(100px);\r\n          transform: translateY(100px);\r\n  opacity: 0;\n}\r\n", ""]);
 
 // exports
 
@@ -47764,127 +47766,130 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.modal.active
-    ? _c("div", { staticClass: "answer" }, [
-        _c(
-          "button",
-          {
-            staticClass: "close",
-            attrs: { type: "button" },
-            on: { click: _vm.closeModal }
-          },
-          [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-        ),
-        _vm._v(" "),
-        _c(
-          "form",
-          {
-            ref: "form",
-            staticClass: "form-inline align-items-center w-100",
-            attrs: { method: "post", enctype: "multipart/form-data" }
-          },
-          [
-            _c("input", {
-              attrs: { type: "hidden", name: "task_id" },
-              domProps: { value: _vm.modal.taskId }
-            }),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass:
-                  "w-100 d-flex justify-content-around align-items-center mb-2"
-              },
-              [
-                _c("input", {
-                  staticClass: "inputfile",
-                  staticStyle: { "font-size": "1rem" },
-                  attrs: {
-                    id: "file",
-                    type: "file",
-                    name: "files[]",
-                    multiple: ""
-                  },
-                  on: { change: _vm.changeFile }
-                }),
-                _vm._v(" "),
-                _c("label", { attrs: { for: "file" } }, [
-                  _c("figure", [
-                    _c(
-                      "svg",
-                      {
-                        attrs: {
-                          xmlns: "http://www.w3.org/2000/svg",
-                          width: "20",
-                          height: "17",
-                          viewBox: "0 0 20 17"
-                        }
-                      },
-                      [
-                        _c("path", {
+  return _c("transition", { attrs: { name: "slide-fade" } }, [
+    _vm.modal.active
+      ? _c("div", { staticClass: "answer" }, [
+          _c(
+            "button",
+            {
+              staticClass: "close",
+              attrs: { type: "button" },
+              on: { click: _vm.closeModal }
+            },
+            [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+          ),
+          _vm._v(" "),
+          _c(
+            "form",
+            {
+              ref: "form",
+              staticClass: "form-inline align-items-center w-100",
+              attrs: { method: "post", enctype: "multipart/form-data" }
+            },
+            [
+              _c("input", {
+                attrs: { type: "hidden", name: "task_id" },
+                domProps: { value: _vm.modal.taskId }
+              }),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "w-100 d-flex justify-content-around align-items-center mb-2"
+                },
+                [
+                  _c("input", {
+                    staticClass: "inputfile",
+                    staticStyle: { "font-size": "1rem" },
+                    attrs: {
+                      id: "file",
+                      type: "file",
+                      name: "files[]",
+                      multiple: ""
+                    },
+                    on: { change: _vm.changeFile }
+                  }),
+                  _vm._v(" "),
+                  _c("label", { attrs: { for: "file" } }, [
+                    _c("figure", [
+                      _c(
+                        "svg",
+                        {
                           attrs: {
-                            d:
-                              "M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"
+                            xmlns: "http://www.w3.org/2000/svg",
+                            width: "20",
+                            height: "17",
+                            viewBox: "0 0 20 17"
                           }
-                        })
-                      ]
-                    )
+                        },
+                        [
+                          _c("path", {
+                            attrs: {
+                              d:
+                                "M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"
+                            }
+                          })
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("span", [_vm._v(_vm._s(_vm.inputText))])
                   ]),
                   _vm._v(" "),
-                  _c("span", [_vm._v(_vm._s(_vm.inputText))])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "progress w-50" }, [
-                  _c("div", {
-                    staticClass: "progress-bar progress-bar-striped bg-success",
-                    style: "width:" + _vm.progress + "%",
-                    attrs: {
-                      role: "progressbar",
-                      "aria-valuenow": _vm.progress,
-                      "aria-valuemin": "0",
-                      "aria-valuemax": "100"
-                    }
-                  })
-                ])
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass:
-                  "w-100 d-flex justify-content-around align-items-center p-3"
-              },
-              [
-                _c("input", {
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "text",
-                    name: "text",
-                    placeholder: "Доп.текст"
-                  }
-                }),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-primary ml-3",
-                    staticStyle: { "font-size": "1rem" },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        return _vm.send($event)
+                  _c("div", { staticClass: "progress w-50" }, [
+                    _c("div", {
+                      staticClass:
+                        "progress-bar progress-bar-striped bg-success",
+                      style: "width:" + _vm.progress + "%",
+                      attrs: {
+                        role: "progressbar",
+                        "aria-valuenow": _vm.progress,
+                        "aria-valuemin": "0",
+                        "aria-valuemax": "100"
                       }
+                    })
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "w-100 d-flex justify-content-around align-items-center p-3"
+                },
+                [
+                  _c("input", {
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "text",
+                      name: "text",
+                      placeholder: "Доп.текст"
                     }
-                  },
-                  [_vm._v("Submit")]
-                )
-              ]
-            )
-          ]
-        )
-      ])
-    : _vm._e()
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success ml-3",
+                      staticStyle: { "font-size": "1rem" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.send($event)
+                        }
+                      }
+                    },
+                    [_vm._v("Отправить")]
+                  )
+                ]
+              )
+            ]
+          )
+        ])
+      : _vm._e()
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

@@ -106,11 +106,11 @@
                 <br> Все команды соревнуются в одинаковых условиях.
             </p>
         </div>
-            <div class="col-8 offset-2 my-5">
-                <a href="/home" role="button" class="btn btn-lg btn-success">
-                    Вернуться в бой!
-                </a>
-            </div>
+        <div class="d-flex justify-content-center w-100 p-5">
+            <a href="/home" role="button" class="btn btn-lg btn-coral">
+                Вернуться в бой!
+            </a>
+        </div>
         @endguest
     </div>
 </div>
