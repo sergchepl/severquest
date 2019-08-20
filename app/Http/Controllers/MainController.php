@@ -247,7 +247,7 @@ class MainController extends Controller
         return Telegram::editMessageReplyMarkup([
            'chat_id' => $chat,
            'message_id' => $message,
-           'reply_markup' => json_encode([])
+           'reply_markup' => json_encode(['inline_keyboard' => [[]]])
         ]);
     }
 
