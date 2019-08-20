@@ -31,68 +31,49 @@ class MainController extends Controller
         return view('index')->with('tasks', $tasks);
     }
 
-    public function takeTask(Request $request)
+    public function takeTask(Task $task)
     {
-        $task = Task::find($request->task_id);
+        $teamTasks = Task::whereUserId(Auth::user()->id)->whereStatus(1)->get();
 
-        if ($request->is_taking == "true") {
-            $teamTasks = Task::whereUserId(Auth::user()->id)->whereStatus(1)->get();
-
-            if (count($teamTasks) > 0) {
-                return response('Have another task', 409);
-            }
-
-            $task->update([
-                'user_id' => Auth::user()->id,
-                'status' => 1,
-            ]);
-            $text = "🚲 Команда <b>" . $task->user->name . "</b> приступила к выполнению задания <b>" . $task->name . "</b>.";
-        } else {
-            $task->update([
-                'user_id' => 0,
-                'status' => 0,
-            ]);
-            $text = "🎲 Задание <b>" . $task->name . "</b> снова доступно для выполнения всеми командами.";
+        if (count($teamTasks) > 0) {
+            return response('Have another task', 409);
         }
+        $task->take(Auth::user()->id);
         event(new TaskUpdate($task));
  
-        Telegram::sendMessage([
-            'chat_id' => config('telegram.channel'),
-            'parse_mode' => 'HTML',
-            'text' => $text,
-        ]);
+        static::sendTelegramMessage("🚲 Команда <b>" . $task->user->name . "</b> приступила к выполнению задания <b>" . $task->name . "</b>.");
 
-        return $request;
+        return 200;
+    }
+
+    public function cancelTask(Task $task)
+    {
+        $task->clear();
+        event(new TaskUpdate($task));
+ 
+        static::sendTelegramMessage("🎲 Задание <b>" . $task->name . "</b> снова доступно для выполнения всеми командами.");
+
+        return 200;
     }
 
     public function setScore(Request $request)
     {
         $user = User::find(Auth::user()->id);
-        $score_to_save = $user->score;
 
-        $user->update([
-            'score' => $request->score + $score_to_save,
-            'read_rules' => true,
-        ]);
+        $user->readRules($request->score);
+
         return response($request->score, 200);
     }
 
-    public function sendAnswer(Request $request)
+    public function checkTask(Request $request, Task $task)
     {
-        $task = Task::find($request->task_id);
-
         if ($task->type == 1) {
-            $task->update([
-                'status' => 2,
-            ]);
+            $task->check();
 
             event(new TaskUpdate($task));
         }
         if ($task->type == 2) {
-            $ban = Ban::create([
-                'user_id' => Auth::user()->id,
-                'task_id' => $request->task_id,
-            ]); 
+            $ban = Ban::banTask($task->id); 
 
             event(new BanUpdate($ban, true));
         }
@@ -100,8 +81,9 @@ class MainController extends Controller
         return response('ok', 200);
     }
 
-    public function webhook()
+    public function webhook(Request $request)
     {
+        \Log::debug($request->toArray());
         $updates = Telegram::getWebhookUpdates();
         Log::info($updates);
         if ($updates->channel_post == null || $updates->channel_post->chat->id != -1001308540909) {
@@ -289,4 +271,14 @@ class MainController extends Controller
         ]);
         return response('ok', 200);
     }
+
+    private function sendTelegramMessage($text, $chat_id = NULL)
+    {
+        return Telegram::sendMessage([
+            'chat_id' => $chat_id ?? config('telegram.channel'),
+            'parse_mode' => 'HTML',
+            'text' => $text,
+        ]);
+    }
+    
 }

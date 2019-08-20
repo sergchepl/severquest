@@ -1689,7 +1689,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var formData = new FormData($(this.$refs.form).get(0));
 
-            window.axios.post('/send-answer', formData, {
+            window.axios.post('/task/' + this.modal.taskId + '/check', formData, {
                 onUploadProgress: function onUploadProgress(e) {
                     return _this.progress = Math.round(e.loaded * 100 / e.total);
                 },
@@ -2034,10 +2034,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         takeTask: function takeTask() {
             var _this2 = this;
 
-            axios.put('/take-task', {
-                task_id: this.task.id,
-                is_taking: true
-            }).catch(function (error) {
+            axios.put('/task/' + this.task.id + '/take').catch(function (error) {
                 console.log(error.response);
                 if (error.response.status == 409) {
                     _this2.isDoubleTask = true;
@@ -2048,10 +2045,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         cancelTask: function cancelTask() {
-            axios.put('/take-task', {
-                task_id: this.task.id,
-                is_taking: false
-            }).catch(function (error) {
+            axios.put('/task/' + this.task.id + '/cancel').catch(function (error) {
                 console.log(error.response);
             });
         },

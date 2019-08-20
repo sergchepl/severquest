@@ -8,6 +8,16 @@ class Ban extends Model
 {
     protected $guarded = [];
     
+    public function banTask(int $task)
+    {
+        return $this->create([
+            'user_id' => Auth::user()->id,
+            'task_id' => $task,
+        ]);
+    }
+
+    //Relations
+
     public function user()
     {
         return $this->belongsTo('App\User', 'user_id');

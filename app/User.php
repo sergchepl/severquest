@@ -33,6 +33,16 @@ class User extends Authenticatable
         return (int) $this->is_admin === 1;
     }
 
+    public function readRules($score)
+    {
+        return $this->update([
+            'score' =>  + $score,
+            'read_rules' => true,
+        ]);
+    }
+
+    //Relations
+
     public function task()
     {
         return $this->hasOne('App\Task');

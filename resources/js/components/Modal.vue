@@ -64,7 +64,7 @@ export default {
 
             const formData = new FormData($(this.$refs.form).get(0));
 
-            window.axios.post('/send-answer', formData, {
+            window.axios.post('/task/'+ this.modal.taskId +'/check', formData, {
                 onUploadProgress: e => this.progress = Math.round(e.loaded * 100 / e.total),
                 headers: {
                     'Content-Type': 'multipart/form-data'

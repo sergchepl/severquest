@@ -101,10 +101,8 @@ export default {
     },
     methods: {
         takeTask() {
-            axios.put('/take-task', {
-                task_id: this.task.id,
-                is_taking: true
-            }).catch(error => {
+            axios.put('/task/'+ this.task.id + '/take')
+            .catch(error => {
                 console.log(error.response);
                 if (error.response.status == 409) {
                     this.isDoubleTask = true;
@@ -113,10 +111,8 @@ export default {
             })
         },
         cancelTask() {
-            axios.put('/take-task', {
-                task_id: this.task.id,
-                is_taking: false
-            }).catch(error => {
+            axios.put('/task/'+ this.task.id + '/cancel')
+            .catch(error => {
                 console.log(error.response);
             })
         },

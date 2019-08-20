@@ -8,6 +8,33 @@ class Task extends Model
 {
     protected $guarded = [];
     
+    public function clear()
+    {
+        return $this->update([
+            'user_id' => 0,
+            'status' => 0
+        ]);
+    }
+    
+    public function take(int $user)
+    {
+        return $this->update([
+            'user_id' => $user,
+            'status' => 1
+        ]);
+    }
+
+    public function check()
+    {
+        return $this->update([
+            'status' => 2
+        ]);
+    }
+
+
+
+    // Relations
+
     public function user()
     {
         return $this->belongsTo('App\User');
