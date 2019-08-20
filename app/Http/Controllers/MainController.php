@@ -277,8 +277,8 @@ class MainController extends Controller
                 $text_to_admin = "✅ Задание успешно выполнено!\n";
                 break;
             case 4:
-                $task->clear();
                 $ban = Ban::banTask($task->user->id, $task->id);
+                $task->clear();
 
                 event(new BanUpdate($ban, true));
 
