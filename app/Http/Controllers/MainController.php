@@ -84,10 +84,8 @@ class MainController extends Controller
 
     public function webhook(Request $request)
     {
-        \Log::debug($request->toArray());
-
         if (is_null($request->callback_query)) {
-            // \Log::info($request->toArray());
+            \Log::info($request->toArray());
             return response('Nothing', 204);
         }
         $callback_query_id = $request->callback_query['id'];
@@ -267,7 +265,7 @@ class MainController extends Controller
 
                 $text_to_users = "⚠️ Задание <b>" . $task->name . "</b> выполняемое командой <b>" . $task->user->name . "</b> требует доработки. Внимательно "
                     . "проверьте требования к заданию и повторите загрузку соответствующих материалов.️";
-                $text_to_admin = "✅ Задание успешно очищено!\n";
+                $text_to_admin = "✅ Задание отправлено обратно в работу!\n";
                 break;
             case 3:
                 $task->done();
@@ -280,7 +278,7 @@ class MainController extends Controller
                 break;
             case 4:
                 $task->clear();
-                Ban::banTask(Auth::user()->id, $task->id);
+                $ban = Ban::banTask($task->user->id, $task->id);
 
                 event(new BanUpdate($ban, true));
 
