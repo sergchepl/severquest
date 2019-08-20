@@ -36,8 +36,15 @@ class User extends Authenticatable
     public function readRules($score)
     {
         return $this->update([
-            'score' =>  + $score,
-            'read_rules' => true,
+            'score' =>  $score,
+            'read_rules' => true
+        ]);
+    }
+
+    public function addScore($score)
+    {
+        return $this->update([
+            'score' =>  $this->score + $score
         ]);
     }
 

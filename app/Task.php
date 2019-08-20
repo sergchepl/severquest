@@ -24,10 +24,24 @@ class Task extends Model
         ]);
     }
 
+    public function work()
+    {
+        return $this->update([
+            'status' => 1
+        ]);
+    }
+
     public function check()
     {
         return $this->update([
             'status' => 2
+        ]);
+    }
+
+    public function done()
+    {
+        return $this->update([
+            'status' => 3
         ]);
     }
 
