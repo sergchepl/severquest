@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Laravel\Facades\Telegram;
+use Telegram\Bot\Exceptions\TelegramResponseException;
 
 class MainController extends Controller
 {
@@ -232,10 +233,11 @@ class MainController extends Controller
                 'callback_query_id' => $query_id,
                 'text' => $text,
             ]);
-        } catch (Exception $e) {
-            \Log::error($e);
+
+            return $response;
+        } catch (TelegramResponseException $e) {
+            \Log::debug($e);
         }
-        return $response;
     }
 
     private function webhookTaskKeyboard($button, $callback_query_id)
