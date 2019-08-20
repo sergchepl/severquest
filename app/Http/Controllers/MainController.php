@@ -91,10 +91,12 @@ class MainController extends Controller
             return response('Nothing', 204);
         }
         $callback_query_id = $request->callback_query['id'];
+        $message_id = $request->callback_query['message']['message_id'];
         $callback_data = json_decode($request->callback_query['data']);
 
         if ($callback_data->type == 'task') {
             static::webhookTaskKeyboard($callback_data->data, $callback_query_id);
+            static::clearMessageReplyMarkup($message_id);
         }
 
         if ($callback_data->type == 'command') {
@@ -238,6 +240,15 @@ class MainController extends Controller
         } catch (TelegramResponseException $e) {
             \Log::debug($e);
         }
+    }
+
+    private function clearMessageReplyMarkup($message, $chat = '-1001308540909')
+    {
+        return Telegram::editMessageReplyMarkup([
+           'chat_id' => $chat,
+           'message_id' => $message,
+           'reply_markup' => json_encode([])
+        ]);
     }
 
     private function webhookTaskKeyboard($button, $callback_query_id)
