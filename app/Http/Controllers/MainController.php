@@ -83,14 +83,14 @@ class MainController extends Controller
 
     public function webhook(Request $request)
     {
-        \Log::debug(print_r($request));
+        // \Log::debug($request->toArray());
 
         if (is_null($request->callback_query)) {
             // \Log::info($request->toArray());
             return response('Nothing', 204);
         }
-        $callback_query_id = $request['callback_query']['id'];
-        $callback_data = json_decode($request['callback_query']['data']);
+        $callback_query_id = $request->callback_query->id;
+        $callback_data = json_decode($request->callback_query->data);
 
         if ($callback_data->type == 'task') {
             static::webhookTaskKeyboard($callback_data->data, $callback_query_id);
