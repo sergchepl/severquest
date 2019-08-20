@@ -74,7 +74,7 @@ class MainController extends Controller
             event(new TaskUpdate($task));
         }
         if ($task->type == 2) {
-            $ban = Ban::banTask($task->id);
+            $ban = Ban::banTask(Auth::user()->id, $task->id);
 
             event(new BanUpdate($ban, true));
         }
@@ -280,7 +280,7 @@ class MainController extends Controller
                 break;
             case 4:
                 $task->clear();
-                Ban::banTask($task->id);
+                Ban::banTask(Auth::user()->id, $task->id);
 
                 event(new BanUpdate($ban, true));
 

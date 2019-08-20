@@ -8,10 +8,10 @@ class Ban extends Model
 {
     protected $guarded = [];
     
-    public static function banTask(int $task)
+    public static function banTask(int $user, int $task)
     {
         return self::create([
-            'user_id' => Auth::user()->id,
+            'user_id' => $user,
             'task_id' => $task,
         ]);
     }
