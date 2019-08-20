@@ -83,14 +83,14 @@ class MainController extends Controller
 
     public function webhook(Request $request)
     {
-        // \Log::debug($request->toArray());
+        \Log::debug($request->toArray());
 
         if (is_null($request->callback_query)) {
             // \Log::info($request->toArray());
             return response('Nothing', 204);
         }
-        $callback_query_id = $request->callback_query->id;
-        $callback_data = json_decode($request->callback_query->data);
+        $callback_query_id = $request->callback_query['id'];
+        $callback_data = json_decode($request->callback_query['data']);
 
         if ($callback_data->type == 'task') {
             static::webhookTaskKeyboard($callback_data->data, $callback_query_id);
@@ -228,8 +228,8 @@ class MainController extends Controller
     private function sendAnswerCallbackQuery($query_id, $text)
     {
         return Telegram::answerCallbackQuery([
-            'callback_query_id' => $query,
-            'text' => $text
+            'callback_query_id' => $query_id,
+            'text' => $text,
         ]);
     }
 
@@ -240,7 +240,7 @@ class MainController extends Controller
         switch ($button->status) {
             case 0:
                 $task->clear();
-                
+
                 $text_to_users = "🎲 Задание <b>" . $task->name . "</b> снова доступно для выполнения всеми командами.";
                 $text_to_admin = "✅ Задание успешно очищено!\n";
                 break;
@@ -253,10 +253,10 @@ class MainController extends Controller
                 break;
             case 3:
                 $task->done();
-                $user = $task->user()->addScore($task->score);
+                $user = $task->user->addScore($task->score);
 
-                event(new Score($user));
-                
+                event(new Score($task->user));
+
                 $text_to_users = "🎉 Задание <b>" . $task->name . "</b> успешно выполнено командой <b>" . $task->user->name . "</b>.";
                 $text_to_admin = "✅ Задание успешно выполнено!\n";
                 break;
@@ -265,7 +265,7 @@ class MainController extends Controller
                 Ban::banTask($task->id);
 
                 event(new BanUpdate($ban, true));
-                
+
                 $text_to_users = "🎲 Задание <b>" . $task->name . "</b> снова доступно для выполнения всеми командами.\n🚧 Команда <b>" . $task->user->name . "</b> провалила выполнение этого задания.";
                 $text_to_admin = "✅ Задание успешно забанено!\n";
                 break;
