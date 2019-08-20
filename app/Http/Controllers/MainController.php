@@ -99,6 +99,7 @@ class MainController extends Controller
         if ($callback_data->type == 'command') {
             static::webhookCommandKeyboard($callback_data->data, $callback_query_id);
         }
+        return response('ok', 200);
 
         if ($updates->channel_post == null || $updates->channel_post->chat->id != -1001308540909) {
             return response('Nothing', 204);
@@ -213,7 +214,6 @@ class MainController extends Controller
             'parse_mode' => 'HTML',
             'text' => $text_to_admin,
         ]);
-        return response('ok', 200);
     }
 
     private function sendTelegramMessage($text, $chat_id = null)
@@ -227,10 +227,15 @@ class MainController extends Controller
 
     private function sendAnswerCallbackQuery($query_id, $text)
     {
-        return Telegram::answerCallbackQuery([
-            'callback_query_id' => $query_id,
-            'text' => $text,
-        ]);
+        try {
+            $response = Telegram::answerCallbackQuery([
+                'callback_query_id' => $query_id,
+                'text' => $text,
+            ]);
+        } catch (Exception $e) {
+            \Log::error($e);
+        }
+        return $response;
     }
 
     private function webhookTaskKeyboard($button, $callback_query_id)
