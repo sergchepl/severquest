@@ -4,7 +4,7 @@
             <div class="card-header" :id="'heading-'+task.id">
                 <h5 class="mb-0">
                     <a data-toggle="collapse" :href="'#collapse-'+task.id" aria-expanded="false">
-                        {{ task.name }}
+                        <span v-if="task.type == 1" class="dot" :class="[statusClass, {'banned': isBanned && +task.type != 2}]"></span> {{ task.name }}
                     </a>
                     <span class="badge badge-light">{{ task.score }}</span>
                 </h5>
@@ -14,9 +14,9 @@
                 <div class="card-body">
                     <p v-html="task.description"></p>
                     <template v-if="!status">
-                        <button v-if="!+task.user_id && +task.type != 2" class="btn btn-coral btn-lg" role="button" @click="takeTask">За дело!</button>
-                        <button v-if="+task.user_id == user.id && +task.type != 2" class="btn btn-danger hide btn-lg" role="button" @click="cancelTask">Отменись!</button>
-                        <button v-if="+task.user_id == user.id || +task.type == 2" :class="+task.type == 2 ? 'btn-info' : 'btn-success'" class="btn btn-lg" role="button" @click="sendAnswer">Хочу Сдать!</button>
+                        <button v-if="!+task.user_id && +task.type != 2" class="btn btn-coral" role="button" @click="takeTask">За дело!</button>
+                        <button v-if="+task.user_id == user.id && +task.type != 2" class="btn btn-cancel hide" role="button" @click="cancelTask">Отменись!</button>
+                        <button v-if="+task.user_id == user.id || +task.type == 2" :class="+task.type == 2 ? 'btn-orange' : 'btn-success'" class="btn" role="button" @click="sendAnswer">Хочу Сдать!</button>
                     </template>
                     <p v-else class="status">{{ status }}</p>
                 </div>
@@ -88,9 +88,9 @@ export default {
                     case 1:
                         return 'inwork';
                     case 2:
-                        return 'disabled check';
+                        return 'check';
                     case 3:
-                        return 'disabled done';
+                        return 'done';
                 }
             }
             if (+this.task.type == 2 && this.isBanned) {

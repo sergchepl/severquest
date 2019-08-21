@@ -2019,9 +2019,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     case 1:
                         return 'inwork';
                     case 2:
-                        return 'disabled check';
+                        return 'check';
                     case 3:
-                        return 'disabled done';
+                        return 'done';
                 }
             }
             if (+this.task.type == 2 && this.isBanned) {
@@ -48255,11 +48255,16 @@ var render = function() {
                   }
                 },
                 [
-                  _vm._v(
-                    "\n                      " +
-                      _vm._s(_vm.task.name) +
-                      "\n                  "
-                  )
+                  _vm.task.type == 1
+                    ? _c("span", {
+                        staticClass: "dot",
+                        class: [
+                          _vm.statusClass,
+                          { banned: _vm.isBanned && +_vm.task.type != 2 }
+                        ]
+                      })
+                    : _vm._e(),
+                  _vm._v(" " + _vm._s(_vm.task.name) + "\n                  ")
                 ]
               ),
               _vm._v(" "),
@@ -48294,7 +48299,7 @@ var render = function() {
                         ? _c(
                             "button",
                             {
-                              staticClass: "btn btn-coral btn-lg",
+                              staticClass: "btn btn-coral",
                               attrs: { role: "button" },
                               on: { click: _vm.takeTask }
                             },
@@ -48306,7 +48311,7 @@ var render = function() {
                         ? _c(
                             "button",
                             {
-                              staticClass: "btn btn-danger hide btn-lg",
+                              staticClass: "btn btn-cancel hide",
                               attrs: { role: "button" },
                               on: { click: _vm.cancelTask }
                             },
@@ -48318,10 +48323,10 @@ var render = function() {
                         ? _c(
                             "button",
                             {
-                              staticClass: "btn btn-lg",
+                              staticClass: "btn",
                               class:
                                 +_vm.task.type == 2
-                                  ? "btn-info"
+                                  ? "btn-orange"
                                   : "btn-success",
                               attrs: { role: "button" },
                               on: { click: _vm.sendAnswer }

@@ -4,12 +4,15 @@
     <div class="container-fluid">
         <div class="row">
             <header class="col-12">
-                SEVERQUEST<a href="/"><img src="/css/image/logo.jpg" alt=""></a>
-                <div onclick="event.preventDefault();
-                        document.getElementById('logout-form').submit();"
-                            data-teamId='{{Auth::user()->id}}' class="team">
-                    <div>{{Auth::user()->name}}</div>
-                    <Score :user="{{ Auth::user() }}"></Score>
+                <div class="header">
+                    <a href="/">SeverQUEST</a>
+                    <div class="team">
+                        <p class="status">{{Auth::user()->name}}</p>
+                        <Score :user="{{ Auth::user() }}"></Score>
+                        <button onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();" 
+                            class="btn btn-cancel btn-sm">Выйти</button>
+                    </div>
                 </div>
                 {{-- ДЛЯ ТЕСТОВ!!!!!! --}}
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

@@ -2,35 +2,33 @@
 @import url('https://fonts.googleapis.com/css?family=Amatic+SC:400,700&subset=cyrillic');
 
 body {
-    font-family: 'Neucha', cursive;
+    font-family: 'Neucha';
     font-weight: 400;
     font-size: 1.5rem;
-    color: #f6f6e9;
+    color: #21496a !important;
+    background: #ffeead;
 }
 
-body:before {
-    content: "";
-    display: block;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    height: 200vw;
-    z-index: -10;
-    background: #080d11;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+a {
+    color: #21496a;
 }
 
 header {
-    padding: 1rem 2rem !important;
+    padding: 1rem 1rem !important;
+}
+
+.header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .team {
-    float: right;
+    display: flex;
+    justify-content: space-between;
+    flex-grow: .2;
 }
+
 
 .badge {
     float: right;
@@ -42,21 +40,26 @@ form {
 
 .type-1,
 .type-2 {
+    width: 100%;
     margin-bottom: 3rem;
 }
 
+.dot {
+    height: 18px;
+    width: 18px;
+    background-color: #ffeead;
+    border-radius: 50%;
+    display: inline-block;
+}
+
 .card {
-    /* font-family: 'Amatic SC', cursive;
-        font-weight: 700;
-        font-size: 2rem; */
-    background-color: #005792;
-    /* opacity: .9; */
+    background-color: #96ceb4;
     margin: 0 .9rem;
 }
 
 .card::before {
     content: '◖';
-    color: #005792;
+    color: #96ceb4;
     position: absolute;
     left: -14px;
     z-index: -1;
@@ -64,35 +67,60 @@ form {
 
 .card::after {
     content: '◗';
-    color: #005792;
+    color: #96ceb4;
     position: absolute;
     right: -14px;
     z-index: -1;
 }
 
 .card.disabled {
-    background-color: grey;
     opacity: .7;
 }
 
-.card.inwork {
-    background-color: #13334c;
+.card.disabled .card-header a {
+    text-decoration: line-through;
 }
 
-.card.done {
-    background-color: darkgreen;
+.dot.inwork {
+    background-color: #21496a;
 }
 
-.card.banned {
-    background-color: brown !important;
+.card.done .card-header a {
+    text-decoration: none;
 }
 
-.card.check {
-    background-color: #fd5f00;
+.dot.done {
+    background-color: #57997a;
+}
+
+.dot.banned {
+    background-color: #d9534f;
+}
+
+.dot.check {
+    background-color: #ffad60;
 }
 
 .card.sharing {
-    background-color: darkgray;
+    background-color: #d9534f;
+    color: #ffeead !important;
+}
+ 
+.card.sharing .card-header a {
+    color: #ffeead;
+}
+
+.card.sharing .status {
+    color: #ffeead;
+} 
+
+
+.card.sharing::before, .card.sharing::after {
+    color: #d9534f;
+}
+
+.card.sharing .badge-light {
+    color: #ffeead;
 }
 
 .card-header h5 {
@@ -103,7 +131,7 @@ form {
 
 .card-header a {
     text-decoration: none;
-    color: #f6f6e9;
+    color: #21496a;
 }
 
 .card-body {
@@ -113,17 +141,40 @@ form {
 
 .btn {
     border: none;
-    font: inherit;
 }
 
 .btn-coral {
-    background-color: #fd5f00;
-    color: #f6f6e9;
+    background-color: #ffad60;
+    color: #21496a;
+}
+
+.btn-cancel {
+    background-color: #d9534f;
+    color: #ffeead;
+}
+
+.btn-orange {
+    background-color: #ffad60;
+    color: #ffeead;
+}
+
+.btn-success {
+    background-color: #57997a;
+    color: #ffeead;
+}
+
+.bg-success {
+    background-color: #57997a !important;
+}
+
+.badge-light {
+    color: #21496a;
+    background-color: #ffad60;
 }
 
 .status {
     font-size: 1.4rem;
-    color: #f6f6e9;
+    color: #21496a;
     font-weight: 700;
     margin: 0;
     text-align: center;
@@ -139,30 +190,13 @@ h1::after {
     margin: 0 1rem;
     font-size: 1.5rem;
     vertical-align: 15%;
-    color: #005792;
+    color: #96ceb4;
 }
 
 .rules {
     margin: 0 2rem;
     text-align: center;
 
-}
-
-.rules:before {
-    content: ' ';
-    display: block;
-    position: fixed;
-    left: 5vw;
-    top: 0;
-    width: 90%;
-    height: 100vh;
-    opacity: 0.9;
-    z-index: -1;
-    background-color: black;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
 }
 
 h3 {
@@ -185,7 +219,7 @@ h2::after {
     margin: 0 1rem;
     font-size: 1rem;
     vertical-align: 10%;
-    color: #fd5f00;
+    color: #96ceb4;
 }
 
 .rules-title {
@@ -198,7 +232,7 @@ h1.rules-title::before {
     content: '⬥';
     font-size: 2.5rem;
     vertical-align: 0%;
-    color: #fd5f00;
+    color: #96ceb4;
 }
 
 p {
@@ -230,7 +264,7 @@ li {
     height: 100%;
     opacity: 0.9;
     z-index: -1;
-    background-color: #fd5f00;
+    background-color: #96ceb4;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
