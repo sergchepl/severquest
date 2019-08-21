@@ -16,7 +16,7 @@ Route::get('/', 'MainController@rules');
 Route::get('/home', 'MainController@index');
 Route::put('/task/{task}/take', 'MainController@takeTask');
 Route::put('/task/{task}/cancel', 'MainController@cancelTask');
-Route::post('/task/{task}/check', 'MainController@checkTask')->middleware('telegramphoto');
+Route::post('/task/{task}/check', 'MainController@checkTask');
 Route::put('/set-score', 'MainController@setScore');
 
 Auth::routes();
