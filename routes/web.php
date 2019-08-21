@@ -9,23 +9,27 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
-
-
-Route::get('/', 'MainController@rules');
-Route::get('/game', 'MainController@index');
-Route::put('/task/{task}/take', 'MainController@takeTask');
-Route::put('/task/{task}/cancel', 'MainController@cancelTask');
-Route::post('/task/{task}/check', 'MainController@checkTask');
-Route::put('/set-score', 'MainController@setScore');
+ */
 
 Auth::routes();
-Route::post('/login','Auth\LoginController@authenticate');
+Route::post('/login', 'Auth\LoginController@authenticate');
 
+// Client routes
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/', 'MainController@rules');
+    Route::get('/game', 'MainController@index');
+    Route::put('/task/{task}/take', 'MainController@takeTask');
+    Route::put('/task/{task}/cancel', 'MainController@cancelTask');
+    Route::post('/task/{task}/check', 'MainController@checkTask');
+    Route::put('/set-score', 'MainController@setScore');
+});
+
+// Telegram routes
 Route::get('/setwebhook', 'TelegramController@setWebhook');
 Route::post('/AAG1RIo_ym-2We-yuTsN8IWg8Jlex7lEY4s/webhook', 'TelegramController@webhook');
 
-Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function() {
+// Admin routes
+Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function () {
     Route::get('dashboard', 'AdminController@dashboard')->name('dashboard');
     Route::get('tasks', 'AdminController@tasks')->name('tasks');
     Route::get('task/create', 'AdminController@createTask')->name('task.new');

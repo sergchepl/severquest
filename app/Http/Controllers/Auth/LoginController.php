@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 class LoginController extends Controller
 {
     /*
@@ -17,7 +18,7 @@ class LoginController extends Controller
     | redirecting them to your home screen. The controller uses a trait
     | to conveniently provide its functionality to your applications.
     |
-    */
+     */
 
     use AuthenticatesUsers;
 
@@ -43,7 +44,7 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials, true)) {
             // Authentication passed...
-            if(Auth::user()->is_admin) {
+            if (Auth::user()->is_admin) {
                 return redirect('/admin/dashboard');
             }
             return redirect('/game');

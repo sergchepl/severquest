@@ -2,9 +2,8 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -16,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'login', 'password', 'read_rules', 'score'
+        'name', 'login', 'password', 'read_rules', 'score',
     ];
 
     /**
@@ -36,22 +35,22 @@ class User extends Authenticatable
     public function readRules($score)
     {
         return $this->update([
-            'score' =>  $score,
-            'read_rules' => true
+            'score' => $score,
+            'read_rules' => true,
         ]);
     }
 
     public function clear()
     {
         return $this->update([
-            'score' =>  0
+            'score' => 0,
         ]);
     }
 
     public function addScore($score)
     {
         return $this->update([
-            'score' =>  $this->score + $score
+            'score' => $this->score + $score,
         ]);
     }
 

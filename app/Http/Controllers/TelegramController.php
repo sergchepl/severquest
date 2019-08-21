@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Helpers\TelegramHelper;
-use Telegram\Bot\Objects\CallbackQuery;
+use Illuminate\Http\Request;
 use Telegram\Bot\Laravel\Facades\Telegram;
+use Telegram\Bot\Objects\CallbackQuery;
 
 class TelegramController extends Controller
 {
     use TelegramHelper;
 
-    public function setWebhook() {
+    public function setWebhook()
+    {
         $response = Telegram::setWebhook(['url' => url('/AAG1RIo_ym-2We-yuTsN8IWg8Jlex7lEY4s/webhook')]);
         dd($response);
     }

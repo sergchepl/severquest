@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Ban extends Model
 {
     protected $guarded = [];
-    
+
     public static function banTask(int $user, int $task)
     {
         return self::create([

@@ -17,11 +17,6 @@ class MainController extends Controller
 {
     use TelegramHelper;
 
-    public function __construct()
-    {
-        $this->middleware('auth', ['except' => ['rules', 'webhook']]);
-    }
-
     public function rules()
     {
         return view('rules');

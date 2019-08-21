@@ -11,7 +11,7 @@ class KeyboardButton
             'callback_data' => json_encode([
                 'type' => $type,
                 'data' => $buttonData,
-            ])
+            ]),
         ];
     }
 
@@ -22,7 +22,7 @@ class KeyboardButton
             'callback_data' => json_encode([
                 'type' => 'single-task',
                 'data' => $buttonData,
-            ])
+            ]),
         ];
     }
 
@@ -33,7 +33,7 @@ class KeyboardButton
             'callback_data' => json_encode([
                 'type' => 'common-task',
                 'data' => $buttonData,
-            ])
+            ]),
         ];
     }
 }

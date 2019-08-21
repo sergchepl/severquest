@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Ban;
+use App\Events\TaskUpdate;
 use App\Task;
 use App\User;
-use App\Events\BanUpdate;
-use App\Events\TaskUpdate;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller

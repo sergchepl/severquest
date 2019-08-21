@@ -1,14 +1,15 @@
 <?php
 
 namespace App\Helpers;
-use App\User;
-use App\Task;
+
 use App\Ban;
-use App\Events\TaskUpdate;
 use App\Events\BanUpdate;
 use App\Events\ScoreUpdate;
-use Telegram\Bot\Laravel\Facades\Telegram;
+use App\Events\TaskUpdate;
+use App\Task;
+use App\User;
 use Telegram\Bot\Exceptions\TelegramResponseException;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
 trait TelegramHelper
 {
@@ -21,9 +22,9 @@ trait TelegramHelper
             'reply_markup' => json_encode(
                 [
                     'inline_keyboard' => [
-                        $buttons
-                    ]
-                ])
+                        $buttons,
+                    ],
+                ]),
         ]);
     }
 
@@ -50,9 +51,9 @@ trait TelegramHelper
     {
         try {
             return Telegram::editMessageReplyMarkup([
-               'chat_id' => $chat,
-               'message_id' => $message,
-               'reply_markup' => json_encode(['inline_keyboard' => [[]]])
+                'chat_id' => $chat,
+                'message_id' => $message,
+                'reply_markup' => json_encode(['inline_keyboard' => [[]]])
             ]);
         } catch (TelegramResponseException $e) {}
     }
@@ -98,7 +99,7 @@ trait TelegramHelper
 
         return [
             'toUsers' => $textToUsers,
-            'toAdmin' => $textToAdmin
+            'toAdmin' => $textToAdmin,
         ];
     }
 
@@ -112,7 +113,7 @@ trait TelegramHelper
 
         return [
             'toUsers' => "🎉 Выполнение общего задания <b>" . $task->name . "</b> засчитано команде <b>" . $user->name . "</b>.",
-            'toAdmin' => "✅ Задание успешно засчитано!\n"
+            'toAdmin' => "✅ Задание успешно засчитано!\n",
         ];
     }
 }
