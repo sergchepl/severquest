@@ -8,7 +8,7 @@
     <title>SeverQuest | Идеальное развлечение для круга друзей</title>
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 </head>
 <body>
     <main id="app">
