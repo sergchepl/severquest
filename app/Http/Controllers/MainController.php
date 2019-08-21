@@ -11,9 +11,8 @@ use App\Task;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Objects\CallbackQuery;
-use Telegram\Bot\Laravel\Facades\Telegram;
+use Telegram\Bot\FileUpload\InputFile;
 
 class MainController extends Controller
 {
