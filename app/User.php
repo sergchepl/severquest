@@ -41,6 +41,13 @@ class User extends Authenticatable
         ]);
     }
 
+    public function clear()
+    {
+        return $this->update([
+            'score' =>  0
+        ]);
+    }
+
     public function addScore($score)
     {
         return $this->update([

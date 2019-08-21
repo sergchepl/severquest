@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Task;
 use App\Ban;
+use App\Task;
 use App\User;
+use App\Events\BanUpdate;
+use App\Events\TaskUpdate;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
@@ -13,13 +15,13 @@ class AdminController extends Controller
     {
         $weather = json_decode(file_get_contents("https://api.openweathermap.org/data/2.5/weather?q=SIEVIERODONETSK&appid=8ec388c04f920dbec4234d96e9be6623"));
         $temperature = $weather->main->temp - 273.15;
-        $icon_url = "http://openweathermap.org/img/wn/".$weather->weather[0]->icon."@2x.png";
-        
+        $iconUrl = "http://openweathermap.org/img/wn/" . $weather->weather[0]->icon . "@2x.png";
+
         $tasks = Task::all();
         $users = User::whereIsAdmin(false)->get();
-        $best_user = User::whereIsAdmin(false)->orderBy('score', 'desc')->with('completed_tasks')->first();
+        $bestUser = User::whereIsAdmin(false)->orderBy('score', 'desc')->with('completed_tasks')->first();
 
-        return view('admin.dashboard', compact('tasks', 'users', 'best_user', 'temperature', 'icon_url'));
+        return view('admin.dashboard', compact('tasks', 'users', 'bestUser', 'temperature', 'iconUrl'));
     }
 
     public function tasks()
@@ -45,12 +47,20 @@ class AdminController extends Controller
             'name' => 'required|min:5',
             'type' => 'required',
             'score' => 'required|integer',
-            'description' => 'required'
+            'description' => 'required',
         ]);
 
         Task::create($data);
 
         return \redirect(route('tasks'));
+    }
+
+    public function clearTask(Task $task)
+    {
+        $task->clear();
+        event(new TaskUpdate($task));
+
+        return back();
     }
 
     public function updateTask(Request $request, Task $task)
@@ -59,7 +69,7 @@ class AdminController extends Controller
             'name' => 'required|min:5',
             'type' => 'required',
             'score' => 'required|integer',
-            'description' => 'required'
+            'description' => 'required',
         ]);
 
         $task->update($data);
@@ -93,6 +103,13 @@ class AdminController extends Controller
         $users = User::whereIsAdmin(false)->orderBy('score', 'desc')->get();
 
         return view('admin.users', compact('users'));
+    }
+
+    public function clearUser(User $user)
+    {
+        $user->clear();
+
+        return back();
     }
 
     public function activateUser(User $user)

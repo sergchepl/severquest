@@ -10,7 +10,7 @@
               <!-- WEATHER PANEL -->
               <div class="col-md-4 mb">
                   <div class="weather pn">
-                    <img src="{{ $icon_url }}" alt="">
+                    <img src="{{ $iconUrl }}" alt="">
                     <h2>{{ round($temperature, 1) }}º C</h2>
                     <h4>СЕВЕРОДОНЕЦК</h4>
                   </div>
@@ -22,15 +22,15 @@
                   <div class="white-header">
                     <h5>ЛУЧШАЯ КОМАНДА</h5>
                   </div>
-                  <h4><b>{{ $best_user->name }}</b></h4>
+                  <h4><b>{{ $bestUser->name }}</b></h4>
                   <div class="row">
                     <div class="col-md-6">
                       <p class="small mt">ВСЕГО ЗАРАБОТАНО ОЧКОВ</p>
-                      <p>{{ $best_user->score }}</p>
+                      <p>{{ $bestUser->score }}</p>
                     </div>
                     <div class="col-md-6">
                       <p class="small mt">ВЫПОЛНЕНО ЗАДАЧ</p>
-                      <p>{{ $best_user->completed_tasks->count() }}</p>
+                      <p>{{ $bestUser->completed_tasks->count() }}</p>
                     </div>
                   </div>
                 </div>

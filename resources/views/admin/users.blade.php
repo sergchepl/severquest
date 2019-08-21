@@ -33,6 +33,7 @@
                         @if(!$user->read_rules)
                           <a href="{{ route('user.activate', $user->id) }}" class="btn btn-success btn-xs"><i class="fa fa-check"></i></a>
                         @endif
+                        <a href="{{ route('user.clear', $user->id) }}" class="btn btn-warning btn-xs"><i class="fa fa-refresh"></i></a>
                         <a href="{{ route('user.delete', $user->id) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
                       </td>
                     </tr>
