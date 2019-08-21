@@ -1904,7 +1904,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         var _this = this;
 
-        this.channel.listen('Score', function (data) {
+        this.channel.listen('ScoreUpdate', function (data) {
             console.log(data);
             _this.score = data.score;
         });
