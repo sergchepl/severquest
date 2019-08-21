@@ -1832,7 +1832,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     $('#endRules').show();
                     // redirect
                     setTimeout(function () {
-                        return window.location.replace("/home");
+                        return window.location.replace("/game");
                     }, 3000);
                 });
             } else {

@@ -107,7 +107,7 @@
             </p>
         </div>
         <div class="d-flex justify-content-center w-100 p-5">
-            <a href="/home" role="button" class="btn btn-lg btn-coral">
+            <a href="/game" role="button" class="btn btn-lg btn-coral">
                 Вернуться в бой!
             </a>
         </div>

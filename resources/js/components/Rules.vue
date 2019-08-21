@@ -108,7 +108,7 @@ export default {
                 .then(res => {
                     $('#endRules').show();
                     // redirect
-                    setTimeout(() => window.location.replace("/home"),3000);
+                    setTimeout(() => window.location.replace("/game"),3000);
                 });    
             } else {
                 nextRule.slideDown('slow');

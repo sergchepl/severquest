@@ -26,7 +26,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/game';
 
     /**
      * Create a new controller instance.
@@ -46,7 +46,7 @@ class LoginController extends Controller
             if(Auth::user()->is_admin) {
                 return redirect('/admin/dashboard');
             }
-            return redirect('/home');
+            return redirect('/game');
         } else {
             $request->session()->flash('errors');
             return redirect('/login');
