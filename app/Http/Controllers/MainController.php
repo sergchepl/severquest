@@ -11,6 +11,7 @@ use App\Helpers\KeyboardButton;
 use App\Helpers\Webhook;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Telegram\Bot\FileUpload\InputFile;
 
 class MainController extends Controller
 {
@@ -137,7 +138,7 @@ class MainController extends Controller
             $this->webhookCommonTaskKeyboard($callback_data->data, $callback_query_id);
         }
         $this->clearMessageReplyMarkup($message_id);
-        
+
         return response('ok', 200);
 
         // if ($updates->channel_post == null || $updates->channel_post->chat->id != -1001308540909) {
