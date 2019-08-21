@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use App\Task;
 use App\Ban;
-use App\Events\TaskUpdate;
 use App\Events\BanUpdate;
+use App\Events\TaskUpdate;
 use App\Helpers\KeyboardButton;
 use App\Helpers\Webhook;
+use App\Task;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Telegram\Bot\FileUpload\InputFile;
+use Telegram\Bot\Objects\CallbackQuery;
 
 class MainController extends Controller
 {
@@ -69,18 +70,18 @@ class MainController extends Controller
 
     public function checkTask(Request $request, Task $task)
     {
-        $photo = ($request->file('files')) ? $request->file('files') : NULL;
+        $photo = ($request->file('files')) ? $request->file('files') : null;
 
         if ($task->type == 1) {
             $task->check();
 
             event(new TaskUpdate($task));
 
-            $text_to_admin = "<b>Задание №".$task->id." пришло на проверку!</b>\n"
-            . "Название : ".$task->name."\n"
-            . "Команда : ".$task->user->name."\n"
-            . "Сообщение от команды : ".$request->text;
-            $text_to_users = "💡 Задание <b>".$task->name."</b> проверяется администратором, ожидайте результат проверки.";
+            $text_to_admin = "<b>Задание №" . $task->id . " пришло на проверку!</b>\n"
+            . "Название : " . $task->name . "\n"
+            . "Команда : " . $task->user->name . "\n"
+            . "Сообщение от команды : " . $request->text;
+            $text_to_users = "💡 Задание <b>" . $task->name . "</b> проверяется администратором, ожидайте результат проверки.";
 
             $reply_buttons = [
                 KeyboardButton::createSingleTaskButton('Выполнить', ['task_id' => $task->id, 'status' => 3]),
@@ -94,20 +95,20 @@ class MainController extends Controller
 
             event(new BanUpdate($ban, true));
 
-            $text_to_admin = "<b>🔥 Общее задание №".$task->id." пришло на проверку!</b> 🔥\n"
-            . "Название : ".$task->name."\n"
-            . "Команда : ".\Auth::user()->name."\n"
-            . "Сообщение от команды : ".$request->text;
-            $text_to_users = "🔥 Общее задание <b>".$task->name."</b> команды <b>".\Auth::user()->name."</b> успешно сдано и проверяется администратором, ответ будет в конце игры SeverQuest.";
+            $text_to_admin = "<b>🔥 Общее задание №" . $task->id . " пришло на проверку!</b> 🔥\n"
+            . "Название : " . $task->name . "\n"
+            . "Команда : " . \Auth::user()->name . "\n"
+            . "Сообщение от команды : " . $request->text;
+            $text_to_users = "🔥 Общее задание <b>" . $task->name . "</b> команды <b>" . \Auth::user()->name . "</b> успешно сдано и проверяется администратором, ответ будет в конце игры SeverQuest.";
 
             $reply_buttons = [
-                KeyboardButton::createCommonTaskButton('Засчитать выполнение команде', ['task_id' => $task->id, 'user_id' => Auth::user()->id])
+                KeyboardButton::createCommonTaskButton('Засчитать выполнение команде', ['task_id' => $task->id, 'user_id' => Auth::user()->id]),
             ];
         }
         $message = $this->sendTelegramMessage($text_to_admin, $reply_buttons, '-1001308540909');
 
-        if(!is_null($photo)) {
-            foreach($photo as $ph){
+        if (!is_null($photo)) {
+            foreach ($photo as $ph) {
                 $photo = InputFile::createFromContents(file_get_contents($ph->getRealPath()), str_random(10) . '.' . $ph->getClientOriginalExtension());
                 $message_id = $message->message_id;
 
@@ -122,6 +123,11 @@ class MainController extends Controller
 
     public function webhook(Request $request)
     {
+        $update = Telegram::getUpdates();
+        \Log::debug($update);
+        $test = new CallbackQuery($request->toArray());
+        \Log::debug($test);
+
         if (is_null($request->callback_query)) {
             \Log::info($request->toArray());
             return response('Nothing', 204);
@@ -131,13 +137,14 @@ class MainController extends Controller
         $callback_data = json_decode($request->callback_query['data']);
 
         if ($callback_data->type == 'single-task') {
-            $this->webhookSingleTaskKeyboard($callback_data->data, $callback_query_id);
+            $answer = $this->webhookSingleTaskKeyboard($callback_data->data);
         }
-        
         if ($callback_data->type == 'common-task') {
-            $this->webhookCommonTaskKeyboard($callback_data->data, $callback_query_id);
+            $answer = $this->webhookCommonTaskKeyboard($callback_data->data);
         }
+        $this->sendTelegramMessage($answer['to_users']);
         $this->clearMessageReplyMarkup($message_id);
+        $this->sendAnswerCallbackQuery($callback_query_id, $answer['to_admin']);
 
         return response('ok', 200);
 

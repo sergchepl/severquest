@@ -57,7 +57,7 @@ trait Webhook
         ]);
     }
 
-    private function webhookSingleTaskKeyboard($button, $callback_query_id)
+    private function webhookSingleTaskKeyboard($button)
     {
         $task = Task::find($button->task_id);
 
@@ -96,11 +96,13 @@ trait Webhook
         }
         event(new TaskUpdate($task));
 
-        $this->sendTelegramMessage($text_to_users);
-        $this->sendAnswerCallbackQuery($callback_query_id, $text_to_admin);
+        return [
+            'to_users' => $text_to_users,
+            'to_admin' => $text_to_admin
+        ];
     }
 
-    private function webhookCommonTaskKeyboard($button, $callback_query_id)
+    private function webhookCommonTaskKeyboard($button)
     {
         $task = Task::find($button->task_id);
         $user = User::find($button->user_id);
@@ -108,10 +110,9 @@ trait Webhook
         $user->addScore($task->score);
         event(new ScoreUpdate($user));
 
-        $text_to_users = "🎉 Выполнение общего задания <b>" . $task->name . "</b> засчитано команде <b>" . $user->name . "</b>.";
-        $text_to_admin = "✅ Задание успешно засчитано!\n";
-
-        $this->sendTelegramMessage($text_to_users);
-        $this->sendAnswerCallbackQuery($callback_query_id, $text_to_admin);
+        return [
+            'to_users' => "🎉 Выполнение общего задания <b>" . $task->name . "</b> засчитано команде <b>" . $user->name . "</b>.",
+            'to_admin' => "✅ Задание успешно засчитано!\n"
+        ];
     }
 }
