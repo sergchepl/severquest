@@ -6,17 +6,16 @@ use App\Ban;
 use App\Events\BanUpdate;
 use App\Events\TaskUpdate;
 use App\Helpers\KeyboardButton;
-use App\Helpers\Webhook;
+use App\Helpers\TelegramHelper;
 use App\Task;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Telegram\Bot\FileUpload\InputFile;
-use Telegram\Bot\Objects\CallbackQuery;
 
 class MainController extends Controller
 {
-    use Webhook;
+    use TelegramHelper;
 
     public function __construct()
     {
@@ -116,32 +115,6 @@ class MainController extends Controller
             }
         }
         $this->sendTelegramMessage($textToUsers);
-
-        return response('ok', 200);
-    }
-
-    public function webhook(Request $request)
-    {
-        $callback = (new CallbackQuery($request->toArray()))->callback_query;
-        \Log::info($callback);
-
-        if (is_null($callback)) {
-            \Log::info($request->toArray());
-            return response('Nothing', 204);
-        }
-        $callbackId = $callback->id;
-        $messageId = $callback->message->message_id;
-        $callbackData = json_decode($callback->data);
-
-        if ($callbackData->type == 'single-task') {
-            $answer = $this->webhookSingleTaskKeyboard($callbackData->data);
-        }
-        if ($callbackData->type == 'common-task') {
-            $answer = $this->webhookCommonTaskKeyboard($callbackData->data);
-        }
-        $this->sendTelegramMessage($answer['toUsers']);
-        $this->clearMessageReplyMarkup($messageId);
-        $this->sendAnswerCallbackQuery($callbackId, $answer['toAdmin']);
 
         return response('ok', 200);
     }

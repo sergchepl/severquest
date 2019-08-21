@@ -22,8 +22,8 @@ Route::put('/set-score', 'MainController@setScore');
 Auth::routes();
 Route::post('/login','Auth\LoginController@authenticate');
 
-Route::post('/AAG1RIo_ym-2We-yuTsN8IWg8Jlex7lEY4s/webhook', 'MainController@webhook');
-Route::get('/setwebhook', 'TelegramBotController@setWebhook');
+Route::get('/setwebhook', 'TelegramController@setWebhook');
+Route::post('/AAG1RIo_ym-2We-yuTsN8IWg8Jlex7lEY4s/webhook', 'TelegramController@webhook');
 
 Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function() {
     Route::get('dashboard', 'AdminController@dashboard')->name('dashboard');

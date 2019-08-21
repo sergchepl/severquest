@@ -10,7 +10,7 @@ use App\Events\ScoreUpdate;
 use Telegram\Bot\Laravel\Facades\Telegram;
 use Telegram\Bot\Exceptions\TelegramResponseException;
 
-trait Webhook
+trait TelegramHelper
 {
     private function sendTelegramMessage(string $text, array $buttons = [], $chatId = null)
     {
