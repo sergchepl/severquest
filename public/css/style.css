@@ -11,6 +11,7 @@ body {
 
 a {
     color: #21496a;
+    text-decoration: none !important;
 }
 
 header {
@@ -160,6 +161,11 @@ form {
 
 .btn-success {
     background-color: #57997a;
+    color: #ffeead;
+}
+
+.btn-success:disabled {
+    background-color: #6db996;
     color: #ffeead;
 }
 

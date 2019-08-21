@@ -47956,7 +47956,7 @@ var render = function() {
       _c(
         "button",
         {
-          staticClass: "btn btn-danger",
+          staticClass: "btn btn-cancel",
           staticStyle: { "font-size": "1rem" },
           attrs: { role: "button" },
           on: { click: _vm.clickRedBtn }

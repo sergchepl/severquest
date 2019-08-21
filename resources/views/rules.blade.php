@@ -3,60 +3,64 @@
 @section('content')
 <div class="container-fluid">
     <div class="row">
-        <header class="col-12">
-            <img src="/css/image/logo.jpg" alt="">
+        <header class="w-100 d-flex justify-content-center">
+            <a href="/">
+                <h1>SEVER<span style="color: #ffad60">QUEST</span></h1>
+            </a>
         </header>
         @guest
-        <form method="POST" action="{{ route('register') }}">
-            @csrf
+            <div class="col-md-8">
+                <div class="card mt-5">
+                    <div class="card-header">Зарегистрируйся и играй!</div>
+    
+                    <div class="card-body">
+                        <form method="POST" action="{{ route('register') }}">
+                            @csrf
+    
+                            <div class="form-group row">
+                                <label for="name" class="col-sm-4 col-form-label text-md-right">Имя команды (без пробелов)</label>
+    
+                                <div class="col-md-6">
+                                    <input id="name" type="name" class="form-control{{ Session::has('errors') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
+    
+                                    @if (Session::has('errors'))
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>Неправильное Имя или Пароль</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+    
+                            <div class="form-group row">
+                                <label for="password" class="col-md-4 col-form-label text-md-right">Пароль</label>
+    
+                                <div class="col-md-6">
+                                    <input id="password" type="password" class="form-control{{ Session::has('errors') ? ' is-invalid' : '' }}" name="password" required>
+                                </div>
+                            </div>
 
-            <div class="form-group row">
-                <label for="name" class="col-md-4 col-form-label text-md-right">Название команды</label>
-
-                <div class="col-md-6">
-                    <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" required autofocus>
-
-                    @if ($errors->has('name'))
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('name') }}</strong>
-                        </span>
-                    @endif
+                            <div class="form-group row">
+                                <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Пароль (подтверждение)</label>
+                
+                                <div class="col-md-6">
+                                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                                </div>
+                            </div>
+    
+                            <div class="form-group row mb-0">
+                                    <div class="col-md-6 offset-md-4">
+                                        <button type="submit" class="btn btn-success">
+                                            Погнали!
+                                        </button>
+                                        <a style="float:right" href="/login" role="button" class="btn btn-coral">
+                                            Уже в Тимe!
+                                        </a>
+                                    </div>
+                                </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-
-            <div class="form-group row">
-                <label for="password" class="col-md-4 col-form-label text-md-right">Пароль</label>
-
-                <div class="col-md-6">
-                    <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-
-                    @if ($errors->has('password'))
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('password') }}</strong>
-                        </span>
-                    @endif
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Пароль(подтверждение)</label>
-
-                <div class="col-md-6">
-                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                </div>
-            </div>
-
-            <div class="form-group row mb-0">
-                <div class="col-md-6 offset-md-4">
-                    <button type="submit" class="btn btn-coral">
-                        Погнали!
-                    </button>
-                    <a style="float:right" href="/login" role="button" class="btn btn-success">
-                            Уже в Тимe!
-                    </a>
-                </div>
-            </div>
-        </form>
         @else
         <h1 class="rules-title">Правила</h1>
         <div class="rules">

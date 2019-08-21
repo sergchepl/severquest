@@ -3,6 +3,11 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
+        <header class="w-100 d-flex justify-content-center">
+            <a href="/">
+                <h1>SEVER<span style="color: #ffad60">QUEST</span></h1>
+            </a>
+        </header>
         <div class="col-md-8">
             <div class="card mt-5">
                 <div class="card-header">Возвращайся в бой!</div>

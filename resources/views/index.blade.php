@@ -5,7 +5,7 @@
         <div class="row">
             <header class="col-12">
                 <div class="header">
-                    <a href="/">SeverQUEST</a>
+                    <a href="/">Sever<span style="color: #ffad60">QUEST</span></a>
                     <div class="team">
                         <p class="status">{{Auth::user()->name}}</p>
                         <Score :user="{{ Auth::user() }}"></Score>
@@ -14,11 +14,9 @@
                             class="btn btn-cancel btn-sm">Выйти</button>
                     </div>
                 </div>
-                {{-- ДЛЯ ТЕСТОВ!!!!!! --}}
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
-                {{-- ДЛЯ ТЕСТОВ!!!!!! --}}
             </header>
             @if(Auth::user()->read_rules)
             <h1>Уникальные</h1>

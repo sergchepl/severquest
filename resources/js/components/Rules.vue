@@ -70,7 +70,7 @@
             <button style="font-size:1rem" role="button" class="btn btn-success" :disabled="isDisabledGreenBtn" @click="clickGreenBtn">
                 Понял-принял! (<span id="timer">{{ seconds }}</span>)
             </button>
-            <button style="font-size:1rem" role="button" class="btn btn-danger" @click="clickRedBtn">
+            <button style="font-size:1rem" role="button" class="btn btn-cancel" @click="clickRedBtn">
                 Я все знаю!
             </button>
         </div>

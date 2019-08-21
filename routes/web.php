@@ -13,10 +13,10 @@
 
 Auth::routes();
 Route::post('/login', 'Auth\LoginController@authenticate');
+Route::get('/', 'MainController@rules');
 
 // Client routes
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/', 'MainController@rules');
     Route::get('/game', 'MainController@index');
     Route::put('/task/{task}/take', 'MainController@takeTask');
     Route::put('/task/{task}/cancel', 'MainController@cancelTask');
