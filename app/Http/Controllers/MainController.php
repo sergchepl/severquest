@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Objects\CallbackQuery;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
 class MainController extends Controller
 {
@@ -123,18 +124,16 @@ class MainController extends Controller
 
     public function webhook(Request $request)
     {
-        $update = Telegram::getUpdates();
-        \Log::debug($update);
-        $test = new CallbackQuery($request->toArray());
-        \Log::debug($test);
+        $callback = new CallbackQuery($request->toArray());
+        \Log::info($callback);
 
         if (is_null($request->callback_query)) {
             \Log::info($request->toArray());
             return response('Nothing', 204);
         }
-        $callback_query_id = $request->callback_query['id'];
-        $message_id = $request->callback_query['message']['message_id'];
-        $callback_data = json_decode($request->callback_query['data']);
+        $callback_query_id = $callback->callback_query->id;
+        $message_id = $callback->callback_query->message->message_id;
+        $callback_data = json_decode($callback->callback_query->data);
 
         if ($callback_data->type == 'single-task') {
             $answer = $this->webhookSingleTaskKeyboard($callback_data->data);

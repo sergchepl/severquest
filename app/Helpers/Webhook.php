@@ -39,22 +39,22 @@ trait Webhook
     private function sendAnswerCallbackQuery($query_id, $text)
     {
         try {
-            $response = Telegram::answerCallbackQuery([
+            return Telegram::answerCallbackQuery([
                 'callback_query_id' => $query_id,
                 'text' => $text,
             ]);
-
-            return $response;
         } catch (TelegramResponseException $e) {}
     }
 
     private function clearMessageReplyMarkup($message, $chat = '-1001308540909')
     {
-        return Telegram::editMessageReplyMarkup([
-           'chat_id' => $chat,
-           'message_id' => $message,
-           'reply_markup' => json_encode(['inline_keyboard' => [[]]])
-        ]);
+        try {
+            return Telegram::editMessageReplyMarkup([
+               'chat_id' => $chat,
+               'message_id' => $message,
+               'reply_markup' => json_encode(['inline_keyboard' => [[]]])
+            ]);
+        } catch (TelegramResponseException $e) {}
     }
 
     private function webhookSingleTaskKeyboard($button)
