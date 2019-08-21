@@ -104,7 +104,7 @@ class MainController extends Controller
                 KeyboardButton::createCommonTaskButton('Засчитать выполнение команде', ['task_id' => $task->id, 'user_id' => Auth::user()->id])
             ];
         }
-        $this->sendTelegramMessage($text_to_admin, $reply_buttons, '-1001308540909');
+        $message = $this->sendTelegramMessage($text_to_admin, $reply_buttons, '-1001308540909');
 
         if(!is_null($photo)) {
             foreach($photo as $ph){

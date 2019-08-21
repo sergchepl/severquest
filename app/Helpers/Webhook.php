@@ -106,7 +106,7 @@ trait Webhook
         $user = User::find($button->user_id);
 
         $user->addScore($task->score);
-        event(new ScoreUpdate($task->user));
+        event(new ScoreUpdate($user));
 
         $text_to_users = "🎉 Выполнение общего задания <b>" . $task->name . "</b> засчитано команде <b>" . $user->name . "</b>.";
         $text_to_admin = "✅ Задание успешно засчитано!\n";
