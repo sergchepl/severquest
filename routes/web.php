@@ -22,10 +22,8 @@ Route::get('/game', 'MainController@game');
 // API routes
 Route::group(['prefix' => 'api/v1', 'namespace' => 'API'], function () {
 
-    // Telegram routes
-    Route::get('/setwebhook', 'TelegramController@setWebhook');
-    Route::post('/AAG1RIo_ym-2We-yuTsN8IWg8Jlex7lEY4s/webhook', 'TelegramController@webhook');
-
+    // Telegram Webhook route
+    Route::post('/AAG1RIo_ym-2We-yuTsN8IWg8Jlex7lEY4s/webhook', 'TelegramController@webhook')->name('webhook');
     // Task API routes
     Route::group(['middleware' => 'auth'], function () {
         Route::put('/task/{task}/take', 'TaskController@takeTask');
@@ -37,6 +35,8 @@ Route::group(['prefix' => 'api/v1', 'namespace' => 'API'], function () {
 
 // Admin routes
 Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function () {
+    Route::get('/setwebhook', 'TelegramController@setWebhook');
+ 
     Route::get('dashboard', 'AdminController@dashboard')->name('dashboard');
 
     Route::get('tasks', 'AdminController@tasks')->name('tasks');

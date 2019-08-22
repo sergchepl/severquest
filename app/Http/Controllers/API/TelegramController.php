@@ -13,7 +13,7 @@ class TelegramController extends Controller
 
     public function setWebhook()
     {
-        $response = Telegram::setWebhook(['url' => url('/AAG1RIo_ym-2We-yuTsN8IWg8Jlex7lEY4s/webhook')]);
+        $response = Telegram::setWebhook(['url' => route('webhook')]);
         dd($response);
     }
 
