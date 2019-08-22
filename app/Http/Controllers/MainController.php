@@ -11,7 +11,7 @@ class MainController extends Controller
         return view('rules');
     }
 
-    public function index()
+    public function game()
     {
         $tasks = Task::all();
         return view('index', compact('tasks'));
