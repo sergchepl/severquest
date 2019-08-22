@@ -13,7 +13,7 @@ class MainController extends Controller
 
     public function game()
     {
-        $tasks = Task::all();
+        $tasks = Task::orderBy('score', 'asc')->get();
         return view('index', compact('tasks'));
     }
 }
