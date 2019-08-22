@@ -22,8 +22,9 @@ Route::get('/game', 'MainController@game');
 // API routes
 Route::group(['prefix' => 'api/v1', 'namespace' => 'API'], function () {
 
-    // Telegram Webhook route
+    // Telegram Webhook route (removed csrf in VerifCsrfToken Middleware)
     Route::post('/AAG1RIo_ym-2We-yuTsN8IWg8Jlex7lEY4s/webhook', 'TelegramController@webhook')->name('webhook');
+
     // Task API routes
     Route::group(['middleware' => 'auth'], function () {
         Route::put('/task/{task}/take', 'TaskController@takeTask');
@@ -37,7 +38,7 @@ Route::group(['prefix' => 'api/v1', 'namespace' => 'API'], function () {
 Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function () {
     Route::get('/setwebhook', 'API\TelegramController@setWebhook');
     Route::get('/getwebhookinfo', 'API\TelegramController@getWebhookInfo');
- 
+
     Route::get('dashboard', 'AdminController@dashboard')->name('dashboard');
 
     Route::get('tasks', 'AdminController@tasks')->name('tasks');
