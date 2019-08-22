@@ -96,7 +96,7 @@ export default {
     },
     methods: {
         setScore() {
-            return window.axios.put('/set-score', {score: this.score})
+            return axios.put('api/v1/set-score', {score: this.score})
                 .catch(error => {
                     console.log(error.response);
                 });
@@ -104,12 +104,11 @@ export default {
         slideRules() {
             let nextRule = $("#rules-" + this.activeRule).slideUp('slow').next('div');
             if (nextRule.length == 0) {
-                this.setScore()
-                .then(res => {
+                this.setScore().then(res => {
                     $('#endRules').show();
                     // redirect
                     setTimeout(() => window.location.replace("/game"),3000);
-                });    
+                });
             } else {
                 nextRule.slideDown('slow');
                 this.activeRule++;

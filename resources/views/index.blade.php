@@ -19,7 +19,7 @@
                 </form>
             </header>
             @if(Auth::user()->read_rules)
-            <h1>Уникальные</h1>
+                <h1>Уникальные</h1>
                 <div class="type-1">
                     @foreach ($tasks as $k => $task)
                         @if($task->type == 1)
@@ -27,7 +27,7 @@
                         @endif
                     @endforeach
                 </div>
-            <h1>Общие</h1>
+                <h1>Общие</h1>
                 <div class="type-2">
                     @foreach ($tasks as $k => $task)
                         @if($task->type == 2)
@@ -35,12 +35,12 @@
                         @endif
                     @endforeach
                 </div>
+                <Modal></Modal>
+            @else
+                <div class="rules">
+                    <Rules></Rules>
+                </div>
+            @endif
         </div>
-        <Modal></Modal>
-        @else
-        <div class="rules">
-            <Rules></Rules>
-        </div>
-        @endif
     </div>
 @endsection

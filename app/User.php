@@ -27,6 +27,15 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function haveTasksInWork()
+    {
+        $tasks = $this->tasks()->whereStatus(1)->get();
+
+        $result = count($tasks) > 0;
+
+        return $result;
+    }
+
     public function isAdmin()
     {
         return (int) $this->is_admin === 1;
@@ -56,9 +65,9 @@ class User extends Authenticatable
 
     //Relations
 
-    public function task()
+    public function tasks()
     {
-        return $this->hasOne('App\Task');
+        return $this->hasMany('App\Task');
     }
 
     public function completed_tasks()

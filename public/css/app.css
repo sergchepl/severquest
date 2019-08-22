@@ -11664,6 +11664,12 @@ form {
   color: #21496a;
   background-color: #ffad60;
   margin-left: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .type-1,
@@ -11702,6 +11708,11 @@ form {
   text-decoration: line-through !important;
 }
 
+.card.done .card-header a,
+.card.check .card-header a {
+  text-decoration: line-through !important;
+}
+
 .card.sharing {
   background-color: #ffad60;
   color: #ffeead !important;
@@ -11731,7 +11742,7 @@ form {
   background-color: #ffeead;
   border-radius: 50%;
   display: inline-block;
-  margin-right: 5px;
+  margin-right: 10px;
 }
 
 .dot.inwork {
@@ -11742,7 +11753,8 @@ form {
   background-color: #57997a;
 }
 
-.dot.banned {
+.dot.banned,
+.dot.disabled {
   background-color: #d9534f;
 }
 
@@ -11771,6 +11783,12 @@ form {
 .card-header a {
   text-decoration: none;
   color: #21496a;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .card-body {

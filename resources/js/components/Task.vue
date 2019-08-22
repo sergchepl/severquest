@@ -101,7 +101,7 @@ export default {
     },
     methods: {
         takeTask() {
-            axios.put('/task/'+ this.task.id + '/take')
+            axios.put('api/v1/task/'+ this.task.id + '/take')
             .catch(error => {
                 console.log(error.response);
                 if (error.response.status == 409) {
@@ -111,7 +111,7 @@ export default {
             })
         },
         cancelTask() {
-            axios.put('/task/'+ this.task.id + '/cancel')
+            axios.put('api/v1/task/'+ this.task.id + '/cancel')
             .catch(error => {
                 console.log(error.response);
             })

@@ -1689,7 +1689,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var formData = new FormData($(this.$refs.form).get(0));
 
-            window.axios.post('/task/' + this.modal.taskId + '/check', formData, {
+            axios.post('api/v1/task/' + this.modal.taskId + '/check', formData, {
                 onUploadProgress: function onUploadProgress(e) {
                     return _this.progress = Math.round(e.loaded * 100 / e.total);
                 },
@@ -1821,7 +1821,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         setScore: function setScore() {
-            return window.axios.put('/set-score', { score: this.score }).catch(function (error) {
+            return axios.put('api/v1/set-score', { score: this.score }).catch(function (error) {
                 console.log(error.response);
             });
         },
@@ -2034,7 +2034,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         takeTask: function takeTask() {
             var _this2 = this;
 
-            axios.put('/task/' + this.task.id + '/take').catch(function (error) {
+            axios.put('api/v1/task/' + this.task.id + '/take').catch(function (error) {
                 console.log(error.response);
                 if (error.response.status == 409) {
                     _this2.isDoubleTask = true;
@@ -2045,7 +2045,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         cancelTask: function cancelTask() {
-            axios.put('/task/' + this.task.id + '/cancel').catch(function (error) {
+            axios.put('api/v1/task/' + this.task.id + '/cancel').catch(function (error) {
                 console.log(error.response);
             });
         },
@@ -6540,7 +6540,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 

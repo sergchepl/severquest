@@ -38,6 +38,8 @@ form {
     color: #21496a;
     background-color: #ffad60;
     margin-left: 10px;
+    display: flex;
+    align-items: center;
 }
 
 .type-1,
@@ -75,6 +77,13 @@ form {
         }
     }
 
+    &.done, &.check {
+        
+        & .card-header a {
+            text-decoration: line-through !important;
+        }
+    }
+
     &.sharing {
         background-color: #ffad60;
         color: #ffeead !important;
@@ -106,7 +115,7 @@ form {
     background-color: #ffeead;
     border-radius: 50%;
     display: inline-block;
-    margin-right: 5px;
+    margin-right: 10px;
 
     &.inwork {
         background-color: #21496a;
@@ -116,7 +125,7 @@ form {
         background-color: #57997a;
     }
 
-    &.banned {
+    &.banned, &.disabled {
         background-color: #d9534f;
     }
 
@@ -138,6 +147,8 @@ form {
     a {
         text-decoration: none;
         color: #21496a;
+        display: flex;
+        align-items: center;
     }
 }
 
