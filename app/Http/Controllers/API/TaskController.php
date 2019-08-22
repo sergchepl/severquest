@@ -25,9 +25,9 @@ class TaskController extends Controller
         if ($currentTeam->haveTasks()) {
             return response('Have another task', 403);
         }
-        if ($task->isClosed()) {
+        if ($task->isClosed()) { //Sometimes WebSockets can close connection, then user will not have updates and can try to take closed task
             event(new TaskUpdate($task));
-            return response(route('game'), 409); //Sometimes WebSockets can close connection, then user will not have updates
+            return response(route('game'), 409);
         }
 
         $task->take($currentTeam->id);
