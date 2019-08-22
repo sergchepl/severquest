@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container-fluid">
-    <div class="row">
+    <div class="row m-0">
         <header class="w-100 d-flex justify-content-center">
             <a href="/">
                 <h1>SEVER<span style="color: #ffad60">QUEST</span></h1>

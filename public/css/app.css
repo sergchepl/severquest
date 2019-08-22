@@ -7,37 +7,6 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
-:root {
-  --blue: #3490dc;
-  --indigo: #6574cd;
-  --purple: #9561e2;
-  --pink: #f66D9b;
-  --red: #e3342f;
-  --orange: #f6993f;
-  --yellow: #ffed4a;
-  --green: #38c172;
-  --teal: #4dc0b5;
-  --cyan: #6cb2eb;
-  --white: #fff;
-  --gray: #6c757d;
-  --gray-dark: #343a40;
-  --primary: #3490dc;
-  --secondary: #6c757d;
-  --success: #38c172;
-  --info: #6cb2eb;
-  --warning: #ffed4a;
-  --danger: #e3342f;
-  --light: #f8f9fa;
-  --dark: #343a40;
-  --breakpoint-xs: 0;
-  --breakpoint-sm: 576px;
-  --breakpoint-md: 768px;
-  --breakpoint-lg: 992px;
-  --breakpoint-xl: 1200px;
-  --font-family-sans-serif: "Nunito", sans-serif;
-  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-}
-
 *,
 *::before,
 *::after {
@@ -11691,13 +11660,10 @@ form {
           flex-grow: .2;
 }
 
-.badge {
-  float: right;
-}
-
 .badge-light {
   color: #21496a;
   background-color: #ffad60;
+  margin-left: 10px;
 }
 
 .type-1,
@@ -11737,17 +11703,18 @@ form {
 }
 
 .card.sharing {
-  background-color: #d9534f;
+  background-color: #ffad60;
   color: #ffeead !important;
 }
 
 .card.sharing::before,
 .card.sharing::after {
-  color: #d9534f;
+  color: #ffad60;
 }
 
-.card.sharing.badge-light {
+.card.sharing .badge-light {
   color: #ffeead;
+  background-color: #d9534f;
 }
 
 .card.sharing .card-header a {
@@ -11764,6 +11731,7 @@ form {
   background-color: #ffeead;
   border-radius: 50%;
   display: inline-block;
+  margin-right: 5px;
 }
 
 .dot.inwork {
@@ -11783,9 +11751,21 @@ form {
 }
 
 .card-header h5 {
-  width: 83vw;
   font-size: 1.3rem;
   font-weight: 700;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row;
+          flex-flow: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: start;
 }
 
 .card-header a {
@@ -11839,6 +11819,11 @@ form {
   text-align: center;
 }
 
+.rules {
+  margin: 0 2rem;
+  text-align: center;
+}
+
 h1 {
   width: 100%;
 }
@@ -11850,11 +11835,6 @@ h1::after {
   font-size: 1.5rem;
   vertical-align: 15%;
   color: #96ceb4;
-}
-
-h1 .rules {
-  margin: 0 2rem;
-  text-align: center;
 }
 
 h1.rules-title::after,
