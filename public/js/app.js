@@ -48326,7 +48326,7 @@ var render = function() {
                               staticClass: "btn",
                               class:
                                 +_vm.task.type == 2
-                                  ? "btn-orange"
+                                  ? "btn-cancel"
                                   : "btn-success",
                               attrs: { role: "button" },
                               on: { click: _vm.sendAnswer }

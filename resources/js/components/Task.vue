@@ -16,7 +16,7 @@
                     <template v-if="!status">
                         <button v-if="!+task.user_id && +task.type != 2" class="btn btn-coral" role="button" @click="takeTask">За дело!</button>
                         <button v-if="+task.user_id == user.id && +task.type != 2" class="btn btn-cancel hide" role="button" @click="cancelTask">Отменись!</button>
-                        <button v-if="+task.user_id == user.id || +task.type == 2" :class="+task.type == 2 ? 'btn-orange' : 'btn-success'" class="btn" role="button" @click="sendAnswer">Хочу Сдать!</button>
+                        <button v-if="+task.user_id == user.id || +task.type == 2" :class="+task.type == 2 ? 'btn-cancel' : 'btn-success'" class="btn" role="button" @click="sendAnswer">Хочу Сдать!</button>
                     </template>
                     <p v-else class="status">{{ status }}</p>
                 </div>
