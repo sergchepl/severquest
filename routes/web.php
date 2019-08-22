@@ -23,7 +23,7 @@ Route::get('/game', 'MainController@game');
 Route::group(['prefix' => 'api/v1', 'namespace' => 'API'], function () {
 
     // Telegram Webhook route
-    Route::post('/AAG1RIo_ym-2We-yuTsN8IWg8Jlex7lEY4s/webhook', 'API\TelegramController@webhook')->name('webhook');
+    Route::post('/AAG1RIo_ym-2We-yuTsN8IWg8Jlex7lEY4s/webhook', 'TelegramController@webhook')->name('webhook');
     // Task API routes
     Route::group(['middleware' => 'auth'], function () {
         Route::put('/task/{task}/take', 'TaskController@takeTask');
