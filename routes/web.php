@@ -36,6 +36,7 @@ Route::group(['prefix' => 'api/v1', 'namespace' => 'API'], function () {
 // Admin routes
 Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function () {
     Route::get('/setwebhook', 'API\TelegramController@setWebhook');
+    Route::get('/getwebhookinfo', 'API\TelegramController@getWebhookInfo');
  
     Route::get('dashboard', 'AdminController@dashboard')->name('dashboard');
 
