@@ -2036,11 +2036,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             axios.put('api/v1/task/' + this.task.id + '/take').catch(function (error) {
                 console.log(error.response);
-                if (error.response.status == 409) {
+                if (error.response.status == 403) {
                     _this2.isDoubleTask = true;
                     setTimeout(function () {
                         return _this2.isDoubleTask = false;
                     }, 500);
+                }
+                if (error.response.status == 409) {
+                    window.location.href = error.response.data;
                 }
             });
         },

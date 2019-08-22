@@ -8,6 +8,17 @@ class Task extends Model
 {
     protected $guarded = [];
 
+    /**
+     * Check user_id == 0 for the Task
+     */
+    public function isClosed()
+    {
+        return $this->user_id != 0;
+    }
+
+    /**
+     * Set user_id and status to 0
+     */
     public function clear()
     {
         return $this->update([
@@ -16,6 +27,9 @@ class Task extends Model
         ]);
     }
 
+    /**
+     * Set user_id and status == 1
+     */
     public function take(int $user)
     {
         return $this->update([
@@ -24,6 +38,9 @@ class Task extends Model
         ]);
     }
 
+    /**
+     * Set status == 1
+     */
     public function work()
     {
         return $this->update([
@@ -31,6 +48,9 @@ class Task extends Model
         ]);
     }
 
+    /**
+     * Set status == 2
+     */
     public function check()
     {
         return $this->update([
@@ -38,6 +58,9 @@ class Task extends Model
         ]);
     }
 
+    /**
+     * Set status == 3
+     */
     public function done()
     {
         return $this->update([

@@ -17,7 +17,7 @@ Route::post('/login', 'Auth\LoginController@authenticate');
 
 // Pages
 Route::get('/', 'MainController@rules');
-Route::get('/game', 'MainController@game');
+Route::get('/game', 'MainController@game')->name('game');
 
 // API routes
 Route::group(['prefix' => 'api/v1', 'namespace' => 'API'], function () {

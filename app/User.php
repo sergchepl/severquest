@@ -27,13 +27,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function haveTasksInWork()
+    public function haveTasks()
     {
         $tasks = $this->tasks()->whereStatus(1)->get();
 
-        $result = count($tasks) > 0;
-
-        return $result;
+        return count($tasks) > 0;
     }
 
     public function isAdmin()

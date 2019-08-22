@@ -20,13 +20,17 @@ class TaskController extends Controller
 
     public function takeTask(Task $task)
     {
-        $isTeamHaveAnotherTask = Auth::user()->haveTasksInWork();
+        $currentTeam = Auth::user();
 
-        if ($isTeamHaveAnotherTask) {
-            return response('Have another task', 409);
+        if ($currentTeam->haveTasks()) {
+            return response('Have another task', 403);
+        }
+        if ($task->isClosed()) {
+            event(new TaskUpdate($task));
+            return response(route('game'), 409); //Sometimes WebSockets can close connection, then user will not have updates
         }
 
-        $task->take(Auth::user()->id);
+        $task->take($currentTeam->id);
         event(new TaskUpdate($task));
 
         $this->sendTelegramMessage("🚲 Команда <b>" . $task->user->name . "</b> приступила к выполнению задания <b>" . $task->name . "</b>.");

@@ -104,9 +104,12 @@ export default {
             axios.put('api/v1/task/'+ this.task.id + '/take')
             .catch(error => {
                 console.log(error.response);
-                if (error.response.status == 409) {
+                if (error.response.status == 403) {
                     this.isDoubleTask = true;
                     setTimeout(() => this.isDoubleTask = false, 500);
+                }
+                if (error.response.status == 409) {
+                    window.location.href = error.response.data;
                 }
             })
         },
