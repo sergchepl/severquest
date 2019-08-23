@@ -2,7 +2,7 @@
 <aside>
   <div id="sidebar" class="nav-collapse ">
     <!-- sidebar menu start-->
-    <ul class="sidebar-menu" id="nav-accordion">
+    <ul class="sidebar-menu">
       <li class="mt">
       <a class="@if(strcmp(\URL::current(), route('dashboard')) == 0 )) active @endif" href="{{ route('dashboard')}}">
           <i class="fa fa-dashboard"></i>
