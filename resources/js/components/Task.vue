@@ -40,7 +40,15 @@ export default {
             if (task.id == this.task.id) {
                 this.task.user_id = task.user_id;
                 this.task.status = task.status;
+
+                this.$notify({ // for test
+                    group: 'admin',
+                    type: 'success',
+                    title: 'TEST',
+                    text: 'its a <b>TEST</b>!'
+                });
             }
+            
         });
         this.taskChannel.listen('BanUpdate', ({ban, active}) => {
             console.log(ban, active);

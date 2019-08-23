@@ -53,6 +53,7 @@
         FOOTER
         *********************************************************************************************************************************************************** -->
     @include('admin.footer')
+    <notifications group="admin" />
   </section>
   <script src="{{ mix('js/app.js') }}"></script>
   <!--common script for all pages-->

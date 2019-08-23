@@ -12,6 +12,7 @@
 <body>
     <main id="app">
         @yield('content')
+        <notifications group="admin" />
     </main>
     <script src="{{ mix('js/app.js') }}"></script>
 </body>

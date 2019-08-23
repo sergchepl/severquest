@@ -10,8 +10,10 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 import Vuex from 'vuex';
+import Notifications from 'vue-notification';
 
 Vue.use(Vuex);
+Vue.use(Notifications);
 
 const store = new Vuex.Store({
     state: {
