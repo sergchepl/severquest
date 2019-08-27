@@ -2101,23 +2101,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.taskChannel.listen('TaskUpdate', function (_ref) {
             var task = _ref.task;
 
-            if (task.id == _this.task.id) {
-                _this.task.user_id = task.user_id;
-                _this.task.status = task.status;
+            _this.task.user_id = task.user_id;
+            _this.task.status = task.status;
 
-                _this.$notify({ // for test
-                    group: 'admin',
-                    type: 'success',
-                    title: 'TEST',
-                    text: 'its a <b>TEST</b>!'
-                });
-            }
+            // this.$notify({ // for test
+            //     group: 'admin',
+            //     type: 'success',
+            //     title: 'TEST',
+            //     text: 'its a <b>TEST</b>!'
+            // });
         });
         this.taskChannel.listen('BanUpdate', function (_ref2) {
             var ban = _ref2.ban,
                 active = _ref2.active;
 
-            console.log(ban, active);
             if (ban.task_id == _this.task.id && ban.user_id == _this.user.id && active) {
                 _this.isBanned = true;
             }
@@ -2129,7 +2126,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     computed: {
         taskChannel: function taskChannel() {
-            return window.Echo.channel('tasks'); // will listen all task events
+            return window.Echo.channel('task.' + this.task.id); // will listen all task events
         },
         status: function status() {
             var status = +this.task.status;
