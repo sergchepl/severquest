@@ -30,6 +30,6 @@ class TaskUpdate implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new Channel('tasks');
+        return new Channel('task.'.$this->task->id);
     }
 }
