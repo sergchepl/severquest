@@ -44,10 +44,14 @@ export default {
                 this.sendNotification({'text': 'Задание <b>'+this.task.name+'</b> снова доступно!'});
             }
             if (this.user.id == task.user_id) {
-                this.sendNotification({'text': 'Изменен статус задания <b>'+this.task.name+'</b>!'});
+                if (task.status == 3) {
+                    this.sendNotification({'type': 'success', 'title': 'Поздравляем!', 'text': 'Задание <b>'+this.task.name+'</b> успешно выполнено!'});
+                } else {
+                    this.sendNotification({'text': 'Изменен статус задания <b>'+this.task.name+'</b>!'});
+                }
             }
             if (this.user.id != task.user_id && task.status == 1) {
-                this.sendNotification({'type': 'error', 'text': 'Задание <b>'+this.task.name+'</b> занято другой командой!'});
+                this.sendNotification({'type': 'error', 'text': 'Задание <b>'+this.task.name+'</b> взято другой командой!'});
             }
         });
         this.taskChannel.listen('BanUpdate', ({ban, active}) => {

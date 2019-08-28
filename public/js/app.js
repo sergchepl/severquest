@@ -2108,10 +2108,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.sendNotification({ 'text': 'Задание <b>' + _this.task.name + '</b> снова доступно!' });
             }
             if (_this.user.id == task.user_id) {
-                _this.sendNotification({ 'text': 'Изменен статус задания <b>' + _this.task.name + '</b>!' });
+                if (task.status == 3) {
+                    _this.sendNotification({ 'type': 'success', 'title': 'Поздравляем!', 'text': 'Задание <b>' + _this.task.name + '</b> успешно выполнено!' });
+                } else {
+                    _this.sendNotification({ 'text': 'Изменен статус задания <b>' + _this.task.name + '</b>!' });
+                }
             }
             if (_this.user.id != task.user_id && task.status == 1) {
-                _this.sendNotification({ 'type': 'error', 'text': 'Задание <b>' + _this.task.name + '</b> занято другой командой!' });
+                _this.sendNotification({ 'type': 'error', 'text': 'Задание <b>' + _this.task.name + '</b> взято другой командой!' });
             }
         });
         this.taskChannel.listen('BanUpdate', function (_ref2) {
