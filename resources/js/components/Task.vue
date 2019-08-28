@@ -40,20 +40,35 @@ export default {
             this.task.user_id = task.user_id;
             this.task.status = task.status;
 
-            // this.$notify({ // for test
-            //     group: 'admin',
-            //     type: 'success',
-            //     title: 'TEST',
-            //     text: 'its a <b>TEST</b>!'
-            // });
+            if (task.user_id == 0) {
+                this.sendNotification({'text': 'Задание <b>'+this.task.name+'</b> снова доступно!'});
+            }
+            if (this.user.id == task.user_id) {
+                this.sendNotification({'text': 'Изменен статус задания <b>'+this.task.name+'</b>!'});
+            }
+            if (this.user.id != task.user_id && task.status == 1) {
+                this.sendNotification({'type': 'error', 'text': 'Задание <b>'+this.task.name+'</b> занято другой командой!'});
+            }
         });
         this.taskChannel.listen('BanUpdate', ({ban, active}) => {
-            if (ban.task_id == this.task.id && ban.user_id == this.user.id && active) {
-                this.isBanned = true;
+            if (ban.user_id == this.user.id) {
+                if (active) {
+                    this.isBanned = true;
+
+                    const notificationStatus = 'error';
+                    const titleForNotification = 'Задание Заблокировано';
+                    const textForNotification = 'Задание <b>' + this.task.name + '</b> заблокировано для выполнения!';
+                } else {
+                    this.isBanned = false;
+
+                    const notificationStatus = 'success';
+                    const titleForNotification = 'Задание Разблокировано';
+                    const textForNotification = 'Задание <b>' + this.task.name + '</b> снова доступно для выполнения!';
+                }
+
+                this.sendNotification({'type': 'error', 'title': titleForNotification, 'text': textForNotification});
             }
-            if (ban.task_id == this.task.id && ban.user_id == this.user.id && !active) {
-                this.isBanned = false;
-            }
+
         });
     },
     computed: {
@@ -61,7 +76,7 @@ export default {
             return window.Echo.channel('task.'+this.task.id); // will listen all task events
         },
         status() {
-            let status = +this.task.status;
+            const status = +this.task.status;
 
             if (this.isBanned && +this.task.type == 2) {
                 return 'Ваш ответ принят!';
@@ -83,7 +98,7 @@ export default {
             }
         },
         statusClass() {
-            let status = this.task.status;
+            const status = this.task.status;
 
             if ((this.user.id == this.task.user_id || this.task.user_id == 0) && !this.isBanned) {
                 switch(+status) {
@@ -111,6 +126,8 @@ export default {
                 if (error.response.status == 403) {
                     this.isDoubleTask = true;
                     setTimeout(() => this.isDoubleTask = false, 500);
+                    
+                    this.sendNotification({'type': 'error', 'title': 'Ошибка!', 'text': 'Вы уже выполняете другое задание!'});
                 }
                 if (error.response.status == 409) {
                     window.location.href = error.response.data;
@@ -127,6 +144,14 @@ export default {
             this.$store.commit('setModal', {
                 active: true,
                 taskId: this.task.id
+            });
+        },
+        sendNotification({type = 'warn', title = 'Обновление', text}) {
+            return this.$notify({
+                group: 'info',
+                type: type,
+                title: title,
+                text: text
             });
         }
     }

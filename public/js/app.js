@@ -2104,22 +2104,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             _this.task.user_id = task.user_id;
             _this.task.status = task.status;
 
-            // this.$notify({ // for test
-            //     group: 'admin',
-            //     type: 'success',
-            //     title: 'TEST',
-            //     text: 'its a <b>TEST</b>!'
-            // });
+            if (task.user_id == 0) {
+                _this.sendNotification({ 'text': 'Задание <b>' + _this.task.name + '</b> снова доступно!' });
+            }
+            if (_this.user.id == task.user_id) {
+                _this.sendNotification({ 'text': 'Изменен статус задания <b>' + _this.task.name + '</b>!' });
+            }
+            if (_this.user.id != task.user_id && task.status == 1) {
+                _this.sendNotification({ 'type': 'error', 'text': 'Задание <b>' + _this.task.name + '</b> занято другой командой!' });
+            }
         });
         this.taskChannel.listen('BanUpdate', function (_ref2) {
             var ban = _ref2.ban,
                 active = _ref2.active;
 
-            if (ban.task_id == _this.task.id && ban.user_id == _this.user.id && active) {
-                _this.isBanned = true;
-            }
-            if (ban.task_id == _this.task.id && ban.user_id == _this.user.id && !active) {
-                _this.isBanned = false;
+            if (ban.user_id == _this.user.id) {
+                if (active) {
+                    _this.isBanned = true;
+
+                    var notificationStatus = 'error';
+                    var _titleForNotification = 'Задание Заблокировано';
+                    var _textForNotification = 'Задание <b>' + _this.task.name + '</b> заблокировано для выполнения!';
+                } else {
+                    _this.isBanned = false;
+
+                    var _notificationStatus = 'success';
+                    var _titleForNotification2 = 'Задание Разблокировано';
+                    var _textForNotification2 = 'Задание <b>' + _this.task.name + '</b> снова доступно для выполнения!';
+                }
+
+                _this.sendNotification({ 'type': 'error', 'title': titleForNotification, 'text': textForNotification });
             }
         });
     },
@@ -2182,6 +2196,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     setTimeout(function () {
                         return _this2.isDoubleTask = false;
                     }, 500);
+
+                    _this2.sendNotification({ 'type': 'error', 'title': 'Ошибка!', 'text': 'Вы уже выполняете другое задание!' });
                 }
                 if (error.response.status == 409) {
                     window.location.href = error.response.data;
@@ -2197,6 +2213,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.$store.commit('setModal', {
                 active: true,
                 taskId: this.task.id
+            });
+        },
+        sendNotification: function sendNotification(_ref3) {
+            var _ref3$type = _ref3.type,
+                type = _ref3$type === undefined ? 'warn' : _ref3$type,
+                _ref3$title = _ref3.title,
+                title = _ref3$title === undefined ? 'Обновление' : _ref3$title,
+                text = _ref3.text;
+
+            return this.$notify({
+                group: 'info',
+                type: type,
+                title: title,
+                text: text
             });
         }
     }

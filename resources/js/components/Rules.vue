@@ -102,7 +102,7 @@ export default {
                 });
         },
         slideRules() {
-            let nextRule = $("#rules-" + this.activeRule).slideUp('slow').next('div');
+            const nextRule = $("#rules-" + this.activeRule).slideUp('slow').next('div');
             if (nextRule.length == 0) {
                 this.setScore().then(res => {
                     $('#endRules').show();

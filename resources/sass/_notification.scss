@@ -1,0 +1,28 @@
+.notification {
+  display: block;
+  box-sizing: border-box;
+  text-align: left;
+  padding: 10px;
+  margin: 0 5px 5px;
+ 
+  font-size: 12px;
+ 
+  color: #ffeead;
+  background: #96ceb4;
+  border-left: 5px solid #21496a;
+ 
+  &.warn {
+    background: #ffad60;
+    border-left-color: #d9534f;
+  }
+ 
+  &.error {
+    background: #d9534f;
+    border-left-color: #e4816b;
+  }
+ 
+  &.success {
+    background: #57997a;
+    border-left-color: #438064;
+  }
+}
