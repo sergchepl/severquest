@@ -65,7 +65,7 @@
         selector: '#description',
         plugins : 'advlist autolink link image lists charmap print preview',
         toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
-        content_css: '{{ asset('css/.css') }}',
+        content_css: '{{ mix('css/app.css') }}',
       });
       </script>
 </body>
