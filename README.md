@@ -5,9 +5,10 @@ This is a local online quest system made with Laravel + Vue.js.
 
 ## Used Technologies
 - Laravel 5.7
-- Telegram Bot SDK
 - Laravel Echo
+- Telegram Bot SDK
 - Vue.JS (with Vuex)
-- Pusher
 - Vue Notification
+- Vue Chart.JS
+- Pusher
 - Dashio Dashboard

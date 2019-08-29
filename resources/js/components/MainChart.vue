@@ -1,48 +1,44 @@
 <template>
-  <div><!--CUSTOM CHART START -->
-    <div class="border-head">
-      <h3>СТАТИСТИКА КОМАНД</h3>
-    </div>
-    <div class="custom-bar-chart">
-      <ul class="y-axis">
-        <li><span>250</span></li>
-        <li><span>200</span></li>
-        <li><span>150</span></li>
-        <li><span>100</span></li>
-        <li><span>50</span></li>
-        <li><span>0</span></li>
-      </ul>
-      <div v-for="user in users" :key="user.id" class="bar">
-        <div class="title">{{ user.name }}</div>
-        <div class="value tooltips" :data-original-title="user.score" data-toggle="tooltip" data-placement="top">{{ user.score / 250 * 100 }}%</div>
-      </div>
-    </div>
-    <!--custom chart end-->
-    </div>
+    <bar-chart :chart-data="chartData"></bar-chart>
 </template>
 
 <script>
+import BarChart from '../charts/BarChart'
+
 export default {
     props: ['users'],
     data: function() {
         return {
-            
+            teams: this.users,
         }
     },
     computed: {
-        
+        chartData() {
+            const teamNames = this.teams.map(team => team.name);
+            const teamScores = this.teams.map(team => team.score);
+
+            return {
+                labels: teamNames,
+                datasets: [{
+                    label: 'СТАТИСТИКА КОМАНД',
+                    backgroundColor: '#4ecdc4',
+                    data: teamScores,
+                }],
+            }
+        }
     },
     mounted() {
-        window.Echo.private('score.1').listen('Score', (data) => {
-            console.log(data);
-        })
+        this.teams.forEach((team, teamId) => window.Echo.channel('score.'+ team.id)
+            .listen('ScoreUpdate', (data) => {
+                this.teams[teamId].score = data.score;
+            })
+        );
     },
     methods: {
         
     },
+    components: {
+        BarChart,
+    }
 }
 </script>
-
-<style>
-
-</style>
