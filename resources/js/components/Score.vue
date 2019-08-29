@@ -12,13 +12,12 @@ export default {
     },
     computed: {
         channel() {
-            return window.Echo.private('score.' + this.user.id);
+            return window.Echo.channel('score.' + this.user.id);
         },
     },
     mounted() {
         this.channel
             .listen('ScoreUpdate', ( data ) => {
-                console.log(data);
                 this.score = data.score;
             });
     },

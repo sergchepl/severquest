@@ -11,6 +11,6 @@
 |
 */
 
-Broadcast::channel('score.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
-});
+// Broadcast::channel('score.{id}', function ($user, $id) {
+//     return (int) $user->id === (int) $id;
+// });

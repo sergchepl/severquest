@@ -33,6 +33,6 @@ class ScoreUpdate implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('score.' . $this->user_id);
+        return new Channel('score.' . $this->user_id);
     }
 }
