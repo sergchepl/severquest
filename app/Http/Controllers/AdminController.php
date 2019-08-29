@@ -14,7 +14,7 @@ class AdminController extends Controller
     {
         $weather = json_decode(file_get_contents("https://api.openweathermap.org/data/2.5/weather?q=SIEVIERODONETSK&appid=8ec388c04f920dbec4234d96e9be6623"));
         $temperature = $weather->main->temp - 273.15;
-        $iconUrl = "http://openweathermap.org/img/wn/" . $weather->weather[0]->icon . "@2x.png";
+        $iconUrl = "https://openweathermap.org/img/wn/" . $weather->weather[0]->icon . "@2x.png";
 
         $tasks = Task::all();
         $users = User::whereIsAdmin(false)->get();

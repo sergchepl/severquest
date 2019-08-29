@@ -18,13 +18,9 @@
   <link href="/admin-panel/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <!--external css-->
   <link href="/admin-panel/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
-  <link rel="stylesheet" type="text/css" href="/admin-panel/css/zabuto_calendar.css">
-  <link rel="stylesheet" type="text/css" href="/admin-panel/lib/gritter/css/jquery.gritter.css" />
   <!-- Custom styles for this template -->
   <link href="/admin-panel/css/style.css" rel="stylesheet">
   <link href="/admin-panel/css/style-responsive.css" rel="stylesheet">
-  <script src="/admin-panel/lib/chart-master/Chart.js"></script>
-
   <!-- =======================================================
     Template Name: Dashio
     Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
