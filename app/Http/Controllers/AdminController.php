@@ -18,9 +18,8 @@ class AdminController extends Controller
 
         $tasks = Task::all();
         $users = User::whereIsAdmin(false)->get();
-        $bestUser = User::whereIsAdmin(false)->orderBy('score', 'desc')->with('completed_tasks')->first();
 
-        return view('admin.dashboard', compact('tasks', 'users', 'bestUser', 'temperature', 'iconUrl'));
+        return view('layouts.admin', compact('tasks', 'users', 'bestUser', 'temperature', 'iconUrl'));
     }
 
     public function tasks()

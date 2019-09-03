@@ -39,7 +39,7 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function 
     Route::get('/setwebhook', 'API\TelegramController@setWebhook');
     Route::get('/getwebhookinfo', 'API\TelegramController@getWebhookInfo');
 
-    Route::get('dashboard', 'AdminController@dashboard')->name('dashboard');
+    Route::get('/', 'AdminController@dashboard')->name('dashboard');
 
     Route::get('tasks', 'AdminController@tasks')->name('tasks');
     Route::get('task/create', 'AdminController@createTask')->name('task.new');

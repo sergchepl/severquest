@@ -1,4 +1,7 @@
-const mix = require('laravel-mix');
+const path          = require('path')
+const mix           = require('laravel-mix')
+const webpack       = require('webpack')
+const { version }   = require('./package.json')
 
 /*
  |--------------------------------------------------------------------------
@@ -12,10 +15,33 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
+   .js('resources/js/admin/main.js', 'public/js/admin.js')
    .sass('resources/sass/app.scss', 'public/css')
    .options({
       postCss: [
           require('postcss-css-variables')()
       ]
    })
-   .version();
+
+mix.webpackConfig({
+  devServer: { disableHostCheck: true },
+  resolve  : {
+    alias: {
+      '@'         : path.resolve(__dirname, 'resources/js/admin/'),
+      'static'    : path.resolve(__dirname, 'resources/static/'),
+      'validators': 'vuelidate/lib/validators',
+    },
+  },
+  plugins: [
+    new webpack.DefinePlugin({ __VERSION: JSON.stringify(version) }),
+    new webpack.optimize.LimitChunkCountPlugin({
+      maxChunks: 1,
+    }),
+  ],
+})
+
+if (mix.inProduction())
+  mix.version()
+else
+  mix.sourceMaps()
+

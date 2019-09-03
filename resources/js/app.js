@@ -5,7 +5,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+import './bootstrap';
 
 window.Vue = require('vue');
 
@@ -35,11 +35,17 @@ const store = new Vuex.Store({
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('Modal', require('./components/Modal.vue'));
-Vue.component('Score', require('./components/Score.vue'));
-Vue.component('Task', require('./components/Task.vue'));
-Vue.component('Rules', require('./components/Rules.vue'));
-Vue.component('main-chart', require('./components/MainChart.vue'));
+import Modal from'./components/Modal.vue';
+import Score from'./components/Score.vue';
+import Task from'./components/Task.vue';
+import Rules from'./components/Rules.vue';
+import MainChart from'./components/MainChart.vue';
+
+Vue.component('Modal', Modal);
+Vue.component('Score', Score);
+Vue.component('Task', Task);
+Vue.component('Rules', Rules);
+Vue.component('main-chart', MainChart);
 
 const app = new Vue({
     el: '#app',
